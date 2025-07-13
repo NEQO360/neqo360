@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     const data = await resend.emails.send({
-      from: 'Neqo360 Website <onboarding@resend.dev>', // You'll need to update this with your domain
-      to: ['hello@neqo360.com'], // Your email address
+      from: 'Neqo360 Website <onboarding@resend.dev>', 
+      to: ['neqo360@gmail.com'], 
       subject: `New Contact Form Submission - ${projectType}`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">

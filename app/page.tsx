@@ -56,12 +56,18 @@ export default function Home() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const navbarHeight = 80; 
+      const elementPosition = element.offsetTop - navbarHeight - 20; 
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
       setActiveSection(sectionId);
     }
   };
 
-  // Scroll listener for navbar active section
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'services', 'pricing', 'about', 'contact'];
@@ -82,7 +88,7 @@ export default function Home() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Set initial active section
+    handleScroll(); 
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -127,12 +133,12 @@ export default function Home() {
 
     const days = [];
 
-    // Add empty cells for days before the first day of the month
+
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
 
-    // Add days of the month
+
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
     }
@@ -144,7 +150,7 @@ export default function Home() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const dayOfWeek = date.getDay();
-    return date >= today && dayOfWeek !== 0 && dayOfWeek !== 6; // Not Sunday or Saturday
+    return date >= today && dayOfWeek !== 0 && dayOfWeek !== 6; 
   };
 
   const handleMeetingSubmit = async () => {
@@ -156,7 +162,7 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/schedule', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,14 +170,14 @@ export default function Home() {
         body: JSON.stringify({
           name: meetingForm.name,
           email: meetingForm.email,
-          projectType: 'Meeting Request',
-          message: `Meeting Request:
-Date: ${selectedDate.toDateString()}
-Time: ${selectedTime}
-Phone: ${meetingForm.phone}
-Message: ${meetingForm.message}`
+          date: selectedDate.toDateString(),
+          time: selectedTime,
+          phone: meetingForm.phone,
+          message: meetingForm.message
         }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         setSubmitStatus('success');
@@ -179,11 +185,14 @@ Message: ${meetingForm.message}`
         setSelectedDate(null);
         setSelectedTime('');
         setMeetingForm({ name: '', email: '', phone: '', message: '' });
+        alert(data.message); // Show success message
       } else {
         setSubmitStatus('error');
+        alert(data.error || 'Failed to schedule meeting');
       }
     } catch (error) {
       setSubmitStatus('error');
+      alert('Failed to schedule meeting. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -191,23 +200,23 @@ Message: ${meetingForm.message}`
 
   // Animation variants
   const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
+    initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: 'easeOut' }
+    transition: { duration: 1.5, ease: 'easeOut' }
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0
       }
     }
   };
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  // Calendar Modal Component (optimized to prevent rerenders)
-  const CalendarModal = useCallback(() => {
+  // Memoize the calendar modal content
+  const calendarModalContent = useMemo(() => {
     const days = getDaysInMonth(currentMonth);
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'];
@@ -405,7 +414,7 @@ Message: ${meetingForm.message}`
         </motion.div>
       </motion.div>
     );
-  }, [currentMonth, selectedDate, selectedTime, meetingForm, isSubmitting]);
+  }, [currentMonth, selectedDate, selectedTime, meetingForm, isSubmitting, setShowCalendar, setCurrentMonth, setSelectedDate, setSelectedTime, setMeetingForm, handleMeetingSubmit]);
 
   // Custom Dropdown Component (optimized)
   const CustomDropdown = useCallback(({ value, onChange, options, placeholder }: {
@@ -468,35 +477,6 @@ Message: ${meetingForm.message}`
   }, []);
 
 
-  const rocketSymbols = ['</>', '{ }', '[ ]', '( )', '/* */', '=>', ':'];
-  const sizeClasses = ['text-xs', 'text-sm', 'text-base', 'text-lg'];
-
-  const rocketParticles = useMemo(() =>
-    Array.from({ length: 8 }).map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      deltaX: Math.random() * 300 - 150,
-      deltaY: Math.random() * 300 - 150,
-      duration: 10 + Math.random() * 5,
-      delay: Math.random() * 4,
-      symbol: rocketSymbols[Math.floor(Math.random() * rocketSymbols.length)],
-      size: sizeClasses[Math.floor(Math.random() * sizeClasses.length)] as string,
-    })),
-    []);
-
-  const techSymbols = ['</>', '{ }', '[ ]', '( )', '</>', '//'];
-
-  const techParticles = useMemo(() =>
-    Array.from({ length: 6 }).map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      deltaX: Math.random() * 100 - 50,
-      deltaY: Math.random() * 100 - 50,
-      duration: 6 + Math.random() * 3,
-      delay: Math.random() * 2,
-      symbol: techSymbols[Math.floor(Math.random() * techSymbols.length)],
-    })),
-    []);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -749,11 +729,44 @@ Message: ${meetingForm.message}`
       </motion.nav>
 
       {/* Enhanced Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent-hover/5"></div>
+      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 pb-32">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/2 to-accent-hover/2"></div>
+        
+        {/* Floating Orbs */}
+        <motion.div
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-pink-500/10 to-accent/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 30, 0],
+            scale: [1, 0.8, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+
         <motion.div
           className="container-width section-padding relative z-10"
-          style={{ y: y1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
         >
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -762,71 +775,121 @@ Message: ${meetingForm.message}`
               initial="initial"
               animate="animate"
             >
-              <motion.div variants={fadeInUp}>
-                <h1 className="text-hero text-balance sm:mt-0 mt-14">
-                  Software that <span className="gradient-text">just works</span>
+              <motion.div 
+                variants={fadeInUp}
+                className="relative"
+              >
+                {/* Glowing effect behind text */}
+                <motion.div
+                  className="absolute -inset-4 bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-3xl blur-2xl opacity-0"
+                  animate={{ opacity: [0, 0.3, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <h1 className="text-hero text-balance sm:mt-0 mt-14 relative z-10">
+                  Software that <br />
+                  <motion.span 
+                    className="gradient-text bg-gradient-to-r from-accent via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                    animate={{
+                      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    style={{
+                      backgroundSize: '200% 200%'
+                    }}
+                  >
+                    just works.
+                  </motion.span>
                 </h1>
               </motion.div>
 
-              <motion.div variants={fadeInUp}>
-                <p className="text-large text-muted-foreground text-balance max-w-2xl">
-                  We're a lean Sri Lankan software development agency. No bloated processes, no complexity.
-                  Just high-quality web apps, mobile solutions, and integrated systems that scale.
-                </p>
+              <motion.div 
+                variants={fadeInUp}
+                className="relative"
+              >
+                <motion.p 
+                  className="text-large text-muted-foreground text-balance max-w-2xl leading-relaxed"
+                >
+                We're a Sri Lankan software agency that delivers high-quality web apps, mobile solutions, and integrated systems. No complex processes. Whether you're a startup or scaling business, we'll help you go from idea to launch with speed and precision.
+                </motion.p>
               </motion.div>
 
               <motion.div
                 variants={fadeInUp}
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-4 relative"
               >
                 <motion.button
-                  className="btn-primary hover-glow"
+                  className="btn-primary hover-glow relative overflow-hidden group"
                   whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => scrollToSection('contact')}
-                >
-                  Start Your Project
-                </motion.button>
-                <motion.button
-                  className="btn-secondary"
-                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection('pricing')}
                 >
-                  View Pricing
-                </motion.button>
-              </motion.div>
+                  <span className="relative z-10 flex items-center gap-2">
 
-              <motion.div
-                variants={fadeInUp}
-                className="flex items-center space-x-8 pt-8"
-              >
-                {[
-                  { value: '50+', label: 'Projects Delivered' },
-                  { value: '99%', label: 'Client Satisfaction' },
-                  { value: '<1s', label: 'Page Load Time' }
-                ].map((stat, index) => (
+                    Let's build together!
+                  </span>
+                  
+                  {/* Button shine effect */}
                   <motion.div
-                    key={index}
-                    className="text-center w-full"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    <div className="text-2xl font-bold">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
-                  </motion.div>
-                ))}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: '100%' }}
+                    transition={{ duration: 0.6 }}
+                  />
+                </motion.button>
+                
+                <motion.button
+                  className="btn-secondary hover-glow relative overflow-hidden group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection('services')}
+                >
+                  <span className="relative z-10 flex items-center gap-2 text-foreground group-hover:text-foreground">
+                    Explore The Site
+                    <motion.span
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      →
+                    </motion.span>
+                  </span>
+                  
+                  {/* Button shine effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent"
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: '100%' }}
+                    transition={{ duration: 0.6 }}
+                  />
+                </motion.button>
               </motion.div>
             </motion.div>
 
             <motion.div
               className="relative"
-              style={{ y: y2 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
             >
+              {/* Glow effect around the showcase */}
               <motion.div
-                className="glass p-8 rounded-3xl hover-lift"
+                className="absolute -inset-8 bg-gradient-to-r from-accent/20 to-purple-500/20 rounded-3xl blur-3xl"
+                animate={{
+                  opacity: [0.2, 0.4, 0.2],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              <motion.div
+                className="glass p-8 rounded-3xl hover-lift relative z-10"
                 animate={{
                   y: [0, -10, 0],
                 }}
@@ -835,12 +898,17 @@ Message: ${meetingForm.message}`
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
+                whileHover={{
+                  scale: 1.02,
+                  rotateY: 5,
+                  transition: { duration: 0.3 }
+                }}
               >
                 <div>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     className="mt-12"
                   >
                     <CodeShowcase />
@@ -937,7 +1005,7 @@ Message: ${meetingForm.message}`
           >
             <h2 className="text-section">Simple, honest pricing</h2>
             <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance">
-              Affordable rates for Sri Lankan startups and businesses. No hidden fees, no surprises.
+              Affordable rates for startups and businesses. No hidden fees, no surprises.
             </p>
           </motion.div>
 
@@ -1363,7 +1431,6 @@ Message: ${meetingForm.message}`
                 className="glass p-8 rounded-3xl text-center"
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-4xl mb-4">📞</div>
                 <h3 className="text-xl font-semibold mb-4">Prefer to talk?</h3>
                 <p className="text-muted-foreground mb-6">
                   Schedule a free 30-minute consultation to discuss your project in detail.
@@ -1500,34 +1567,6 @@ Message: ${meetingForm.message}`
             }}
           />
 
-          {/* Rocket fire trails */}
-          <motion.div
-            className="absolute bottom-2.5 left-5 transform rotate-[40deg] opacity-60 z-10"
-          >
-            {rocketParticles.map((p, idx) => (
-              <motion.div
-                key={`rp-${idx}`}
-                className={`absolute ${p.size} opacity-30`}
-                style={{ left: `${p.left}%`, top: `${p.top}%` }}
-                animate={{
-                  x: [0, p.deltaX, 0],
-                  y: [0, p.deltaY, 0],
-                  rotate: [0, 360],
-                  opacity: [0.1, 0.5, 0.1],
-                  scale: [0.3, 1.5, 0.3],
-                }}
-                transition={{
-                  duration: p.duration,
-                  repeat: Infinity,
-                  delay: p.delay,
-                  ease: 'easeInOut',
-                }}
-              >
-                {p.symbol}
-              </motion.div>
-            ))}
-          </motion.div>
-
           {/* Tooltip */}
           <motion.div
             className="absolute -top-14 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs px-3 py-2 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg backdrop-blur-sm"
@@ -1553,7 +1592,7 @@ Message: ${meetingForm.message}`
       </motion.button>
 
       {/* Calendar Modal */}
-      {showCalendar && <CalendarModal />}
+      {showCalendar && calendarModalContent}
     </div>
   );
 }
