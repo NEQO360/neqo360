@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import CodeShowcase from './components/CodeShowcase';
+import SpiderWebPricing from './components/SpiderWebPricing';
 
 // Form validation schema
 const contactSchema = z.object({
@@ -193,7 +194,7 @@ Message: ${meetingForm.message}`
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: 'easeOut' }
+    transition: { duration: 0.4, ease: 'easeOut' }
   };
 
   const staggerContainer = {
@@ -925,7 +926,7 @@ Message: ${meetingForm.message}`
         </div>
       </section>
 
-      {/* Pricing Section */}
+{/* Interactive Spider Web Pricing Section */}
       <section id="pricing" className="py-24">
         <div className="container-width section-padding">
           <motion.div
@@ -935,132 +936,19 @@ Message: ${meetingForm.message}`
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-section">Simple, honest pricing</h2>
+            <h2 className="text-section">Build your solution</h2>
             <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance">
-              Affordable rates for Sri Lankan startups and businesses. No hidden fees, no surprises.
+              Interactive pricing that adapts to your needs. Click, explore, and build your perfect solution.
             </p>
           </motion.div>
 
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            {[
-              {
-                name: 'Starter',
-                price: 'Rs. 75,000',
-                period: '/project',
-                description: 'Perfect for small businesses and startups',
-                features: [
-                  'Landing page or simple website',
-                  'Mobile responsive design',
-                  'Basic SEO optimization',
-                  'Contact form integration',
-                  '1 month support',
-                  'Fast delivery (7-14 days)'
-                ],
-                popular: false
-              },
-              {
-                name: 'Professional',
-                price: 'Rs. 150,000',
-                period: '/project',
-                description: 'Ideal for growing businesses',
-                features: [
-                  'Custom web application',
-                  'Database integration',
-                  'User authentication',
-                  'Admin dashboard',
-                  'API integrations',
-                  '3 months support',
-                  'Advanced SEO',
-                  'Performance optimization'
-                ],
-                popular: true
-              },
-              {
-                name: 'Enterprise',
-                price: 'Rs. 300,000+',
-                period: '/project',
-                description: 'For complex systems and large businesses',
-                features: [
-                  'Full-stack application',
-                  'Mobile app (iOS/Android)',
-                  'Custom integrations',
-                  'Scalable architecture',
-                  'DevOps setup',
-                  '6 months support',
-                  'Priority support',
-                  'Custom features'
-                ],
-                popular: false
-              }
-            ].map((plan, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className={`relative p-8 rounded-3xl border transition-all duration-300 ${plan.popular
-                  ? 'border-accent bg-accent/5 scale-105'
-                  : 'border-border bg-background hover:border-accent/50'
-                  }`}
-                whileHover={{ y: -5, scale: plan.popular ? 1.05 : 1.02 }}
-              >
-                {plan.popular && (
-                  <motion.div
-                    className="absolute -top-4 left-1/2 transform -translate-x-1/2"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <span className="bg-accent text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </motion.div>
-                )}
-
-                <div className="text-center mb-8">
-                  <h3 className="text-xl font-semibold mb-2">{plan.name}</h3>
-                  <div className="mb-2">
-                    <span className="text-3xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">{plan.description}</p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <motion.li
-                      key={featureIndex}
-                      className="flex items-center space-x-3"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: featureIndex * 0.1 }}
-                    >
-                      <svg className="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="text-sm">{feature}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-
-                <motion.button
-                  className={`w-full py-3 px-6 rounded-full font-medium transition-colors cursor-pointer ${plan.popular
-                    ? 'btn-primary hover-glow animate-pulse-glow'
-                    : 'btn-secondary'
-                    }`}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => scrollToSection('contact')}
-                >
-                  Get Started
-                </motion.button>
-              </motion.div>
-            ))}
+            <SpiderWebPricing />
           </motion.div>
 
           <motion.div
@@ -1071,7 +959,7 @@ Message: ${meetingForm.message}`
             transition={{ delay: 0.5 }}
           >
             <p className="text-muted-foreground mb-4">
-              Need a custom solution? Let's discuss your specific requirements.
+              Need something not shown in the web? Let's discuss your custom requirements.
             </p>
             <motion.button
               className="btn-secondary relative group overflow-hidden"
@@ -1124,6 +1012,7 @@ Message: ${meetingForm.message}`
           </motion.div>
         </div>
       </section>
+
 
       {/* About Section */}
       <section id="about" className="py-24 bg-muted/30">
