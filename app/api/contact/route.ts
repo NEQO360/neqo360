@@ -1,39 +1,94 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { apiContactSchema } from '../../lib/validation/schemas';
+import { rateLimit } from '../../lib/utils/rateLimit';
+import { sanitizeText } from '../../lib/utils/security';
+import { env, validateEnv } from '../../lib/config/env';
+import { validateCSRFToken } from '../../lib/utils/csrf';
+import { logger } from '../../lib/utils/logger';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Validate environment variables
+validateEnv();
 
-function sanitizeString(input: string): string {
-  if (!input) return '';
-  return input
-    .trim()
-    .replace(/[<>]/g, '') 
-    .replace(/&/g, '&amp;') 
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;'); 
-}
+const resend = new Resend(env.RESEND_API_KEY);
+
+// Using sanitizeText from security utils instead of local function
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  const ip = request.headers.get('x-forwarded-for') || 
+             request.headers.get('x-real-ip') || 
+             'unknown';
+  
   try {
-    const body = await request.json();
-    const { name, email, projectType, message } = body;
-
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
+    // Rate limiting
+    const rateLimitResult = rateLimit(ip, env.RATE_LIMIT_MAX_REQUESTS, env.RATE_LIMIT_WINDOW_MS);
+    
+    if (!rateLimitResult.success) {
+      logger.warn('Rate limit exceeded', { ip, remaining: rateLimitResult.remaining });
+      const response = NextResponse.json(
+        { 
+          error: 'Too many requests. Please try again later.',
+          resetTime: new Date(rateLimitResult.resetTime).toISOString()
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+          }
+        }
       );
+      
+      logger.logRequest(request, response, Date.now() - startTime);
+      return response;
     }
 
-    const sanitizedName = sanitizeString(name);
-    const sanitizedEmail = sanitizeString(email);
-    const sanitizedProjectType = sanitizeString(projectType || 'General Inquiry');
-    const sanitizedMessage = sanitizeString(message);
+    const body = await request.json();
+    
+    // Validate CSRF token
+    const csrfToken = request.headers.get('x-csrf-token');
+    if (!csrfToken || !validateCSRFToken(csrfToken)) {
+      logger.warn('CSRF token validation failed', { ip, hasToken: !!csrfToken });
+      const response = NextResponse.json(
+        { error: 'Invalid or missing CSRF token' },
+        { status: 403 }
+      );
+      
+      logger.logRequest(request, response, Date.now() - startTime);
+      return response;
+    }
+    
+    // Validate request body with Zod
+    const validationResult = apiContactSchema.safeParse(body);
+    if (!validationResult.success) {
+      logger.warn('Validation failed', { 
+        ip, 
+        errors: validationResult.error.errors,
+        body: { name: body.name, email: body.email, projectType: body.projectType }
+      });
+      const response = NextResponse.json(
+        { 
+          error: 'Validation failed', 
+          details: validationResult.error.errors 
+        },
+        { status: 400 }
+      );
+      
+      logger.logRequest(request, response, Date.now() - startTime);
+      return response;
+    }
+
+    const { name, email, projectType, message } = validationResult.data;
+
+    const sanitizedName = sanitizeText(name);
+    const sanitizedEmail = sanitizeText(email);
+    const sanitizedProjectType = sanitizeText(projectType);
+    const sanitizedMessage = sanitizeText(message);
 
     const data = await resend.emails.send({
-      from: 'Neqo360 Website <onboarding@resend.dev>',
-      to: ['hello@neqo360.com'],
+      from: `Neqo360 Website <${env.FROM_EMAIL}>`,
+      to: [env.TO_EMAIL],
       subject: `New Contact Form Submission - ${sanitizedProjectType}`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -60,15 +115,54 @@ export async function POST(request: NextRequest) {
       `,
     });
 
-    return NextResponse.json(
+    logger.info('Email sent successfully', { 
+      ip, 
+      projectType: sanitizedProjectType,
+      email: sanitizedEmail.substring(0, 10) + '***' // Log partial email for privacy
+    });
+    
+    const response = NextResponse.json(
       { message: 'Email sent successfully', data },
-      { status: 200 }
+      { 
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': env.NODE_ENV === 'production' 
+            ? env.ALLOWED_ORIGINS[0] || 'https://neqo360.com'
+            : '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        }
+      }
     );
+    
+    logger.logRequest(request, response, Date.now() - startTime);
+    return response;
   } catch (error) {
-    console.error('Error sending email:', error);
-    return NextResponse.json(
+    logger.error('Failed to send email', { 
+      ip, 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    
+    const response = NextResponse.json(
       { error: 'Failed to send email' },
       { status: 500 }
     );
+    
+    logger.logRequest(request, response, Date.now() - startTime);
+    return response;
   }
+}
+
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': env.NODE_ENV === 'production' 
+        ? env.ALLOWED_ORIGINS[0] || 'https://neqo360.com'
+        : '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 } 

@@ -6,6 +6,7 @@ import { useTranslation } from '../../providers/TranslationProvider';
 import { CONTACT_INFO, PROJECT_TYPES, ANIMATION_VARIANTS } from '../../lib/constants';
 import { validateEmail, validatePhone } from '../../lib/utils';
 import { useToast } from '../../lib/hooks/useToast';
+import { contactSchema, ContactFormData } from '../../lib/validation/schemas';
 
 interface ContactSectionProps {
   onBookMeeting: () => void;
@@ -61,34 +62,22 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
   };
 
   const validateForm = () => {
+    const validationResult = contactSchema.safeParse(formData);
+    
+    if (validationResult.success) {
+      setErrors({});
+      return true;
+    }
+    
     const newErrors: Record<string, string> = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = t('contact.errors.nameRequired');
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = t('contact.errors.emailRequired');
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = t('contact.errors.emailInvalid');
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = t('contact.errors.phoneRequired');
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone = t('contact.errors.phoneInvalid');
-    }
-
-    if (!formData.projectType) {
-      newErrors.projectType = t('contact.errors.projectTypeRequired');
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = t('contact.errors.messageRequired');
-    }
-
+    validationResult.error.errors.forEach(error => {
+      if (error.path[0]) {
+        newErrors[error.path[0] as string] = error.message;
+      }
+    });
+    
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return false;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
