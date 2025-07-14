@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useTranslation } from '../../providers/TranslationProvider';
 import { NAVIGATION_SECTIONS, SITE_CONFIG } from '../../lib/constants';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
@@ -81,10 +82,8 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
               ))}
 
               <div className="relative w-10 h-10 -right-2.5 top-0.5 overflow-visible rounded-xl logo-3d">
-                <motion.img
-                  src="/logo.png"
-                  alt="Neqo360 - Cat on Rocket"
-                  className="w-full h-full object-contain rocket-part cursor-pointer"
+                <motion.div
+                  className="w-full h-full rocket-part cursor-pointer"
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{
@@ -98,7 +97,16 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                     rotate: [0, 8, -8, 0],
                     scale: [1, 1.05, 1]
                   }}
-                />
+                >
+                  <Image
+                    src="/logo.png"
+                    alt="Neqo360 - Cat on Rocket"
+                    width={40}
+                    height={40}
+                    className="w-full h-full object-contain"
+                    priority
+                  />
+                </motion.div>
 
                 <motion.div
                   className="absolute bottom-0 transform -translate-x-1/2 opacity-0 group-hover:opacity-100"

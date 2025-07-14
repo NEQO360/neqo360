@@ -508,4 +508,4 @@ const SpiderWebPricing: React.FC = () => {
   );
 };
 
-export default SpiderWebPricing;
+export default React.memo(SpiderWebPricing);

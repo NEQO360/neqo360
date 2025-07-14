@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../providers/TranslationProvider';
@@ -20,7 +21,7 @@ interface CalendarModalProps {
   isSubmitting: boolean;
 }
 
-export default function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModalProps) {
+function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModalProps) {
   const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -226,4 +227,6 @@ export default function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting 
       )}
     </AnimatePresence>
   );
-} 
+}
+
+export default React.memo(CalendarModal); 

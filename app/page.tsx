@@ -1,18 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Navigation from './components/layout/Navigation';
 import HeroSection from './components/sections/HeroSection';
 import ServicesSection from './components/sections/ServicesSection';
 import PricingSection from './components/sections/PricingSection';
-import AboutSection from './components/sections/AboutSection';
-import ContactSection from './components/sections/ContactSection';
-import Footer from './components/layout/Footer';
-import CalendarModal from './components/modals/CalendarModal';
 import FloatingActionButton from './components/ui/FloatingActionButton';
-import SpiderWebPricing from './components/SpiderWebPricing';
+import LoadingSpinner from './components/ui/LoadingSpinner';
 import { useToast } from './lib/hooks/useToast';
+import {
+  AboutSection,
+  ContactSection,
+  Footer,
+  CalendarModal,
+  SpiderWebPricing
+} from './components/lazy';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -116,10 +119,18 @@ export default function Home() {
       />
       <HeroSection y1={y1} y2={y2} />
       <ServicesSection />
-      <SpiderWebPricing />
-      <AboutSection />
-      <ContactSection onBookMeeting={handleBookMeeting} />
-      <Footer />
+      <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
+        <SpiderWebPricing />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
+        <AboutSection />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
+        <ContactSection onBookMeeting={handleBookMeeting} />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner size="md" className="py-10" />}>
+        <Footer />
+      </Suspense>
       <FloatingActionButton onBookMeeting={handleBookMeeting} />
       <motion.button
         className="fixed bottom-8 left-8 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full text-accent shadow-lg flex items-center justify-center cursor-pointer"
@@ -130,12 +141,14 @@ export default function Home() {
       >
         ↑
       </motion.button>
-      <CalendarModal
-        isOpen={showCalendar}
-        onClose={() => setShowCalendar(false)}
-        onSubmit={handleMeetingSubmit}
-        isSubmitting={isSubmitting}
-      />
+      <Suspense fallback={<LoadingSpinner size="md" className="py-10" />}>
+        <CalendarModal
+          isOpen={showCalendar}
+          onClose={() => setShowCalendar(false)}
+          onSubmit={handleMeetingSubmit}
+          isSubmitting={isSubmitting}
+        />
+      </Suspense>
     </div>
   );
 }

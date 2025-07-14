@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useTranslation } from '../../providers/TranslationProvider';
 import { SITE_CONFIG } from '../../lib/constants';
 
@@ -18,7 +19,13 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/logo.png" alt={SITE_CONFIG.name} className="w-8 h-8" />
+              <Image
+                src="/logo.png"
+                alt={SITE_CONFIG.name}
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
               <span className="text-xl font-bold">{SITE_CONFIG.name}</span>
             </div>
             <p className="text-muted-foreground text-sm">
