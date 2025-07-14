@@ -1,43 +1,58 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import atomDark from 'react-syntax-highlighter/dist/esm/styles/prism/atom-dark';
+import prism from 'react-syntax-highlighter/dist/esm/styles/prism/prism';
+import ts from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
+import java from 'react-syntax-highlighter/dist/esm/languages/prism/java';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
+import { useTranslation } from '../providers/TranslationProvider';
+import { useTheme } from '../providers/ThemeProvider';
 
-// Define our showcase categories
-const categories = [
-  {
-    id: 'frameworks',
-    name: 'Frameworks',
-    items: [
-      { name: 'Next.js', icon: '/icons/nextjs.svg' },
-      { name: 'React', icon: '/icons/react.svg' },
-      { name: 'Vue', icon: '/icons/vue.svg' },
-      { name: 'Angular', icon: '/icons/angular.svg' },
-    ],
-  },
-  {
-    id: 'languages',
-    name: 'Languages',
-    items: [
-      { name: 'TypeScript', icon: '/icons/typescript.svg' },
-      { name: 'Python', icon: '/icons/python.svg' },
-      { name: 'Java', icon: '/icons/java.svg' },
-    ],
-  },
-  {
-    id: 'hosting',
-    name: 'Cloud & Hosting',
-    items: [
-      { name: 'Vercel', icon: '/icons/vercel.svg' },
-      { name: 'AWS', icon: '/icons/aws.svg' },
-      { name: 'GCP', icon: '/icons/gcp.svg' },
-    ],
-  },
-];
+SyntaxHighlighter.registerLanguage('typescript', ts);
+SyntaxHighlighter.registerLanguage('python', python);
+SyntaxHighlighter.registerLanguage('java', java);
+SyntaxHighlighter.registerLanguage('json', json);
+SyntaxHighlighter.registerLanguage('yaml', yaml);
 
-// Sample code snippets for each technology
-const codeSnippets = {
-  'Next.js': `// pages/api/data.ts
+export default function CodeShowcase() {
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+  const categories = [
+    {
+      id: 'frameworks',
+      name: t('showcase.frameworks'),
+      items: [
+        { name: 'Next.js', icon: '/icons/nextjs.svg' },
+        { name: 'React', icon: '/icons/react.svg' },
+        { name: 'Vue', icon: '/icons/vue.svg' },
+        { name: 'Angular', icon: '/icons/angular.svg' },
+      ],
+    },
+    {
+      id: 'languages',
+      name: t('showcase.languages'),
+      items: [
+        { name: 'TypeScript', icon: '/icons/typescript.svg' },
+        { name: 'Python', icon: '/icons/python.svg' },
+        { name: 'Java', icon: '/icons/java.svg' },
+      ],
+    },
+    {
+      id: 'hosting',
+      name: t('showcase.hosting'),
+      items: [
+        { name: 'Vercel', icon: '/icons/vercel.svg' },
+        { name: 'AWS', icon: '/icons/aws.svg' },
+        { name: 'GCP', icon: '/icons/gcp.svg' },
+      ],
+    },
+  ];
+
+  const codeSnippets = {
+    'Next.js': `// pages/api/data.ts
 export default async function handler(req, res) {
   const data = await fetchData();
   res.status(200).json(data);
@@ -52,7 +67,7 @@ export default function Page() {
     </div>
   );
 }`,
-  'React': `// App.tsx
+    'React': `// App.tsx
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -70,7 +85,7 @@ function App() {
     </div>
   );
 }`,
-  'Vue': `<!-- App.vue -->
+    'Vue': `<!-- App.vue -->
 <template>
   <div class="app">
     <h1>{{ title }}</h1>
@@ -85,7 +100,7 @@ import { ref } from 'vue'
 const count = ref(0)
 const title = ref('Vue 3 App')
 </script>`,
-  'Angular': `// app.component.ts
+    'Angular': `// app.component.ts
 @Component({
   selector: 'app-root',
   template: \`
@@ -105,7 +120,7 @@ export class AppComponent {
     this.count++;
   }
 }`,
-  'TypeScript': `// types.ts
+    'TypeScript': `// types.ts
 interface User {
   id: string;
   name: string;
@@ -125,7 +140,7 @@ export class UserService {
     return response.json();
   }
 }`,
-  'Python': `# api/views.py
+    'Python': `# api/views.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -144,7 +159,7 @@ async def create_user(user: User):
         return {"id": str(result.inserted_id)}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))`,
-  'Java': `// UserService.java
+    'Java': `// UserService.java
 @Service
 public class UserService {
     private final UserRepository repository;
@@ -163,7 +178,7 @@ public class UserService {
         return repository.save(user);
     }
 }`,
-  'Vercel': `// vercel.json
+    'Vercel': `// vercel.json
 {
   "version": 2,
   "builds": [
@@ -182,7 +197,7 @@ public class UserService {
     "DATABASE_URL": "@database_url"
   }
 }`,
-  'AWS': `// serverless.yml
+    'AWS': `// serverless.yml
 service: my-service
 provider:
   name: aws
@@ -196,7 +211,7 @@ functions:
       - http:
           path: /api/{proxy+}
           method: ANY`,
-  'GCP': `// app.yaml
+    'GCP': `// app.yaml
 runtime: nodejs18
 env: standard
 
@@ -213,16 +228,14 @@ automatic_scaling:
   target_cpu_utilization: 0.65
   min_instances: 1
   max_instances: 10`,
-};
+  };
 
-export default function CodeShowcase() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const [activeTechnology, setActiveTechnology] = useState(categories[0].items[0].name);
   const [codeProgress, setCodeProgress] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const [techIndex, setTechIndex] = useState(0);
 
-  // Rotate through technologies within the current category
   useEffect(() => {
     const currentCategory = categories.find(cat => cat.id === activeCategory);
     if (!currentCategory) return;
@@ -231,19 +244,17 @@ export default function CodeShowcase() {
       setTechIndex(current => {
         const nextIndex = (current + 1) % currentCategory.items.length;
         if (nextIndex === 0) {
-          // When we've shown all techs in current category, move to next category
           const currentCatIndex = categories.findIndex(cat => cat.id === activeCategory);
           const nextCatIndex = (currentCatIndex + 1) % categories.length;
           setActiveCategory(categories[nextCatIndex].id);
         }
         return nextIndex;
       });
-    }, 8000); // Change technology every 8 seconds
+    }, 8000);
 
     return () => clearInterval(techInterval);
   }, [activeCategory]);
 
-  // Update active technology when techIndex changes
   useEffect(() => {
     const currentCategory = categories.find(cat => cat.id === activeCategory);
     if (currentCategory && currentCategory.items[techIndex]) {
@@ -251,7 +262,6 @@ export default function CodeShowcase() {
     }
   }, [activeCategory, techIndex]);
 
-  // Typing animation effect
   useEffect(() => {
     const code = codeSnippets[activeTechnology as keyof typeof codeSnippets] || '';
     let currentIndex = 0;
@@ -271,7 +281,6 @@ export default function CodeShowcase() {
     return () => clearInterval(typingInterval);
   }, [activeTechnology]);
 
-  // Helper function to determine the language
   const getLanguage = (tech: string) => {
     if (tech === 'Python') return 'python';
     if (tech === 'Java') return 'java';
@@ -282,7 +291,6 @@ export default function CodeShowcase() {
 
   return (
     <div className="w-full max-w-4xl mx-auto -mt-10">
-      {/* Status Bar */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-3">
           <motion.div
@@ -290,17 +298,16 @@ export default function CodeShowcase() {
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <span className="text-sm text-muted-foreground">Production Ready</span>
+          <span className="text-sm text-muted-foreground">{t('showcase.productionReady')}</span>
         </div>
         <span className="text-sm text-muted-foreground">
-          Expertise in 10+ frameworks and languages
+          {t('showcase.expertise')}
         </span>
       </div>
 
-      {/* Main Code Window */}
       <div className="glass rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[350px] flex flex-col bg-gradient-to-br from-background/50 to-background">
-        {/* Window Controls and Category Display */}
-        <div className="flex items-center justify-between px-6 py-3 border-b border-white/10">
+        {/* Tabs/Header */}
+        <div className="flex items-center justify-between px-6 py-3 border-b border-[var(--border)] bg-[var(--section-about-bg)]">
           <div className="flex items-center space-x-4">
             <div className="flex space-x-2">
               <motion.div 
@@ -318,8 +325,8 @@ export default function CodeShowcase() {
             </div>
           </div>
 
-          {/* Category Pills */}
-          <div className="flex space-x-3">
+          {/* Tabs */}
+          <div className="flex space-x-3 bg-[var(--section-services-bg)] rounded-full px-2 py-1 border border-[var(--border)]">
             {categories.map((category) => (
               <motion.button
                 key={category.id}
@@ -330,7 +337,7 @@ export default function CodeShowcase() {
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer relative ${
                   activeCategory === category.id
                     ? 'bg-accent text-white shadow-lg'
-                    : 'text-muted-foreground bg-white/5 hover:bg-white/10'
+                    : 'text-muted-foreground bg-transparent hover:bg-white/10'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -347,11 +354,11 @@ export default function CodeShowcase() {
             ))}
           </div>
 
-          <div className="w-16" /> {/* Spacer for symmetry */}
+          <div className="w-16" />
         </div>
 
-        {/* Technology Bar */}
-        <div className="flex items-center justify-between px-6 py-2 bg-white/5 border-b border-white/10">
+        {/* Editor Header */}
+        <div className="flex items-center justify-between px-6 py-2 border-b border-[var(--border)] bg-[var(--section-pricing-bg)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTechnology}
@@ -376,18 +383,19 @@ export default function CodeShowcase() {
           </span>
         </div>
 
-        {/* Code Content */}
-        <div className="flex-1 p-5 overflow-hidden">
+        {/* Code Editor Area */}
+        <div className="flex-1 p-5 overflow-hidden bg-[var(--section-hero-bg)]">
           <SyntaxHighlighter
             language={getLanguage(activeTechnology)}
-            style={atomDark}
+            style={theme === 'dark' ? atomDark : prism}
             customStyle={{
               background: 'transparent',
               padding: 0,
               margin: 0,
               fontSize: '13px',
               height: '100%',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              color: 'inherit',
             }}
             showLineNumbers
             wrapLines
@@ -397,16 +405,14 @@ export default function CodeShowcase() {
         </div>
       </div>
 
-      {/* Bottom Status */}
       <div className="mt-3 flex justify-between items-center text-xs text-muted-foreground">
-        <span className="font-mono">Fast • Reliable • Scalable</span>
-        <span>Supporting all major frameworks and languages</span>
+        <span className="font-mono">{t('showcase.fastReliableScalable')}</span>
+        <span>{t('showcase.supportingAll')}</span>
       </div>
     </div>
   );
 }
 
-// Add this CSS at the end of the file
 const styles = `
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -427,7 +433,6 @@ const styles = `
 }
 `;
 
-// Add styles to document
 if (typeof document !== 'undefined') {
   const styleSheet = document.createElement('style');
   styleSheet.textContent = styles;

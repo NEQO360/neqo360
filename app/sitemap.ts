@@ -1,36 +1,51 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://neqo360.com'
+  
   return [
     {
-      url: 'https://neqo360.com',
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://neqo360.com#services',
+      url: `${baseUrl}/#services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: 'https://neqo360.com#pricing',
+      url: `${baseUrl}/#pricing`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: 'https://neqo360.com#about',
+      url: `${baseUrl}/#about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: 'https://neqo360.com#contact',
+      url: `${baseUrl}/#contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    // Add more pages as they are created
+    // {
+    //   url: `${baseUrl}/blog`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'weekly',
+    //   priority: 0.6,
+    // },
+    // {
+    //   url: `${baseUrl}/portfolio`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'monthly',
+    //   priority: 0.7,
+    // },
   ]
 } 
