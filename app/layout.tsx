@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import ToastProvider from './providers/ToastProvider'
 import { TranslationProvider } from './providers/TranslationProvider'
+import { useContext } from 'react';
+import { TranslationContext } from './providers/TranslationProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -152,39 +154,33 @@ export default function RootLayout({
           }}
         />
         
-        {/* Web App Manifest */}
         <link rel="manifest" href="/site.webmanifest" />
         
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />        
+        <link rel="apple-touch-icon" href="/apple-touch-icon-iphone-60x60.png" sizes="60x60" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon-ipad-76x76.png" sizes="76x76" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon-iphone-retina-120x120.png" sizes="120x120" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon-ipad-retina-152x152.png" sizes="152x152" />
         
-        {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         
-        {/* Security Headers */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         
-        {/* Cache Control for Back/Forward Cache */}
         <meta httpEquiv="Cache-Control" content="public, max-age=31536000, immutable" />
         
-        {/* Viewport */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         
-        {/* Theme Color */}
         <meta name="theme-color" content="#6366f1" />
         <meta name="msapplication-TileColor" content="#6366f1" />
         
-        {/* Additional Meta Tags */}
         <meta name="application-name" content="Neqo360" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

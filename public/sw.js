@@ -11,7 +11,10 @@ const STATIC_FILES = [
   '/favicon.ico',
   '/icon-192x192.png',
   '/icon-512x512.png',
-  '/apple-touch-icon.png',
+  '/apple-touch-icon-iphone-60x60.png',
+  '/apple-touch-icon-ipad-76x76.png',
+  '/apple-touch-icon-iphone-retina-120x120.png',
+  '/apple-touch-icon-ipad-retina-152x152.png',
 ]
 
 // API routes to cache
