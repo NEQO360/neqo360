@@ -3,12 +3,22 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+function sanitizeString(input: string): string {
+  if (!input) return '';
+  return input
+    .trim()
+    .replace(/[<>]/g, '') 
+    .replace(/&/g, '&amp;') 
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;'); 
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, email, projectType, message } = body;
 
-    // Validate required fields
     if (!name || !email || !message) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -16,25 +26,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Send email using Resend
+    const sanitizedName = sanitizeString(name);
+    const sanitizedEmail = sanitizeString(email);
+    const sanitizedProjectType = sanitizeString(projectType || 'General Inquiry');
+    const sanitizedMessage = sanitizeString(message);
+
     const data = await resend.emails.send({
-      from: 'Neqo360 Website <onboarding@resend.dev>', // You'll need to update this with your domain
-      to: ['hello@neqo360.com'], // Your email address
-      subject: `New Contact Form Submission - ${projectType}`,
+      from: 'Neqo360 Website <onboarding@resend.dev>',
+      to: ['hello@neqo360.com'],
+      subject: `New Contact Form Submission - ${sanitizedProjectType}`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #6366f1; margin-bottom: 24px;">New Contact Form Submission</h2>
           
           <div style="background: #f8fafc; padding: 24px; border-radius: 12px; margin-bottom: 24px;">
             <h3 style="color: #334155; margin: 0 0 16px 0;">Contact Details</h3>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Project Type:</strong> ${projectType}</p>
+            <p><strong>Name:</strong> ${sanitizedName}</p>
+            <p><strong>Email:</strong> ${sanitizedEmail}</p>
+            <p><strong>Project Type:</strong> ${sanitizedProjectType}</p>
           </div>
           
           <div style="background: #f8fafc; padding: 24px; border-radius: 12px;">
             <h3 style="color: #334155; margin: 0 0 16px 0;">Message</h3>
-            <p style="white-space: pre-wrap;">${message}</p>
+            <p style="white-space: pre-wrap;">${sanitizedMessage}</p>
           </div>
           
           <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
