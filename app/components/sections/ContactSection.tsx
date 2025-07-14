@@ -7,6 +7,8 @@ import { CONTACT_INFO, PROJECT_TYPES, ANIMATION_VARIANTS } from '../../lib/const
 import { validateEmail, validatePhone } from '../../lib/utils';
 import { useToast } from '../../lib/hooks/useToast';
 import { contactSchema, ContactFormData } from '../../lib/validation/schemas';
+import { apiClient } from '../../lib/api/client';
+import { ErrorMessages } from '../../lib/types/errors';
 
 interface ContactSectionProps {
   onBookMeeting: () => void;
@@ -88,15 +90,11 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await apiClient.submitContact(formData);
 
-      if (response.ok) {
+      if (response.error) {
+        showError(response.error);
+      } else {
         setFormData({
           name: '',
           email: '',
@@ -104,13 +102,10 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
           projectType: '',
           message: ''
         });
-        showSuccess('Message sent successfully! We\'ll get back to you soon.');
-      } else {
-        const errorData = await response.json();
-        showError(errorData.error || 'Failed to send message. Please try again.');
+        showSuccess(ErrorMessages.FORM.SUCCESS);
       }
     } catch (error) {
-      showError('Network error. Please check your connection and try again.');
+      showError(ErrorMessages.API.NETWORK_ERROR);
     } finally {
       setIsSubmitting(false);
     }
@@ -204,8 +199,11 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                     errors.name ? 'border-red-500' : 'border-border focus:border-accent'
                   }`}
                   placeholder={t('contact.form.namePlaceholder')}
+                  aria-describedby={errors.name ? 'name-error' : undefined}
+                  aria-invalid={!!errors.name}
+                  required
                 />
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                {errors.name && <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">{errors.name}</p>}
               </div>
 
               <div>
@@ -222,8 +220,11 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                     errors.email ? 'border-red-500' : 'border-border focus:border-accent'
                   }`}
                   placeholder={t('contact.form.emailPlaceholder')}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
+                  aria-invalid={!!errors.email}
+                  required
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                {errors.email && <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>}
               </div>
             </div>
 
@@ -242,8 +243,10 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                     errors.phone ? 'border-red-500' : 'border-border focus:border-accent'
                   }`}
                   placeholder={t('contact.form.phonePlaceholder')}
+                  aria-describedby={errors.phone ? 'phone-error' : undefined}
+                  aria-invalid={!!errors.phone}
                 />
-                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                {errors.phone && <p id="phone-error" className="text-red-500 text-sm mt-1" role="alert">{errors.phone}</p>}
               </div>
 
               <div>
@@ -258,6 +261,9 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                   className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
                     errors.projectType ? 'border-red-500' : 'border-border focus:border-accent'
                   }`}
+                  aria-describedby={errors.projectType ? 'projectType-error' : undefined}
+                  aria-invalid={!!errors.projectType}
+                  required
                 >
                   <option value="">{t('contact.form.projectTypePlaceholder')}</option>
                   {PROJECT_TYPES.map((type, index) => (
@@ -266,7 +272,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                     </option>
                   ))}
                 </select>
-                {errors.projectType && <p className="text-red-500 text-sm mt-1">{errors.projectType}</p>}
+                {errors.projectType && <p id="projectType-error" className="text-red-500 text-sm mt-1" role="alert">{errors.projectType}</p>}
               </div>
             </div>
 
@@ -284,19 +290,28 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                   errors.message ? 'border-red-500' : 'border-border focus:border-accent'
                 }`}
                 placeholder={t('contact.form.messagePlaceholder')}
+                aria-describedby={errors.message ? 'message-error' : undefined}
+                aria-invalid={!!errors.message}
+                required
               />
-              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+              {errors.message && <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">{errors.message}</p>}
             </div>
 
             <motion.button
               type="submit"
               className="btn-primary w-full"
               disabled={isSubmitting}
+              aria-describedby={isSubmitting ? 'submitting-status' : undefined}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
             </motion.button>
+            {isSubmitting && (
+              <p id="submitting-status" className="sr-only" role="status">
+                Submitting form, please wait...
+              </p>
+            )}
           </motion.form>
         </div>
       </div>

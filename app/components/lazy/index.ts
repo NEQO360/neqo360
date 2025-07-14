@@ -8,4 +8,7 @@ export const CodeShowcase = lazy(() => import('../CodeShowcase'));
 // Lazy load sections that are below the fold
 export const AboutSection = lazy(() => import('../sections/AboutSection'));
 export const ContactSection = lazy(() => import('../sections/ContactSection'));
-export const Footer = lazy(() => import('../layout/Footer')); 
+export const Footer = lazy(() => import('../layout/Footer'));
+
+// Lazy load UI components
+export const ConfirmationDialog = lazy(() => import('../ui/ConfirmationDialog')); 

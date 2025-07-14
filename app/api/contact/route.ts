@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
           headers: {
             'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
             'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+            'Cache-Control': 'no-store',
           }
         }
       );
@@ -52,7 +53,10 @@ export async function POST(request: NextRequest) {
       logger.warn('CSRF token validation failed', { ip, hasToken: !!csrfToken });
       const response = NextResponse.json(
         { error: 'Invalid or missing CSRF token' },
-        { status: 403 }
+        { 
+          status: 403,
+          headers: { 'Cache-Control': 'no-store' }
+        }
       );
       
       logger.logRequest(request, response, Date.now() - startTime);
@@ -72,7 +76,10 @@ export async function POST(request: NextRequest) {
           error: 'Validation failed', 
           details: validationResult.error.errors 
         },
-        { status: 400 }
+        { 
+          status: 400,
+          headers: { 'Cache-Control': 'no-store' }
+        }
       );
       
       logger.logRequest(request, response, Date.now() - startTime);
@@ -115,12 +122,14 @@ export async function POST(request: NextRequest) {
       `,
     });
 
+    const responseTime = Date.now() - startTime;
     logger.info('Email sent successfully', { 
       ip, 
       projectType: sanitizedProjectType,
-      email: sanitizedEmail.substring(0, 10) + '***' // Log partial email for privacy
+      email: sanitizedEmail.substring(0, 10) + '***', // Log partial email for privacy
+      responseTime: `${responseTime}ms`,
     });
-    
+
     const response = NextResponse.json(
       { message: 'Email sent successfully', data },
       { 
@@ -131,25 +140,31 @@ export async function POST(request: NextRequest) {
             : '*',
           'Access-Control-Allow-Methods': 'POST, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type',
+          'Cache-Control': 'no-store',
         }
       }
     );
-    
-    logger.logRequest(request, response, Date.now() - startTime);
+
+    logger.logRequest(request, response, responseTime);
     return response;
   } catch (error) {
+    const responseTime = Date.now() - startTime;
     logger.error('Failed to send email', { 
       ip, 
       error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
+      stack: error instanceof Error ? error.stack : undefined,
+      responseTime: `${responseTime}ms`,
     });
     
     const response = NextResponse.json(
       { error: 'Failed to send email' },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: { 'Cache-Control': 'no-store' }
+      }
     );
     
-    logger.logRequest(request, response, Date.now() - startTime);
+    logger.logRequest(request, response, responseTime);
     return response;
   }
 }
@@ -163,6 +178,7 @@ export async function OPTIONS(request: NextRequest) {
         : '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'no-store',
     },
   });
 } 

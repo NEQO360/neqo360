@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import { useIntersectionObserver } from '../../lib/hooks/useIntersectionObserver';
 
 interface AnimatedSectionProps {
@@ -12,7 +12,7 @@ interface AnimatedSectionProps {
   rootMargin?: string;
 }
 
-export default function AnimatedSection({
+const AnimatedSection = memo(function AnimatedSection({
   children,
   className = '',
   delay = 0,
@@ -30,15 +30,15 @@ export default function AnimatedSection({
   const getDirectionalOffset = () => {
     switch (direction) {
       case 'up':
-        return { y: 50 };
+        return { y: 30 };
       case 'down':
-        return { y: -50 };
+        return { y: -30 };
       case 'left':
-        return { x: 50 };
+        return { x: 30 };
       case 'right':
-        return { x: -50 };
+        return { x: -30 };
       default:
-        return { y: 50 };
+        return { y: 30 };
     }
   };
 
@@ -59,12 +59,14 @@ export default function AnimatedSection({
         ...getDirectionalOffset()
       }}
       transition={{
-        duration,
+        duration: duration * 0.8, // Slightly faster
         delay,
-        ease: 'easeOut'
+        ease: [0.25, 0.46, 0.45, 0.94], // Custom easing for better performance
       }}
     >
       {children}
     </motion.div>
   );
-} 
+});
+
+export default AnimatedSection; 

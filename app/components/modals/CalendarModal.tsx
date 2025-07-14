@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../providers/TranslationProvider';
 import { TIME_SLOTS, MONTH_NAMES, DAY_NAMES } from '../../lib/constants';
@@ -23,6 +23,8 @@ interface CalendarModalProps {
 
 function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModalProps) {
   const { t } = useTranslation();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const firstInputRef = useRef<HTMLInputElement>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState('');
@@ -34,6 +36,36 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
   });
 
   const days = getDaysInMonth(currentDate);
+
+  // Focus management
+  useEffect(() => {
+    if (isOpen && firstInputRef.current) {
+      // Focus the first input when modal opens
+      setTimeout(() => {
+        firstInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+
+  // Handle escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
 
   const nextMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
@@ -70,8 +102,12 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="calendar-title"
         >
           <motion.div
+            ref={modalRef}
             className="bg-background rounded-3xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -79,61 +115,75 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold">{t('calendar.title')}</h2>
+              <h2 id="calendar-title" className="text-2xl font-semibold">{t('calendar.title')}</h2>
               <button
                 onClick={onClose}
                 className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80"
+                aria-label="Close calendar"
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <div>
-                <label className="block text-sm font-medium mb-2">{t('calendar.name')}</label>
+                <label htmlFor="calendar-name" className="block text-sm font-medium mb-2">{t('calendar.name')}</label>
                 <input
+                  ref={firstInputRef}
                   type="text"
+                  id="calendar-name"
+                  name="name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
                   placeholder={t('calendar.namePlaceholder')}
                   required
+                  aria-required="true"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">{t('calendar.email')}</label>
+                <label htmlFor="calendar-email" className="block text-sm font-medium mb-2">{t('calendar.email')}</label>
                 <input
                   type="email"
+                  id="calendar-email"
+                  name="email"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
                   placeholder={t('calendar.emailPlaceholder')}
                   required
+                  aria-required="true"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">{t('calendar.phone')}</label>
+                <label htmlFor="calendar-phone" className="block text-sm font-medium mb-2">{t('calendar.phone')}</label>
                 <input
                   type="tel"
+                  id="calendar-phone"
+                  name="phone"
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
                   placeholder={t('calendar.phonePlaceholder')}
                   required
+                  aria-required="true"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">{t('calendar.message')}</label>
+                <label htmlFor="calendar-message" className="block text-sm font-medium mb-2">{t('calendar.message')}</label>
                 <textarea
+                  id="calendar-message"
+                  name="message"
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   rows={3}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors resize-none"
                   placeholder={t('calendar.messagePlaceholder')}
                   required
+                  aria-required="true"
                 />
               </div>
 
@@ -145,6 +195,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                       type="button"
                       onClick={prevMonth}
                       className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80"
+                      aria-label="Previous month"
                     >
                       ←
                     </button>
@@ -155,6 +206,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                       type="button"
                       onClick={nextMonth}
                       className="w-8 h-8 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80"
+                      aria-label="Next month"
                     >
                       →
                     </button>
