@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from '../../providers/TranslationProvider';
 import { CONTACT_INFO, PROJECT_TYPES, ANIMATION_VARIANTS } from '../../lib/constants';
 import { validateEmail, validatePhone } from '../../lib/utils';
+import { useToast } from '../../lib/hooks/useToast';
 
 interface ContactSectionProps {
   onBookMeeting: () => void;
@@ -38,6 +39,7 @@ const getContactIcon = (iconType: string) => {
 
 export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
   const { t } = useTranslation();
+  const { showSuccess, showError } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -113,12 +115,13 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
           projectType: '',
           message: ''
         });
-        // You could add a success notification here
+        showSuccess('Message sent successfully! We\'ll get back to you soon.');
       } else {
-        // You could add an error notification here
+        const errorData = await response.json();
+        showError(errorData.error || 'Failed to send message. Please try again.');
       }
     } catch (error) {
-      // You could add an error notification here
+      showError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }

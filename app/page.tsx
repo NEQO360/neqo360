@@ -12,12 +12,14 @@ import Footer from './components/layout/Footer';
 import CalendarModal from './components/modals/CalendarModal';
 import FloatingActionButton from './components/ui/FloatingActionButton';
 import SpiderWebPricing from './components/SpiderWebPricing';
+import { useToast } from './lib/hooks/useToast';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
   const [showCalendar, setShowCalendar] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { showSuccess, showError } = useToast();
 
   // Hydration safety
   useEffect(() => {
@@ -89,12 +91,13 @@ export default function Home() {
 
       if (response.ok) {
         setShowCalendar(false);
-        // You could add a success notification here
+        showSuccess('Meeting request sent successfully! We\'ll get back to you soon.');
       } else {
-        // You could add an error notification here
+        const errorData = await response.json();
+        showError(errorData.error || 'Failed to send meeting request. Please try again.');
       }
     } catch (error) {
-      // You could add an error notification here
+      showError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
