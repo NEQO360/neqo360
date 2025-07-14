@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { NAVIGATION_SECTIONS, SITE_CONFIG } from '../../lib/constants';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 interface NavigationProps {
   activeSection: string;
@@ -10,6 +12,8 @@ interface NavigationProps {
 }
 
 export default function Navigation({ activeSection, onSectionClick, onBookMeeting }: NavigationProps) {
+  const { t } = useTranslation();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -37,7 +41,6 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {/* Advanced Animated Background */}
               <motion.div
                 className="absolute inset-0 w-12 h-12 rounded-full rocket-trail opacity-0 group-hover:opacity-40 blur-sm -z-10"
                 animate={{
@@ -50,7 +53,6 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                 }}
               />
 
-              {/* Orbiting Particles */}
               {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={`orbit-${i}`}
@@ -78,7 +80,6 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                 </motion.div>
               ))}
 
-              {/* Logo Container */}
               <div className="relative w-10 h-10 -right-2.5 top-0.5 overflow-visible rounded-xl logo-3d">
                 <motion.img
                   src="/logo.png"
@@ -99,7 +100,6 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                   }}
                 />
 
-                {/* Advanced Rocket Fire */}
                 <motion.div
                   className="absolute bottom-0 transform -translate-x-1/2 opacity-0 group-hover:opacity-100"
                   initial={{ opacity: 0 }}
@@ -131,11 +131,9 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                   ))}
                 </motion.div>
 
-                {/* Enhanced Cat Waving with Sparkles */}
                 <motion.div
                   className="absolute w-3 h-3 opacity-0 group-hover:opacity-100"
                 >
-                  {/* Main wave effect */}
                   <motion.div
                     className="w-2 h-2 bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 rounded-full blur-sm cat-part"
                     animate={{
@@ -149,7 +147,6 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                     }}
                   />
 
-                  {/* Floating sparkles */}
                   {[...Array(3)].map((_, i) => (
                     <motion.div
                       key={`sparkle-${i}`}
@@ -176,34 +173,28 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
               </div>
 
             </motion.div>
-            <div className="flex flex-col">
-              <motion.span
-                className="text-xl font-bold tracking-tight"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                Neqo360
-              </motion.span>
-              <motion.span
-                className="text-xs text-muted-foreground font-medium"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                Digital Solutions
-              </motion.span>
-            </div>
+                          <div className="flex flex-col">
+                <motion.span
+                  className="text-xl font-bold tracking-tight"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {SITE_CONFIG.name}
+                </motion.span>
+                <motion.span
+                  className="text-xs text-muted-foreground font-medium"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {SITE_CONFIG.tagline}
+                </motion.span>
+              </div>
           </motion.div>
 
           <div className="hidden md:flex items-center space-x-1 bg-white/5 rounded-full p-1 backdrop-blur-sm">
-            {[
-              { id: 'home', label: 'Home' },
-              { id: 'services', label: 'Services' },
-              { id: 'pricing', label: 'Pricing' },
-              { id: 'about', label: 'About' },
-              { id: 'contact', label: 'Contact' }
-            ].map((item) => (
+            {NAVIGATION_SECTIONS.map((item) => (
               <motion.button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
@@ -215,9 +206,9 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + (item.id === 'home' ? 0 : ['services', 'pricing', 'about', 'contact'].indexOf(item.id) + 1) * 0.1 }}
-              >
-                {item.label}
+                                  transition={{ delay: 0.5 + (item.id === 'home' ? 0 : ['services', 'pricing', 'about', 'contact'].indexOf(item.id) + 1) * 0.1 }}
+                >
+                  {t(item.label)}
                 {activeSection === item.id && (
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-accent/20 to-accent-hover/20 rounded-full"
@@ -229,26 +220,26 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
             ))}
           </div>
 
-          <motion.button
-            className="btn-primary relative overflow-hidden group px-6 py-3 rounded-md shadow-lg transition-transform focus:outline-none focus:ring-2 focus:ring-accent hover:shadow-xl"
-            whileHover={{ scale: 1.07, y: -3 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={onBookMeeting}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            {/* Button content */}
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            <motion.button
+              className="btn-primary relative overflow-hidden group px-6 py-3 rounded-md shadow-lg transition-transform focus:outline-none focus:ring-2 focus:ring-accent hover:shadow-xl"
+              whileHover={{ scale: 1.07, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={onBookMeeting}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
             <motion.span
               className="relative z-10 flex items-center space-x-2 text-white font-semibold"
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
             >
-              <span>Book Meeting</span>
+              <span>{t('navigation.bookMeeting')}</span>
             </motion.span>
 
-            {/* Background animation layer */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-accent-hover to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               initial={{ scaleX: 0 }}
@@ -261,8 +252,9 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
               }}
               style={{ transformOrigin: "left" }}
             />
-          </motion.button>
+            </motion.button>
         </div>
+      </div>
       </div>
     </motion.nav>
   );

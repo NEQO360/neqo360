@@ -1,13 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import SpiderWebPricing from '../SpiderWebPricing';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { PRICING_PLANS, ANIMATION_VARIANTS } from '../../lib/constants';
 
 interface PricingSectionProps {
   onBookMeeting: () => void;
 }
 
 export default function PricingSection({ onBookMeeting }: PricingSectionProps) {
+  const { t } = useTranslation();
+
   return (
     <section id="pricing" className="py-24">
       <div className="container-width section-padding">
@@ -18,79 +21,85 @@ export default function PricingSection({ onBookMeeting }: PricingSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-section">Build your solution</h2>
+          <h2 className="text-section">{t('pricing.title')}</h2>
           <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance">
-            Interactive pricing that adapts to your needs. Click, explore, and build your perfect solution.
+            {t('pricing.subtitle')}
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          className="grid md:grid-cols-3 gap-8"
+          variants={ANIMATION_VARIANTS.staggerContainer}
+          initial="initial"
+          whileInView="animate"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
         >
-          <SpiderWebPricing />
-        </motion.div>
-
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-        >
-          <p className="text-muted-foreground mb-4">
-            Need something not shown in the web? Let's discuss your custom requirements.
-          </p>
-          <motion.button
-            className="btn-secondary relative group overflow-hidden"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onBookMeeting}
-          >
-            <span className="relative z-10">Schedule a Free Consultation</span>
-
-            {/* Mini logo animation on button */}
+          {PRICING_PLANS.map((plan, index) => (
             <motion.div
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100"
-              initial={{ x: 20, opacity: 0 }}
-              whileHover={{ x: 0, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              key={index}
+              variants={ANIMATION_VARIANTS.fadeInUp}
+              className={`glass-subtle p-8 rounded-3xl hover-lift relative ${
+                plan.featured ? 'ring-2 ring-accent' : ''
+              }`}
+              whileHover={{ y: -10, scale: 1.02 }}
             >
-              <motion.img
-                src="/logo.png"
-                alt=""
-                className="w-5 h-5 object-contain"
-                animate={{
-                  rotate: [0, 10, -10, 0],
-                  y: [0, -1, 0]
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              {/* Mini rocket trail */}
-              <motion.div
-                className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
-              >
+              {plan.featured && (
                 <motion.div
-                  className="w-0.5 h-1 bg-gradient-to-b from-accent to-transparent rounded-full"
-                  animate={{
-                    height: [1, 3, 1],
-                    opacity: [0.4, 0.8, 0.4],
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-              </motion.div>
+                  className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-medium"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  {t('pricing.mostPopular')}
+                </motion.div>
+              )}
+
+              <div className="text-center space-y-6">
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{t(plan.titleKey)}</h3>
+                  <p className="text-muted-foreground text-sm">{t(plan.descriptionKey)}</p>
+                </div>
+
+                <div>
+                  <div className="text-3xl font-bold">
+                    {plan.price === 'Custom' ? t('pricing.custom') : `$${plan.price}`}
+                  </div>
+                  {plan.price !== 'Custom' && (
+                    <div className="text-sm text-muted-foreground">{t('pricing.perMonth')}</div>
+                  )}
+                </div>
+
+                <ul className="space-y-3 text-left">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center space-x-3">
+                      <motion.div
+                        className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center"
+                        whileHover={{ scale: 1.2 }}
+                      >
+                        <svg className="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </motion.div>
+                      <span className="text-sm">{t(feature)}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <motion.button
+                  className={`w-full py-3 px-6 rounded-2xl font-medium transition-all ${
+                    plan.featured
+                      ? 'bg-accent text-white hover:bg-accent-hover'
+                      : 'bg-muted hover:bg-muted/80'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onBookMeeting}
+                >
+                  {t('pricing.getStarted')}
+                </motion.button>
+              </div>
             </motion.div>
-          </motion.button>
+          ))}
         </motion.div>
       </div>
     </section>

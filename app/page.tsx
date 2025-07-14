@@ -11,6 +11,7 @@ import ContactSection from './components/sections/ContactSection';
 import Footer from './components/layout/Footer';
 import CalendarModal from './components/modals/CalendarModal';
 import FloatingActionButton from './components/ui/FloatingActionButton';
+import SpiderWebPricing from './components/SpiderWebPricing';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
@@ -79,10 +80,10 @@ export default function Home() {
           email: data.email,
           projectType: 'Meeting Request',
           message: `Meeting Request:
-Date: ${data.date.toDateString()}
-Time: ${data.time}
-Phone: ${data.phone}
-Message: ${data.message}`
+          Date: ${data.date.toDateString()}
+          Time: ${data.time}
+          Phone: ${data.phone}
+          Message: ${data.message}`
         }),
       });
 
@@ -100,40 +101,23 @@ Message: ${data.message}`
   };
 
   if (!mounted) {
-    return null; // Prevent hydration issues
+    return null;
   }
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Navigation */}
       <Navigation
         activeSection={activeSection}
         onSectionClick={setActiveSection}
         onBookMeeting={handleBookMeeting}
       />
-
-      {/* Hero Section */}
       <HeroSection y1={y1} y2={y2} />
-
-      {/* Services Section */}
       <ServicesSection />
-
-      {/* Pricing Section */}
-      <PricingSection onBookMeeting={handleBookMeeting} />
-
-      {/* About Section */}
+      <SpiderWebPricing />
       <AboutSection />
-
-      {/* Contact Section */}
       <ContactSection onBookMeeting={handleBookMeeting} />
-
-      {/* Footer */}
       <Footer />
-
-      {/* Floating Action Button */}
       <FloatingActionButton onBookMeeting={handleBookMeeting} />
-
-      {/* Scroll to Top Button */}
       <motion.button
         className="fixed bottom-8 left-8 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full text-accent shadow-lg flex items-center justify-center cursor-pointer"
         style={{ opacity: scrollOpacity }}
@@ -143,8 +127,6 @@ Message: ${data.message}`
       >
         ↑
       </motion.button>
-
-      {/* Calendar Modal */}
       <CalendarModal
         isOpen={showCalendar}
         onClose={() => setShowCalendar(false)}

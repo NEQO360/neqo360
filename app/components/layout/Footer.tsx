@@ -1,52 +1,72 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { SITE_CONFIG } from '../../lib/constants';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
-    <footer className="py-12 border-t border-border">
-      <div className="container-width section-padding">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+    <footer className="bg-muted/50 border-t border-border">
+      <div className="container-width section-padding py-12">
+        <div className="grid md:grid-cols-3 gap-8">
           <motion.div
-            className="flex items-center space-x-3 group"
-            whileHover={{ scale: 1.05 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <motion.div className="relative">
-              <motion.img
-                src="/logo.png"
-                alt="Neqo360"
-                className="w-8 h-8 object-contain cursor-pointer"
-                whileHover={{
-                  rotate: [0, 10, -10, 0],
-                  y: [0, -2, 0]
-                }}
-                transition={{ duration: 0.6 }}
-              />
-              {/* Mini rocket fire on hover */}
-              <motion.div
-                className="absolute bottom-1 left-1/4 transform rotate-[40deg] -translate-x-1/2 opacity-0 group-hover:opacity-100"
-              >
-                <motion.div
-                  className="w-0.5 h-2 bg-gradient-to-b from-orange-400 to-transparent rounded-full"
-                  animate={{
-                    height: [4, 8, 4],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    duration: 0.4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-              </motion.div>
-            </motion.div>
-            <span className="font-semibold">Neqo360</span>
+            <div className="flex items-center space-x-2 mb-4">
+              <img src="/logo.png" alt={SITE_CONFIG.name} className="w-8 h-8" />
+              <span className="text-xl font-bold">{SITE_CONFIG.name}</span>
+            </div>
+            <p className="text-muted-foreground text-sm">
+              {t('footer.tagline')}
+            </p>
           </motion.div>
 
-          <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <span>© 2025 Neqo360</span>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-center md:text-left"
+          >
+            <h3 className="font-semibold mb-4">{t('footer.services')}</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>{t('footer.webApps')}</li>
+              <li>{t('footer.mobileApps')}</li>
+              <li>{t('footer.systemIntegration')}</li>
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center md:text-right"
+          >
+            <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>{SITE_CONFIG.email}</p>
+              <p>{SITE_CONFIG.location}</p>
+            </div>
+          </motion.div>
         </div>
+
+        <motion.div
+          className="border-t border-border mt-8 pt-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-sm text-muted-foreground">
+            {SITE_CONFIG.copyright} • {t('footer.rightsReserved')}
+          </p>
+        </motion.div>
       </div>
     </footer>
   );

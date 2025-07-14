@@ -2,43 +2,99 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import CustomDropdown from '../ui/CustomDropdown';
-
-// Form validation schema
-const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email'),
-  projectType: z.string().min(1, 'Please select a project type'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
+import { useTranslation } from '../../providers/TranslationProvider';
+import { CONTACT_INFO, PROJECT_TYPES, ANIMATION_VARIANTS } from '../../lib/constants';
+import { validateEmail, validatePhone } from '../../lib/utils';
 
 interface ContactSectionProps {
   onBookMeeting: () => void;
 }
 
+const getContactIcon = (iconType: string) => {
+  switch (iconType) {
+    case 'email':
+      return (
+        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      );
+    case 'location':
+      return (
+        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      );
+    case 'time':
+      return (
+        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
 export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-    setValue,
-  } = useForm<ContactForm>({
-    resolver: zodResolver(contactSchema),
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectType: '',
+    message: ''
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (data: ContactForm) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = t('contact.errors.nameRequired');
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = t('contact.errors.emailRequired');
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = t('contact.errors.emailInvalid');
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = t('contact.errors.phoneRequired');
+    } else if (!validatePhone(formData.phone)) {
+      newErrors.phone = t('contact.errors.phoneInvalid');
+    }
+
+    if (!formData.projectType) {
+      newErrors.projectType = t('contact.errors.projectTypeRequired');
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = t('contact.errors.messageRequired');
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
-    setSubmitStatus(null);
 
     try {
       const response = await fetch('/api/contact', {
@@ -46,24 +102,30 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        setSubmitStatus('success');
-        reset();
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          projectType: '',
+          message: ''
+        });
+        // You could add a success notification here
       } else {
-        setSubmitStatus('error');
+        // You could add an error notification here
       }
     } catch (error) {
-      setSubmitStatus('error');
+      // You could add an error notification here
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-24 bg-muted/30">
       <div className="container-width section-padding">
         <motion.div
           className="text-center space-y-4 mb-16"
@@ -72,172 +134,178 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-section">Ready to build?</h2>
+          <h2 className="text-section">{t('contact.title')}</h2>
           <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance">
-            Let's discuss your project. No lengthy forms, no sales pitches. Just a conversation.
+            {t('contact.subtitle')}
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Form */}
+        <div className="grid lg:grid-cols-2 gap-16">
           <motion.div
+            className="space-y-8"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="glass p-8 rounded-3xl">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Name *</label>
-                    <input
-                      {...register('name')}
-                      type="text"
-                      className={`w-full px-4 py-3 rounded-2xl border bg-background/50 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${errors.name ? 'border-red-500' : 'border-border'
-                        }`}
-                      placeholder="Your name"
-                    />
-                    {errors.name && (
-                      <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email *</label>
-                    <input
-                      {...register('email')}
-                      type="email"
-                      className={`w-full px-4 py-3 rounded-2xl border bg-background/50 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${errors.email ? 'border-red-500' : 'border-border'
-                        }`}
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Project Type *</label>
-                  <CustomDropdown
-                    value={watch('projectType') || ''}
-                    onChange={(value) => setValue('projectType', value)}
-                    options={[
-                      { value: 'Web Application', label: '🌐 Web Application' },
-                      { value: 'Mobile App', label: '📱 Mobile App' },
-                      { value: 'System Integration', label: '🔗 System Integration' },
-                      { value: 'E-commerce', label: '🛒 E-commerce Store' },
-                      { value: 'Not Sure Yet', label: '🤔 Not Sure Yet' }
-                    ]}
-                    placeholder="🚀 Select your project type"
-                  />
-                  {errors.projectType && (
-                    <p className="text-red-500 text-sm mt-1">{errors.projectType.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">Tell us about your project *</label>
-                  <textarea
-                    {...register('message')}
-                    rows={4}
-                    className={`w-full px-4 py-3 rounded-2xl border bg-background/50 focus:outline-none focus:ring-2 focus:ring-accent transition-all ${errors.message ? 'border-red-500' : 'border-border'
-                      }`}
-                    placeholder="What are you looking to build? Any specific requirements or timeline?"
-                  ></textarea>
-                  {errors.message && (
-                    <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
-                  )}
-                </div>
-
-                {submitStatus && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`text-center p-4 rounded-2xl ${submitStatus === 'success'
-                      ? 'bg-green-100 text-green-800 border border-green-300'
-                      : 'bg-red-100 text-red-800 border border-red-300'
-                      }`}
-                  >
-                    {submitStatus === 'success'
-                      ? 'Message sent successfully! We\'ll get back to you soon.'
-                      : 'Failed to send message. Please try again or contact us directly.'}
-                  </motion.div>
-                )}
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full btn-primary hover-glow disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </motion.button>
-              </form>
+            <div>
+              <h3 className="text-2xl font-semibold mb-4">{t('contact.getInTouch')}</h3>
+              <p className="text-muted-foreground mb-8">{t('contact.description')}</p>
             </div>
+
+            <div className="space-y-6">
+              {CONTACT_INFO.map((info, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center space-x-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    {getContactIcon(info.icon)}
+                  </div>
+                  <span className="text-muted-foreground">{info.text}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              className="pt-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <motion.button
+                className="btn-primary w-full"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={onBookMeeting}
+              >
+                {t('contact.scheduleMeeting')}
+              </motion.button>
+            </motion.div>
           </motion.div>
 
-          {/* Contact Info & Schedule Call */}
-          <motion.div
-            className="space-y-8"
+          <motion.form
+            onSubmit={handleSubmit}
+            className="space-y-6"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {/* Schedule Call Card */}
-            <motion.div
-              className="glass p-8 rounded-3xl text-center"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="text-4xl mb-4">📞</div>
-              <h3 className="text-xl font-semibold mb-4">Prefer to talk?</h3>
-              <p className="text-muted-foreground mb-6">
-                Schedule a free 30-minute consultation to discuss your project in detail.
-              </p>
-              <motion.button
-                onClick={onBookMeeting}
-                className="btn-primary hover-glow w-full"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Schedule Free Call
-              </motion.button>
-            </motion.div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                  {t('contact.form.name')}
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
+                    errors.name ? 'border-red-500' : 'border-border focus:border-accent'
+                  }`}
+                  placeholder={t('contact.form.namePlaceholder')}
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+              </div>
 
-            {/* Contact Details */}
-            <div className="glass p-8 rounded-3xl">
-              <h3 className="text-xl font-semibold mb-6">Get in touch</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <span>hello@neqo360.com</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <span>Colombo, Sri Lanka</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <span>Usually respond within 2 hours</span>
-                </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                  {t('contact.form.email')}
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
+                    errors.email ? 'border-red-500' : 'border-border focus:border-accent'
+                  }`}
+                  placeholder={t('contact.form.emailPlaceholder')}
+                />
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
             </div>
-          </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                  {t('contact.form.phone')}
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
+                    errors.phone ? 'border-red-500' : 'border-border focus:border-accent'
+                  }`}
+                  placeholder={t('contact.form.phonePlaceholder')}
+                />
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="projectType" className="block text-sm font-medium mb-2">
+                  {t('contact.form.projectType')}
+                </label>
+                <select
+                  id="projectType"
+                  name="projectType"
+                  value={formData.projectType}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
+                    errors.projectType ? 'border-red-500' : 'border-border focus:border-accent'
+                  }`}
+                >
+                  <option value="">{t('contact.form.projectTypePlaceholder')}</option>
+                  {PROJECT_TYPES.map((type, index) => (
+                    <option key={index} value={type.value}>
+                      {t(type.labelKey)}
+                    </option>
+                  ))}
+                </select>
+                {errors.projectType && <p className="text-red-500 text-sm mt-1">{errors.projectType}</p>}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium mb-2">
+                {t('contact.form.message')}
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                rows={5}
+                className={`w-full px-4 py-3 rounded-2xl border transition-colors resize-none ${
+                  errors.message ? 'border-red-500' : 'border-border focus:border-accent'
+                }`}
+                placeholder={t('contact.form.messagePlaceholder')}
+              />
+              {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+            </div>
+
+            <motion.button
+              type="submit"
+              className="btn-primary w-full"
+              disabled={isSubmitting}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
+            </motion.button>
+          </motion.form>
         </div>
       </div>
     </section>

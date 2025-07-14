@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-// Define our showcase categories
 const categories = [
   {
     id: 'frameworks',
@@ -35,7 +34,6 @@ const categories = [
   },
 ];
 
-// Sample code snippets for each technology
 const codeSnippets = {
   'Next.js': `// pages/api/data.ts
 export default async function handler(req, res) {
@@ -222,7 +220,6 @@ export default function CodeShowcase() {
   const [isTyping, setIsTyping] = useState(true);
   const [techIndex, setTechIndex] = useState(0);
 
-  // Rotate through technologies within the current category
   useEffect(() => {
     const currentCategory = categories.find(cat => cat.id === activeCategory);
     if (!currentCategory) return;
@@ -231,19 +228,17 @@ export default function CodeShowcase() {
       setTechIndex(current => {
         const nextIndex = (current + 1) % currentCategory.items.length;
         if (nextIndex === 0) {
-          // When we've shown all techs in current category, move to next category
           const currentCatIndex = categories.findIndex(cat => cat.id === activeCategory);
           const nextCatIndex = (currentCatIndex + 1) % categories.length;
           setActiveCategory(categories[nextCatIndex].id);
         }
         return nextIndex;
       });
-    }, 8000); // Change technology every 8 seconds
+    }, 8000);
 
     return () => clearInterval(techInterval);
   }, [activeCategory]);
 
-  // Update active technology when techIndex changes
   useEffect(() => {
     const currentCategory = categories.find(cat => cat.id === activeCategory);
     if (currentCategory && currentCategory.items[techIndex]) {
@@ -251,7 +246,6 @@ export default function CodeShowcase() {
     }
   }, [activeCategory, techIndex]);
 
-  // Typing animation effect
   useEffect(() => {
     const code = codeSnippets[activeTechnology as keyof typeof codeSnippets] || '';
     let currentIndex = 0;
@@ -271,7 +265,6 @@ export default function CodeShowcase() {
     return () => clearInterval(typingInterval);
   }, [activeTechnology]);
 
-  // Helper function to determine the language
   const getLanguage = (tech: string) => {
     if (tech === 'Python') return 'python';
     if (tech === 'Java') return 'java';
@@ -282,7 +275,6 @@ export default function CodeShowcase() {
 
   return (
     <div className="w-full max-w-4xl mx-auto -mt-10">
-      {/* Status Bar */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-3">
           <motion.div
@@ -297,9 +289,7 @@ export default function CodeShowcase() {
         </span>
       </div>
 
-      {/* Main Code Window */}
       <div className="glass rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[350px] flex flex-col bg-gradient-to-br from-background/50 to-background">
-        {/* Window Controls and Category Display */}
         <div className="flex items-center justify-between px-6 py-3 border-b border-white/10">
           <div className="flex items-center space-x-4">
             <div className="flex space-x-2">
@@ -318,7 +308,6 @@ export default function CodeShowcase() {
             </div>
           </div>
 
-          {/* Category Pills */}
           <div className="flex space-x-3">
             {categories.map((category) => (
               <motion.button
@@ -347,10 +336,9 @@ export default function CodeShowcase() {
             ))}
           </div>
 
-          <div className="w-16" /> {/* Spacer for symmetry */}
+          <div className="w-16" />
         </div>
 
-        {/* Technology Bar */}
         <div className="flex items-center justify-between px-6 py-2 bg-white/5 border-b border-white/10">
           <AnimatePresence mode="wait">
             <motion.div
@@ -376,7 +364,6 @@ export default function CodeShowcase() {
           </span>
         </div>
 
-        {/* Code Content */}
         <div className="flex-1 p-5 overflow-hidden">
           <SyntaxHighlighter
             language={getLanguage(activeTechnology)}
@@ -397,7 +384,6 @@ export default function CodeShowcase() {
         </div>
       </div>
 
-      {/* Bottom Status */}
       <div className="mt-3 flex justify-between items-center text-xs text-muted-foreground">
         <span className="font-mono">Fast • Reliable • Scalable</span>
         <span>Supporting all major frameworks and languages</span>
@@ -406,7 +392,6 @@ export default function CodeShowcase() {
   );
 }
 
-// Add this CSS at the end of the file
 const styles = `
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -427,7 +412,6 @@ const styles = `
 }
 `;
 
-// Add styles to document
 if (typeof document !== 'undefined') {
   const styleSheet = document.createElement('style');
   styleSheet.textContent = styles;

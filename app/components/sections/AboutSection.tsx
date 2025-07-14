@@ -1,30 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { ABOUT_FEATURES, SITE_CONFIG } from '../../lib/constants';
 
 export default function AboutSection() {
-  const features = [
-    {
-      emoji: '🚀',
-      title: 'Execution Focused',
-      description: 'We ship fast. No endless meetings or bureaucracy. Just results.'
-    },
-    {
-      emoji: '🎯',
-      title: 'Tech Agnostic',
-      description: 'Right tool for the job. We adapt to your needs, not the other way around.'
-    },
-    {
-      emoji: '📈',
-      title: 'Built to Scale',
-      description: 'Every solution is designed with growth in mind. Start small, scale big.'
-    },
-    {
-      emoji: '🐱',
-      title: 'Human Touch',
-      description: 'We believe in genuine connections. Like cats, we\'re independent but loyal.'
-    }
-  ];
+  const { t } = useTranslation();
 
   return (
     <section id="about" className="py-24 bg-muted/30">
@@ -37,10 +18,10 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-section">Why choose Neqo360?</h2>
+            <h2 className="text-section">{t('about.title')}</h2>
 
             <div className="space-y-6">
-              {features.map((item, index) => (
+              {ABOUT_FEATURES.map((item, index) => (
                 <motion.div
                   key={index}
                   className="flex items-start space-x-4"
@@ -58,8 +39,8 @@ export default function AboutSection() {
                     <span className="text-white text-sm">{item.emoji}</span>
                   </motion.div>
                   <div>
-                    <h3 className="font-semibold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
+                    <h3 className="font-semibold mb-2">{t(item.titleKey)}</h3>
+                    <p className="text-muted-foreground">{t(item.descriptionKey)}</p>
                   </div>
                 </motion.div>
               ))}
@@ -87,8 +68,8 @@ export default function AboutSection() {
                   >
                     ⚡
                   </motion.div>
-                  <h3 className="font-semibold">Lightning Fast</h3>
-                  <p className="text-sm text-muted-foreground">Sub-second load times</p>
+                  <h3 className="font-semibold">{t('about.lightningFast')}</h3>
+                  <p className="text-sm text-muted-foreground">{t('about.subSecondLoad')}</p>
                 </div>
 
                 <div className="border-t border-border pt-6">
@@ -97,13 +78,13 @@ export default function AboutSection() {
                       whileHover={{ scale: 1.1 }}
                     >
                       <div className="text-2xl font-bold gradient-text">99.9%</div>
-                      <div className="text-xs text-muted-foreground">Uptime</div>
+                      <div className="text-xs text-muted-foreground">{t('about.uptime')}</div>
                     </motion.div>
                     <motion.div
                       whileHover={{ scale: 1.1 }}
                     >
                       <div className="text-2xl font-bold gradient-text">24/7</div>
-                      <div className="text-xs text-muted-foreground">Support</div>
+                      <div className="text-xs text-muted-foreground">{t('about.support')}</div>
                     </motion.div>
                   </div>
                 </div>

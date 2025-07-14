@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { HERO_STATS, ANIMATION_VARIANTS } from '../../lib/constants';
+import { scrollToSection } from '../../lib/utils';
 import CodeShowcase from '../CodeShowcase';
 
 interface HeroSectionProps {
@@ -9,27 +12,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ y1, y2 }: HeroSectionProps) {
-  // Animation variants
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, ease: 'easeOut' }
-  };
-
-  const staggerContainer = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const { t } = useTranslation();
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
@@ -41,25 +24,30 @@ export default function HeroSection({ y1, y2 }: HeroSectionProps) {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
             className="space-y-8"
-            variants={staggerContainer}
+            variants={ANIMATION_VARIANTS.staggerContainer}
             initial="initial"
             animate="animate"
           >
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
               <h1 className="text-hero text-balance sm:mt-0 mt-14">
-                Software that <span className="gradient-text">just works</span>
+                {t('hero.title').split('just works').map((part, index) => 
+                  index === 0 ? (
+                    <span key={index}>{part}<span className="gradient-text">just works</span></span>
+                  ) : (
+                    <span key={index}>{part}</span>
+                  )
+                )}
               </h1>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
               <p className="text-large text-muted-foreground text-balance max-w-2xl">
-                We're a lean Sri Lankan software development agency. No bloated processes, no complexity.
-                Just high-quality web apps, mobile solutions, and integrated systems that scale.
+                {t('hero.subtitle')}
               </p>
             </motion.div>
 
             <motion.div
-              variants={fadeInUp}
+              variants={ANIMATION_VARIANTS.fadeInUp}
               className="flex flex-col sm:flex-row gap-4"
             >
               <motion.button
@@ -68,7 +56,7 @@ export default function HeroSection({ y1, y2 }: HeroSectionProps) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('contact')}
               >
-                Start Your Project
+                {t('hero.startProject')}
               </motion.button>
               <motion.button
                 className="btn-secondary"
@@ -76,26 +64,22 @@ export default function HeroSection({ y1, y2 }: HeroSectionProps) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('pricing')}
               >
-                View Pricing
+                {t('hero.viewPricing')}
               </motion.button>
             </motion.div>
 
             <motion.div
-              variants={fadeInUp}
+              variants={ANIMATION_VARIANTS.fadeInUp}
               className="flex items-center space-x-8 pt-8"
             >
-              {[
-                { value: '50+', label: 'Projects Delivered' },
-                { value: '99%', label: 'Client Satisfaction' },
-                { value: '<1s', label: 'Page Load Time' }
-              ].map((stat, index) => (
+              {HERO_STATS.map((stat, index) => (
                 <motion.div
                   key={index}
                   className="text-center w-full"
                   whileHover={{ scale: 1.1 }}
                 >
                   <div className="text-2xl font-bold">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <div className="text-sm text-muted-foreground">{t(stat.label)}</div>
                 </motion.div>
               ))}
             </motion.div>
