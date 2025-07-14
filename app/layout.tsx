@@ -5,6 +5,7 @@ import ToastProvider from './providers/ToastProvider'
 import { TranslationProvider } from './providers/TranslationProvider'
 import { useContext } from 'react';
 import { TranslationContext } from './providers/TranslationProvider';
+import { ThemeProvider } from './providers/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -104,7 +105,7 @@ export default function RootLayout({
               contactPoint: {
                 '@type': 'ContactPoint',
                 contactType: 'customer service',
-                email: 'hello@neqo360.com',
+                email: 'neqo360@gmail.com',
               },
               sameAs: [
                 'https://twitter.com/neqo360',
@@ -190,11 +191,13 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
       </head>
       <body className={inter.className}>
-        <TranslationProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </TranslationProvider>
+        <ThemeProvider>
+          <TranslationProvider>
+            <ToastProvider>
+              {children}
+            </ToastProvider>
+          </TranslationProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

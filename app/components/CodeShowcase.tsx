@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import atomDark from 'react-syntax-highlighter/dist/esm/styles/prism/atom-dark';
+import prism from 'react-syntax-highlighter/dist/esm/styles/prism/prism';
 import ts from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 import java from 'react-syntax-highlighter/dist/esm/languages/prism/java';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
 import { useTranslation } from '../providers/TranslationProvider';
+import { useTheme } from '../providers/ThemeProvider';
 
 SyntaxHighlighter.registerLanguage('typescript', ts);
 SyntaxHighlighter.registerLanguage('python', python);
@@ -17,6 +19,7 @@ SyntaxHighlighter.registerLanguage('yaml', yaml);
 
 export default function CodeShowcase() {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const categories = [
     {
       id: 'frameworks',
@@ -303,7 +306,8 @@ automatic_scaling:
       </div>
 
       <div className="glass rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[350px] flex flex-col bg-gradient-to-br from-background/50 to-background">
-        <div className="flex items-center justify-between px-6 py-3 border-b border-white/10">
+        {/* Tabs/Header */}
+        <div className="flex items-center justify-between px-6 py-3 border-b border-[var(--border)] bg-[var(--section-about-bg)]">
           <div className="flex items-center space-x-4">
             <div className="flex space-x-2">
               <motion.div 
@@ -321,7 +325,8 @@ automatic_scaling:
             </div>
           </div>
 
-          <div className="flex space-x-3">
+          {/* Tabs */}
+          <div className="flex space-x-3 bg-[var(--section-services-bg)] rounded-full px-2 py-1 border border-[var(--border)]">
             {categories.map((category) => (
               <motion.button
                 key={category.id}
@@ -332,7 +337,7 @@ automatic_scaling:
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer relative ${
                   activeCategory === category.id
                     ? 'bg-accent text-white shadow-lg'
-                    : 'text-muted-foreground bg-white/5 hover:bg-white/10'
+                    : 'text-muted-foreground bg-transparent hover:bg-white/10'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -352,7 +357,8 @@ automatic_scaling:
           <div className="w-16" />
         </div>
 
-        <div className="flex items-center justify-between px-6 py-2 bg-white/5 border-b border-white/10">
+        {/* Editor Header */}
+        <div className="flex items-center justify-between px-6 py-2 border-b border-[var(--border)] bg-[var(--section-pricing-bg)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTechnology}
@@ -377,17 +383,19 @@ automatic_scaling:
           </span>
         </div>
 
-        <div className="flex-1 p-5 overflow-hidden">
+        {/* Code Editor Area */}
+        <div className="flex-1 p-5 overflow-hidden bg-[var(--section-hero-bg)]">
           <SyntaxHighlighter
             language={getLanguage(activeTechnology)}
-            style={atomDark}
+            style={theme === 'dark' ? atomDark : prism}
             customStyle={{
               background: 'transparent',
               padding: 0,
               margin: 0,
               fontSize: '13px',
               height: '100%',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              color: 'inherit',
             }}
             showLineNumbers
             wrapLines

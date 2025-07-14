@@ -3,7 +3,7 @@ import { translations, Language } from './i18n/translations';
 export const SITE_CONFIG = {
   name: 'Neqo360',
   tagline: 'Digital Solutions',
-  email: 'hello@neqo360.com',
+  email: 'neqo360@gmail.com',
   location: 'Colombo, Sri Lanka',
   responseTime: 'Usually respond within 2 hours',
   copyright: '© 2025 Neqo360',
@@ -11,9 +11,9 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_SECTIONS = [
   { id: 'home', label: 'navigation.home' },
+  { id: 'about', label: 'navigation.about' },
   { id: 'services', label: 'navigation.services' },
   { id: 'pricing', label: 'navigation.pricing' },
-  { id: 'about', label: 'navigation.about' },
   { id: 'contact', label: 'navigation.contact' },
 ] as const;
 
@@ -23,7 +23,6 @@ export const HERO_STATS = [
   { value: '<1s', label: 'hero.stats.loadTime' },
 ] as const;
 
-// Map service keys to icons
 const SERVICE_ICONS: Record<string, string> = {
   webApps: 'web',
   mobileApps: 'mobile',
@@ -33,7 +32,6 @@ const SERVICE_ICONS: Record<string, string> = {
   gameDev: 'game',
 };
 
-// Dynamically generate the services array from translations
 const SERVICE_KEYS = [
   'webApps',
   'mobileApps',
@@ -42,8 +40,6 @@ const SERVICE_KEYS = [
   'uiux',
   'gameDev',
 ] as const;
-
-type ServiceKey = typeof SERVICE_KEYS[number];
 
 type ServiceTranslation = {
   title: string;
@@ -67,22 +63,22 @@ export function getServices(language: Language) {
 
 export const ABOUT_FEATURES = [
   {
-    emoji: '🚀',
+    icon: 'Rocket',
     titleKey: 'about.executionFocused.title',
     descriptionKey: 'about.executionFocused.description',
   },
   {
-    emoji: '🎯',
+    icon: 'Target',
     titleKey: 'about.techAgnostic.title',
     descriptionKey: 'about.techAgnostic.description',
   },
   {
-    emoji: '📈',
+    icon: 'BarChart2',
     titleKey: 'about.builtToScale.title',
     descriptionKey: 'about.builtToScale.description',
   },
   {
-    emoji: '🐱',
+    icon: 'Hand',
     titleKey: 'about.humanTouch.title',
     descriptionKey: 'about.humanTouch.description',
   },

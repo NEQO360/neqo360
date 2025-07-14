@@ -9,6 +9,7 @@ import { useToast } from '../../lib/hooks/useToast';
 import { contactSchema, ContactFormData } from '../../lib/validation/schemas';
 import { apiClient } from '../../lib/api/client';
 import { ErrorMessages } from '../../lib/types/errors';
+import { Mail } from 'lucide-react';
 
 interface ContactSectionProps {
   onBookMeeting: () => void;
@@ -18,9 +19,7 @@ const getContactIcon = (iconType: string) => {
   switch (iconType) {
     case 'email':
       return (
-        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
+        <Mail className="w-4 h-4 text-accent dark:text-accent/80" />
       );
     case 'location':
       return (
@@ -112,7 +111,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
   };
 
   return (
-    <section id="contact" className="py-24 bg-muted/30">
+    <section id="contact" className="py-24" style={{ background: 'var(--section-contact-bg, var(--muted))' }}>
       <div className="container-width section-padding">
         <motion.div
           className="text-center space-y-4 mb-16"
@@ -262,7 +261,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                   name="projectType"
                   value={formData.projectType}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 rounded-2xl border transition-colors ${
+                  className={`w-full px-4 py-3 rounded-2xl border transition-colors bg-[var(--background)] text-[var(--foreground)] dark:bg-[var(--background)] dark:text-[var(--foreground)] ${
                     errors.projectType ? 'border-red-500' : 'border-border focus:border-accent'
                   }`}
                   aria-describedby={errors.projectType ? 'projectType-error' : undefined}
@@ -272,7 +271,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                   <option value="">{t('contact.form.projectTypePlaceholder')}</option>
                   {PROJECT_TYPES.map((type, index) => (
                     <option key={index} value={type.value}>
-                      {t(type.labelKey)}
+                      {t(type.labelKey).replace(/\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu, '')}
                     </option>
                   ))}
                 </select>

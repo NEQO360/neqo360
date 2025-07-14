@@ -131,13 +131,13 @@ export default function Home() {
           onSectionClick={setActiveSection}
           onBookMeeting={handleBookMeeting}
         />
-        <HeroSection y1={y1} y2={y2} />
+        <HeroSection />
+        <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
+          <LazyAboutSection />
+        </Suspense>
         <ServicesSection />
         <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
           <LazySpiderWebPricing />
-        </Suspense>
-        <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
-          <LazyAboutSection />
         </Suspense>
         <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
           <LazyContactSection onBookMeeting={handleBookMeeting} />

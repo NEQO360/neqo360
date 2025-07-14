@@ -55,7 +55,7 @@ export default function ServicesSection() {
   const { t, currentLanguage } = useTranslation();
   const services = getServices(currentLanguage);
   return (
-    <section id="services" className="py-24 bg-muted/30">
+    <section id="services" className="py-24" style={{ background: 'var(--section-services-bg, var(--background))' }}>
       <div className="container-width section-padding">
         <motion.div
           className="text-center space-y-4 mb-16"

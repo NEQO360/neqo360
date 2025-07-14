@@ -3,7 +3,7 @@ export const env = {
   // Email configuration
   RESEND_API_KEY: process.env.RESEND_API_KEY || '',
   FROM_EMAIL: process.env.FROM_EMAIL || 'onboarding@resend.dev',
-  TO_EMAIL: process.env.TO_EMAIL || 'hello@neqo360.com',
+  TO_EMAIL: process.env.TO_EMAIL || 'neqo360@gmail.com',
   
   // Security configuration
   NODE_ENV: process.env.NODE_ENV || 'development',

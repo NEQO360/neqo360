@@ -12,7 +12,7 @@ export default function PricingSection({ onBookMeeting }: PricingSectionProps) {
   const { t } = useTranslation();
 
   return (
-    <section id="pricing" className="py-24">
+    <section id="pricing" className="py-24" style={{ background: 'var(--section-pricing-bg, var(--muted))' }}>
       <div className="container-width section-padding">
         <motion.div
           className="text-center space-y-4 mb-16"

@@ -84,12 +84,14 @@ export interface Translations {
     form: {
       name: string;
       email: string;
+      phone: string;
       projectType: string;
       message: string;
       sendMessage: string;
       sending: string;
       nameRequired: string;
       emailRequired: string;
+      phoneRequired: string;
       projectTypeRequired: string;
       messageRequired: string;
       success: string;
@@ -247,7 +249,7 @@ export const translations: Record<Language, Translations> = {
       bookMeeting: 'Book Meeting',
     },
     hero: {
-      titleMain: 'Software that',
+      titleMain: 'Secure Software that',
       titleAccent: 'just works',
       subtitle: "We're a lean Sri Lankan software development agency. No bloated processes, no complexity. Just high-quality web apps, mobile solutions, and integrated systems that scale.",
       startProject: 'Start Your Project',
@@ -321,12 +323,14 @@ export const translations: Record<Language, Translations> = {
       form: {
         name: 'Name *',
         email: 'Email *',
+        phone: 'Phone',
         projectType: 'Project Type *',
         message: 'Tell us about your project *',
         sendMessage: 'Send Message',
         sending: 'Sending...',
         nameRequired: 'Name must be at least 2 characters',
         emailRequired: 'Please enter a valid email',
+        phoneRequired: 'Please enter a valid phone number',
         projectTypeRequired: 'Please select a project type',
         messageRequired: 'Message must be at least 10 characters',
         success: 'Message sent successfully! We\'ll get back to you soon.',
@@ -354,7 +358,7 @@ export const translations: Record<Language, Translations> = {
       },
       contactInfo: {
         title: 'Get in touch',
-        email: 'hello@neqo360.com',
+        email: 'neqo360@gmail.com',
         location: 'Colombo, Sri Lanka',
         responseTime: 'Usually respond within 2 hours',
       },
@@ -556,12 +560,14 @@ export const translations: Record<Language, Translations> = {
       form: {
         name: 'නම *',
         email: 'විද්‍යුත් තැපෑල *',
+        phone: 'දුරකථන අංකය',
         projectType: 'ව්‍යාපෘති වර්ගය *',
         message: 'ඔබේ ව්‍යාපෘතිය ගැන අපට කියන්න *',
         sendMessage: 'පණිවිඩය යවන්න',
         sending: 'යවමින්...',
         nameRequired: 'නම අවම වශයෙන් අකුරු 2ක් විය යුතුය',
         emailRequired: 'කරුණාකර වලංගු විද්‍යුත් තැපෑලක් ඇතුළත් කරන්න',
+        phoneRequired: 'කරුණාකර වලංගු විද්‍යුත් දුරකථන අංකය ඇතුළත් කරන්න',
         projectTypeRequired: 'කරුණාකර ව්‍යාපෘති වර්ගයක් තෝරන්න',
         messageRequired: 'පණිවිඩය අවම වශයෙන් අකුරු 10ක් විය යුතුය',
         success: 'පණිවිඩය සාර්ථකව යවන ලදී! අපි ඉක්මනින් ඔබට පිළිතුරු දෙන්නෙමු.',
@@ -589,7 +595,7 @@ export const translations: Record<Language, Translations> = {
       },
       contactInfo: {
         title: 'සම්බන්ධ වන්න',
-        email: 'hello@neqo360.com',
+        email: 'neqo360@gmail.com',
         location: 'කොළඹ, ශ්‍රී ලංකාව',
         responseTime: 'සාஸ்கார විය 2 மணி நேரத்திற்குள் பதிலளிக்கிறோம்',
       },
@@ -791,12 +797,14 @@ export const translations: Record<Language, Translations> = {
       form: {
         name: 'பெயர் *',
         email: 'மின்னஞ்சல் *',
+        phone: 'தொலைபேசி',
         projectType: 'திட்ட வகை *',
         message: 'உங்கள் திட்டத்தைப் பற்றி எங்களிடம் கூறுங்கள் *',
         sendMessage: 'செய்தியை அனுப்பு',
         sending: 'அனுப்புகிறது...',
         nameRequired: 'பெயர் குறைந்தது 2 எழுத்துகள் இருக்க வேண்டும்',
         emailRequired: 'சரியான மின்னஞ்சலை உள்ளிடவும்',
+        phoneRequired: 'சரியான யோசிக்கும் தொலைபேசி அடையாளம் இருக்க வேண்டும்',
         projectTypeRequired: 'திட்ட வகையைத் தேர்ந்தெடுக்கவும்',
         messageRequired: 'செய்தி குறைந்தது 10 எழுத்துகள் இருக்க வேண்டும்',
         success: 'செய்தி வெற்றிகரமாக அனுப்பப்பட்டது! நாங்கள் விரைவில் உங்களுக்கு பதிலளிப்போம்.',
@@ -824,7 +832,7 @@ export const translations: Record<Language, Translations> = {
       },
       contactInfo: {
         title: 'தொடர்பு கொள்ளுங்கள்',
-        email: 'hello@neqo360.com',
+        email: 'neqo360@gmail.com',
         location: 'கொழும்பு, இலங்கை',
         responseTime: 'பொதுவாக 2 மணி நேரத்திற்குள் பதிலளிக்கிறோம்',
       },
