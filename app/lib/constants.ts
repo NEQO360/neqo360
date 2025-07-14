@@ -1,3 +1,4 @@
+import { translations, Language } from './i18n/translations';
 
 export const SITE_CONFIG = {
   name: 'Neqo360',
@@ -22,23 +23,47 @@ export const HERO_STATS = [
   { value: '<1s', label: 'hero.stats.loadTime' },
 ] as const;
 
-export const SERVICES = [
-  {
-    icon: 'web',
-    titleKey: 'services.webApps.title',
-    descriptionKey: 'services.webApps.description',
-  },
-  {
-    icon: 'mobile',
-    titleKey: 'services.mobileApps.title',
-    descriptionKey: 'services.mobileApps.description',
-  },
-  {
-    icon: 'integration',
-    titleKey: 'services.systemIntegration.title',
-    descriptionKey: 'services.systemIntegration.description',
-  },
+// Map service keys to icons
+const SERVICE_ICONS: Record<string, string> = {
+  webApps: 'web',
+  mobileApps: 'mobile',
+  systemIntegration: 'integration',
+  seo: 'seo',
+  uiux: 'uiux',
+  gameDev: 'game',
+};
+
+// Dynamically generate the services array from translations
+const SERVICE_KEYS = [
+  'webApps',
+  'mobileApps',
+  'systemIntegration',
+  'seo',
+  'uiux',
+  'gameDev',
 ] as const;
+
+type ServiceKey = typeof SERVICE_KEYS[number];
+
+type ServiceTranslation = {
+  title: string;
+  description: string;
+};
+
+export function getServices(language: Language) {
+  const services = translations[language].services;
+  return SERVICE_KEYS
+    .filter(key => typeof services[key] === 'object' && services[key] && 'title' in services[key] && 'description' in services[key])
+    .map(key => {
+      const service = services[key] as ServiceTranslation;
+      return {
+        icon: SERVICE_ICONS[key] || 'web',
+        title: service.title,
+        description: service.description,
+        key,
+      };
+    });
+}
 
 export const ABOUT_FEATURES = [
   {

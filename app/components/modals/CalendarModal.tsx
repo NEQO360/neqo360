@@ -136,7 +136,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
-                  placeholder={t('calendar.namePlaceholder')}
+                  placeholder={t('calendar.placeholder.name')}
                   required
                   aria-required="true"
                 />
@@ -151,7 +151,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
-                  placeholder={t('calendar.emailPlaceholder')}
+                  placeholder={t('calendar.placeholder.email')}
                   required
                   aria-required="true"
                 />
@@ -166,7 +166,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors"
-                  placeholder={t('calendar.phonePlaceholder')}
+                  placeholder={t('calendar.placeholder.phone')}
                   required
                   aria-required="true"
                 />
@@ -181,7 +181,7 @@ function CalendarModal({ isOpen, onClose, onSubmit, isSubmitting }: CalendarModa
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   rows={3}
                   className="w-full px-4 py-3 rounded-2xl border border-border focus:border-accent transition-colors resize-none"
-                  placeholder={t('calendar.messagePlaceholder')}
+                  placeholder={t('calendar.placeholder.message')}
                   required
                   aria-required="true"
                 />

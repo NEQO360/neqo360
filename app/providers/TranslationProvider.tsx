@@ -22,6 +22,14 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Set language code as a class on <body> for language-specific styling
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('lang-en', 'lang-si', 'lang-ta');
+      document.body.classList.add(`lang-${currentLanguage}`);
+    }
+  }, [currentLanguage]);
+
   const setLanguage = (language: Language) => {
     setCurrentLanguage(language);
     localStorage.setItem('language', language);

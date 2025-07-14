@@ -7,6 +7,7 @@ import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 import java from 'react-syntax-highlighter/dist/esm/languages/prism/java';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
+import { useTranslation } from '../providers/TranslationProvider';
 
 SyntaxHighlighter.registerLanguage('typescript', ts);
 SyntaxHighlighter.registerLanguage('python', python);
@@ -14,39 +15,41 @@ SyntaxHighlighter.registerLanguage('java', java);
 SyntaxHighlighter.registerLanguage('json', json);
 SyntaxHighlighter.registerLanguage('yaml', yaml);
 
-const categories = [
-  {
-    id: 'frameworks',
-    name: 'Frameworks',
-    items: [
-      { name: 'Next.js', icon: '/icons/nextjs.svg' },
-      { name: 'React', icon: '/icons/react.svg' },
-      { name: 'Vue', icon: '/icons/vue.svg' },
-      { name: 'Angular', icon: '/icons/angular.svg' },
-    ],
-  },
-  {
-    id: 'languages',
-    name: 'Languages',
-    items: [
-      { name: 'TypeScript', icon: '/icons/typescript.svg' },
-      { name: 'Python', icon: '/icons/python.svg' },
-      { name: 'Java', icon: '/icons/java.svg' },
-    ],
-  },
-  {
-    id: 'hosting',
-    name: 'Cloud & Hosting',
-    items: [
-      { name: 'Vercel', icon: '/icons/vercel.svg' },
-      { name: 'AWS', icon: '/icons/aws.svg' },
-      { name: 'GCP', icon: '/icons/gcp.svg' },
-    ],
-  },
-];
+export default function CodeShowcase() {
+  const { t } = useTranslation();
+  const categories = [
+    {
+      id: 'frameworks',
+      name: t('showcase.frameworks'),
+      items: [
+        { name: 'Next.js', icon: '/icons/nextjs.svg' },
+        { name: 'React', icon: '/icons/react.svg' },
+        { name: 'Vue', icon: '/icons/vue.svg' },
+        { name: 'Angular', icon: '/icons/angular.svg' },
+      ],
+    },
+    {
+      id: 'languages',
+      name: t('showcase.languages'),
+      items: [
+        { name: 'TypeScript', icon: '/icons/typescript.svg' },
+        { name: 'Python', icon: '/icons/python.svg' },
+        { name: 'Java', icon: '/icons/java.svg' },
+      ],
+    },
+    {
+      id: 'hosting',
+      name: t('showcase.hosting'),
+      items: [
+        { name: 'Vercel', icon: '/icons/vercel.svg' },
+        { name: 'AWS', icon: '/icons/aws.svg' },
+        { name: 'GCP', icon: '/icons/gcp.svg' },
+      ],
+    },
+  ];
 
-const codeSnippets = {
-  'Next.js': `// pages/api/data.ts
+  const codeSnippets = {
+    'Next.js': `// pages/api/data.ts
 export default async function handler(req, res) {
   const data = await fetchData();
   res.status(200).json(data);
@@ -61,7 +64,7 @@ export default function Page() {
     </div>
   );
 }`,
-  'React': `// App.tsx
+    'React': `// App.tsx
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -79,7 +82,7 @@ function App() {
     </div>
   );
 }`,
-  'Vue': `<!-- App.vue -->
+    'Vue': `<!-- App.vue -->
 <template>
   <div class="app">
     <h1>{{ title }}</h1>
@@ -94,7 +97,7 @@ import { ref } from 'vue'
 const count = ref(0)
 const title = ref('Vue 3 App')
 </script>`,
-  'Angular': `// app.component.ts
+    'Angular': `// app.component.ts
 @Component({
   selector: 'app-root',
   template: \`
@@ -114,7 +117,7 @@ export class AppComponent {
     this.count++;
   }
 }`,
-  'TypeScript': `// types.ts
+    'TypeScript': `// types.ts
 interface User {
   id: string;
   name: string;
@@ -134,7 +137,7 @@ export class UserService {
     return response.json();
   }
 }`,
-  'Python': `# api/views.py
+    'Python': `# api/views.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -153,7 +156,7 @@ async def create_user(user: User):
         return {"id": str(result.inserted_id)}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))`,
-  'Java': `// UserService.java
+    'Java': `// UserService.java
 @Service
 public class UserService {
     private final UserRepository repository;
@@ -172,7 +175,7 @@ public class UserService {
         return repository.save(user);
     }
 }`,
-  'Vercel': `// vercel.json
+    'Vercel': `// vercel.json
 {
   "version": 2,
   "builds": [
@@ -191,7 +194,7 @@ public class UserService {
     "DATABASE_URL": "@database_url"
   }
 }`,
-  'AWS': `// serverless.yml
+    'AWS': `// serverless.yml
 service: my-service
 provider:
   name: aws
@@ -205,7 +208,7 @@ functions:
       - http:
           path: /api/{proxy+}
           method: ANY`,
-  'GCP': `// app.yaml
+    'GCP': `// app.yaml
 runtime: nodejs18
 env: standard
 
@@ -222,9 +225,8 @@ automatic_scaling:
   target_cpu_utilization: 0.65
   min_instances: 1
   max_instances: 10`,
-};
+  };
 
-export default function CodeShowcase() {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const [activeTechnology, setActiveTechnology] = useState(categories[0].items[0].name);
   const [codeProgress, setCodeProgress] = useState('');
@@ -293,10 +295,10 @@ export default function CodeShowcase() {
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-          <span className="text-sm text-muted-foreground">Production Ready</span>
+          <span className="text-sm text-muted-foreground">{t('showcase.productionReady')}</span>
         </div>
         <span className="text-sm text-muted-foreground">
-          Expertise in 10+ frameworks and languages
+          {t('showcase.expertise')}
         </span>
       </div>
 
@@ -396,8 +398,8 @@ export default function CodeShowcase() {
       </div>
 
       <div className="mt-3 flex justify-between items-center text-xs text-muted-foreground">
-        <span className="font-mono">Fast • Reliable • Scalable</span>
-        <span>Supporting all major frameworks and languages</span>
+        <span className="font-mono">{t('showcase.fastReliableScalable')}</span>
+        <span>{t('showcase.supportingAll')}</span>
       </div>
     </div>
   );

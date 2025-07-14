@@ -58,7 +58,7 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>{SITE_CONFIG.email}</p>
-              <p>{SITE_CONFIG.location}</p>
+              <p>{t('contact.contactInfo.location')}</p>
             </div>
           </motion.div>
         </div>
@@ -71,7 +71,7 @@ export default function Footer() {
           transition={{ delay: 0.3 }}
         >
           <p className="text-sm text-muted-foreground">
-            {SITE_CONFIG.copyright} • {t('footer.rightsReserved')}
+            {t('footer.copyright')} • {t('footer.rightsReserved')}
           </p>
         </motion.div>
       </div>

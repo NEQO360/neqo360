@@ -93,7 +93,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
       const response = await apiClient.submitContact(formData);
 
       if (response.error) {
-        showError(response.error);
+        showError(t('contact.form.error'));
       } else {
         setFormData({
           name: '',
@@ -102,10 +102,10 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
           projectType: '',
           message: ''
         });
-        showSuccess(ErrorMessages.FORM.SUCCESS);
+        showSuccess(t('contact.form.success'));
       }
     } catch (error) {
-      showError(ErrorMessages.API.NETWORK_ERROR);
+      showError(t('contact.form.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -121,13 +121,13 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-section">{t('contact.title')}</h2>
-          <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance">
+          <h2 className="text-section break-words whitespace-normal max-w-full">{t('contact.title')}</h2>
+          <p className="text-large text-muted-foreground max-w-2xl mx-auto text-balance break-words whitespace-normal">
             {t('contact.subtitle')}
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-16 min-w-0">
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: -50 }}
@@ -136,8 +136,8 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
             transition={{ duration: 0.6 }}
           >
             <div>
-              <h3 className="text-2xl font-semibold mb-4">{t('contact.getInTouch')}</h3>
-              <p className="text-muted-foreground mb-8">{t('contact.description')}</p>
+              <h3 className="text-2xl font-semibold mb-4 break-words whitespace-normal max-w-full">{t('contact.getInTouch')}</h3>
+              <p className="text-muted-foreground mb-8 break-words whitespace-normal max-w-full">{t('contact.description')}</p>
             </div>
 
             <div className="space-y-6">
@@ -153,7 +153,11 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
                   <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                     {getContactIcon(info.icon)}
                   </div>
-                  <span className="text-muted-foreground">{info.text}</span>
+                  <span className="text-muted-foreground break-words whitespace-normal max-w-full">
+                    {info.icon === 'location' ? t('contact.contactInfo.location') :
+                     info.icon === 'time' ? t('contact.contactInfo.responseTime') :
+                     info.text}
+                   </span>
                 </motion.div>
               ))}
             </div>
@@ -184,9 +188,9 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 min-w-0">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">
+                <label htmlFor="name" className="block text-sm font-medium mb-2 break-words whitespace-normal max-w-full">
                   {t('contact.form.name')}
                 </label>
                 <input
@@ -207,7 +211,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">
+                <label htmlFor="email" className="block text-sm font-medium mb-2 break-words whitespace-normal max-w-full">
                   {t('contact.form.email')}
                 </label>
                 <input
@@ -228,9 +232,9 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 min-w-0">
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                <label htmlFor="phone" className="block text-sm font-medium mb-2 break-words whitespace-normal max-w-full">
                   {t('contact.form.phone')}
                 </label>
                 <input
@@ -250,7 +254,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
               </div>
 
               <div>
-                <label htmlFor="projectType" className="block text-sm font-medium mb-2">
+                <label htmlFor="projectType" className="block text-sm font-medium mb-2 break-words whitespace-normal max-w-full">
                   {t('contact.form.projectType')}
                 </label>
                 <select
@@ -277,7 +281,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
+              <label htmlFor="message" className="block text-sm font-medium mb-2 break-words whitespace-normal max-w-full">
                 {t('contact.form.message')}
               </label>
               <textarea
@@ -309,7 +313,7 @@ export default function ContactSection({ onBookMeeting }: ContactSectionProps) {
             </motion.button>
             {isSubmitting && (
               <p id="submitting-status" className="sr-only" role="status">
-                Submitting form, please wait...
+                {t('contact.form.submitting')}
               </p>
             )}
           </motion.form>

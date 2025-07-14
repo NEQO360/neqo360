@@ -10,7 +10,8 @@ export interface Translations {
     bookMeeting: string;
   };
   hero: {
-    title: string;
+    titleMain: string;
+    titleAccent: string;
     subtitle: string;
     startProject: string;
     viewPricing: string;
@@ -32,6 +33,18 @@ export interface Translations {
       description: string;
     };
     systemIntegration: {
+      title: string;
+      description: string;
+    };
+    seo: {
+      title: string;
+      description: string;
+    };
+    uiux: {
+      title: string;
+      description: string;
+    };
+    gameDev: {
       title: string;
       description: string;
     };
@@ -81,6 +94,13 @@ export interface Translations {
       messageRequired: string;
       success: string;
       error: string;
+      namePlaceholder: string;
+      emailPlaceholder: string;
+      phonePlaceholder: string;
+      messagePlaceholder: string;
+      submit: string;
+      submitting: string;
+      projectTypePlaceholder: string;
     };
     projectTypes: {
       webApp: string;
@@ -101,6 +121,9 @@ export interface Translations {
       location: string;
       responseTime: string;
     };
+    getInTouch: string;
+    description: string;
+    scheduleMeeting: string;
   };
   calendar: {
     title: string;
@@ -122,9 +145,20 @@ export interface Translations {
       phone: string;
       message: string;
     };
+    selectDate: string;
+    selectTime: string;
+    schedule: string;
+    scheduling: string;
   };
   footer: {
     copyright: string;
+    tagline: string;
+    services: string;
+    webApps: string;
+    mobileApps: string;
+    systemIntegration: string;
+    contact: string;
+    rightsReserved: string;
   };
   common: {
     loading: string;
@@ -136,6 +170,69 @@ export interface Translations {
     edit: string;
     delete: string;
     required: string;
+  };
+  showcase: {
+    frameworks: string;
+    languages: string;
+    hosting: string;
+    productionReady: string;
+    expertise: string;
+    fastReliableScalable: string;
+    supportingAll: string;
+  };
+  spiderWebPricing: {
+    interactiveBuilder: string;
+    clickToExplore: string;
+    estimatedTotal: string;
+    selected: string;
+    available: string;
+    locked: string;
+    howItWorks: string;
+    step1: string;
+    step2: string;
+    step3: string;
+    step4: string;
+    resetSelection: string;
+    getQuote: string;
+  };
+  meeting: {
+    toast: {
+      success: string;
+      error: string;
+    };
+    messages: {
+      bookingFailed: string;
+      bookingSuccess: string;
+      invalidDate: string;
+      invalidTime: string;
+    };
+  };
+  api: {
+    toast: {
+      networkError: string;
+    };
+    messages: {
+      networkError: string;
+      serverError: string;
+      timeout: string;
+      unauthorized: string;
+      forbidden: string;
+      notFound: string;
+    };
+  };
+  validation: {
+    requiredField: string;
+    invalidEmail: string;
+    invalidPhone: string;
+    invalidName: string;
+    tooShort: string;
+    tooLong: string;
+    invalidFormat: string;
+  };
+  form: {
+    submissionFailed: string;
+    validationFailed: string;
+    success: string;
   };
 }
 
@@ -150,7 +247,8 @@ export const translations: Record<Language, Translations> = {
       bookMeeting: 'Book Meeting',
     },
     hero: {
-      title: 'Software that just works',
+      titleMain: 'Software that',
+      titleAccent: 'just works',
       subtitle: "We're a lean Sri Lankan software development agency. No bloated processes, no complexity. Just high-quality web apps, mobile solutions, and integrated systems that scale.",
       startProject: 'Start Your Project',
       viewPricing: 'View Pricing',
@@ -162,18 +260,30 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'What we build',
-      subtitle: 'Tech-stack agnostic solutions focused on execution and results',
+      subtitle: 'Focus on your goals, not our tools. We adapt tech to your needs, not the other way around.',
       webApps: {
         title: 'Web Applications',
-        description: 'Modern, responsive web apps built with the latest technologies. Fast, secure, and scalable.',
+        description: 'Modern, responsive web apps built with the latest tech. Fast, secure, and scalable.'
       },
       mobileApps: {
         title: 'Mobile Apps',
-        description: 'Native and cross-platform mobile solutions that deliver exceptional user experiences.',
+        description: 'Native and cross-platform mobile solutions delivering great user experiences.'
       },
       systemIntegration: {
         title: 'System Integration',
-        description: 'Seamless integration of existing systems with modern solutions and APIs.',
+        description: 'Seamless integration of existing systems with modern solutions and APIs.'
+      },
+      seo: {
+        title: 'SEO Optimization',
+        description: 'Improve visibility, attract qualified traffic, and build trust through ethical SEO practices.'
+      },
+      uiux: {
+        title: 'UI/UX Design',
+        description: 'Design intuitive interfaces and seamless experiences that delight users and maximize conversions.'
+      },
+      gameDev: {
+        title: 'Game Development',
+        description: 'From concept to release-deliver high-quality games faster, more flexibly, and cost‑effectively.'
       },
     },
     pricing: {
@@ -183,13 +293,13 @@ export const translations: Record<Language, Translations> = {
       scheduleConsultation: 'Schedule a Free Consultation',
     },
     about: {
-      title: 'Why choose Neqo360?',
+      title: 'Why choose Us?',
       executionFocused: {
         title: 'Execution Focused',
         description: 'We ship fast. No endless meetings or bureaucracy. Just results.',
       },
       techAgnostic: {
-        title: 'Tech Agnostic',
+        title: 'Platform Neutral',
         description: 'Right tool for the job. We adapt to your needs, not the other way around.',
       },
       builtToScale: {
@@ -221,6 +331,13 @@ export const translations: Record<Language, Translations> = {
         messageRequired: 'Message must be at least 10 characters',
         success: 'Message sent successfully! We\'ll get back to you soon.',
         error: 'Failed to send message. Please try again or contact us directly.',
+        namePlaceholder: 'Your full name',
+        emailPlaceholder: 'your@email.com',
+        phonePlaceholder: '+94 xxx xxx xxx',
+        messagePlaceholder: 'What would you like to discuss?',
+        submit: 'Send Message',
+        submitting: 'Sending...',
+        projectTypePlaceholder: 'Select your project type',
       },
       projectTypes: {
         webApp: '🌐 Web Application',
@@ -241,6 +358,9 @@ export const translations: Record<Language, Translations> = {
         location: 'Colombo, Sri Lanka',
         responseTime: 'Usually respond within 2 hours',
       },
+      getInTouch: 'Get in touch',
+      description: 'Reach out to us for any questions or project discussions.',
+      scheduleMeeting: 'Schedule a Meeting',
     },
     calendar: {
       title: 'Schedule a Meeting',
@@ -262,9 +382,20 @@ export const translations: Record<Language, Translations> = {
         phone: '+94 xxx xxx xxx',
         message: 'What would you like to discuss?',
       },
+      selectDate: 'Select Date',
+      selectTime: 'Select Time',
+      schedule: 'Schedule',
+      scheduling: 'Scheduling...',
     },
     footer: {
       copyright: '© 2025 Neqo360',
+      tagline: 'Digital Solutions',
+      services: 'Services',
+      webApps: 'Web Applications',
+      mobileApps: 'Mobile Apps',
+      systemIntegration: 'System Integration',
+      contact: 'Contact',
+      rightsReserved: 'All rights reserved.',
     },
     common: {
       loading: 'Loading...',
@@ -277,6 +408,69 @@ export const translations: Record<Language, Translations> = {
       delete: 'Delete',
       required: 'Required',
     },
+    showcase: {
+      frameworks: 'Frameworks',
+      languages: 'Languages',
+      hosting: 'Cloud & Hosting',
+      productionReady: 'Production Ready',
+      expertise: 'Expertise in 10+ frameworks and languages',
+      fastReliableScalable: 'Fast • Reliable • Scalable',
+      supportingAll: 'Supporting all major frameworks and languages',
+    },
+    spiderWebPricing: {
+      interactiveBuilder: 'Interactive Project Builder',
+      clickToExplore: 'Click to explore options and build your custom solution',
+      estimatedTotal: 'Estimated Total',
+      selected: 'Selected',
+      available: 'Available',
+      locked: 'Locked',
+      howItWorks: 'How it works:',
+      step1: '1. Start from the center',
+      step2: '2. Click sectors to unlock options',
+      step3: '3. Select features to build your quote',
+      step4: '4. Watch the web grow with your choices',
+      resetSelection: 'Reset Selection',
+      getQuote: 'Get Quote for Rs. {total}',
+    },
+    meeting: {
+      toast: {
+        success: "Meeting request sent successfully! We'll get back to you soon.",
+        error: 'Failed to book meeting. Please try again.'
+      },
+      messages: {
+        bookingFailed: 'Failed to book meeting. Please try again.',
+        bookingSuccess: "Meeting request sent successfully! We'll get back to you soon.",
+        invalidDate: 'Please select a valid date.',
+        invalidTime: 'Please select a valid time.'
+      }
+    },
+    api: {
+      toast: {
+        networkError: 'Network error. Please check your connection and try again.'
+      },
+      messages: {
+        networkError: 'Network error. Please check your connection and try again.',
+        serverError: 'Server error. Please try again later.',
+        timeout: 'Request timed out. Please try again.',
+        unauthorized: 'You are not authorized to perform this action.',
+        forbidden: 'Access denied.',
+        notFound: 'Resource not found.'
+      }
+    },
+    validation: {
+      requiredField: 'This field is required',
+      invalidEmail: 'Please enter a valid email address',
+      invalidPhone: 'Please enter a valid phone number',
+      invalidName: 'Name can only contain letters and spaces',
+      tooShort: 'This field is too short',
+      tooLong: 'This field is too long',
+      invalidFormat: 'Invalid format',
+    },
+    form: {
+      submissionFailed: 'Failed to submit form. Please try again.',
+      validationFailed: 'Please fix the errors above and try again.',
+      success: 'Form submitted successfully!',
+    },
   },
   si: {
     navigation: {
@@ -288,7 +482,8 @@ export const translations: Record<Language, Translations> = {
       bookMeeting: 'සාකච්ඡාවක් වෙන් කරන්න',
     },
     hero: {
-      title: 'හොඳින් ක්‍රියාත්මක වන මෘදුකාංග',
+      titleMain: 'හොඳින් ක්‍රියාත්මක වන',
+      titleAccent: 'මෘදුකාංග',
       subtitle: 'අපි ශ්‍රී ලංකාවේ සුළු මෘදුකාංග සංවර්ධන ආයතනයක්. අනවශ්‍ය ක්‍රියාවලි නැත, සංකීර්ණතා නැත. ගුණාත්මක වෙබ් යෙදුම්, ජංගම විසඳුම් සහ පරිමාණය කළ හැකි ඒකාබද්ධ පද්ධති පමණි.',
       startProject: 'ඔබේ ව්‍යාපෘතිය ආරම්භ කරන්න',
       viewPricing: 'මිල බලන්න',
@@ -303,15 +498,27 @@ export const translations: Record<Language, Translations> = {
       subtitle: 'ක්‍රියාත්මක වීම සහ ප්‍රතිඵල මත අවධානය යොමු කරන තාක්ෂණික-උදාසීන විසඳුම්',
       webApps: {
         title: 'වෙබ් යෙදුම්',
-        description: 'නවතම තාක්ෂණයන් සමඟ ගොඩනගන ලද නවීන, ප්‍රතිචාරාත්මක වෙබ් යෙදුම්. වේගවත්, ආරක්ෂිත සහ පරිමාණය කළ හැකිය.',
+        description: 'නවතම තාක්ෂණයන් සමඟ ගොඩනගන ලද නවීන, ප්‍රතිචාරාත්මක වෙබ් යෙදුම්. වේගවත්, ආරක්ෂිත සහ පරිමාණය කළ හැකිය.'
       },
       mobileApps: {
         title: 'ජංගම යෙදුම්',
-        description: 'විශිෂ්ට පරිශීලක අත්දැකීම් ලබා දෙන ස්වදේශීය සහ cross-platform ජංගම විසඳුම්.',
+        description: 'විශිෂ්ට පරිශීලක අත්දැකීම් ලබා දෙන ස්වදේශීය සහ cross-platform ජංගම විසඳුම්.'
       },
       systemIntegration: {
         title: 'පද්ධති ඒකාබද්ධ කිරීම',
-        description: 'වර්තමාන පද්ධති නවීන විසඳුම් සහ API සමඟ අඛණ්ඩව ඒකාබද්ධ කිරීම.',
+        description: 'වර්තමාන පද්ධති නවීන විසඳුම් සහ API සමඟ අඛණ්ඩව ඒකාබද්ධ කිරීම.'
+      },
+      seo: {
+        title: 'SEO Optimization',
+        description: 'Improve visibility, attract qualified traffic, and build trust through ethical SEO practices.'
+      },
+      uiux: {
+        title: 'UI/UX Design',
+        description: 'Design intuitive interfaces and seamless experiences that delight users and maximize conversions.'
+      },
+      gameDev: {
+        title: 'Game Development',
+        description: 'From concept to release-deliver high-quality games faster, more flexibly, and cost‑effectively.'
       },
     },
     pricing: {
@@ -321,7 +528,7 @@ export const translations: Record<Language, Translations> = {
       scheduleConsultation: 'නොමිලේ සාකච්ඡාවක් වෙන් කරන්න',
     },
     about: {
-      title: 'ඇයි Neqo360 තෝරන්නේ?',
+      title: 'ඇයි අපි තෝරන්නේ?',
       executionFocused: {
         title: 'ක්‍රියාත්මක වීම මත අවධානය',
         description: 'අපි වේගයෙන් යවමු. අනවශ්‍ය රැස්වීම් හෝ නිලධාරිවාදය නැත. ප්‍රතිඵල පමණි.',
@@ -336,7 +543,7 @@ export const translations: Record<Language, Translations> = {
       },
       humanTouch: {
         title: 'මානව ස්පර්ශය',
-        description: 'අපි සැබෑ සම්බන්ධතා විශ්වාස කරමු. බළලුන් මෙන්, අපි ස්වාධීන නමුත් විශ්වසනීය.',
+        description: 'අපි සැබෑ සම්බන්ධතා විශ්වාස කරමු. බළලුන් මෙන්, අපි ස්වාரීන නමුත් විශ්වසනීය.',
       },
       lightningFast: 'විදුලි වේගයෙන්',
       subSecondLoad: 'තත්පරයකට අඩු පූරණ කාල',
@@ -359,26 +566,36 @@ export const translations: Record<Language, Translations> = {
         messageRequired: 'පණිවිඩය අවම වශයෙන් අකුරු 10ක් විය යුතුය',
         success: 'පණිවිඩය සාර්ථකව යවන ලදී! අපි ඉක්මනින් ඔබට පිළිතුරු දෙන්නෙමු.',
         error: 'පණිවිඩය යැවීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න හෝ අපට සෘජුවම සම්බන්ධ වන්න.',
+        namePlaceholder: 'ඔබේ සම්පූර්ණ නම',
+        emailPlaceholder: 'your@email.com',
+        phonePlaceholder: '+94 xxx xxx xxx',
+        messagePlaceholder: 'ඔබ සාකච්ඡා කිරීමට කැමති දේ කුමක්ද?',
+        submit: 'පණිවිඩය යවන්න',
+        submitting: 'යවමින්...',
+        projectTypePlaceholder: 'ඔබේ ව්‍යාපෘති වර්ගය තෝරන්න',
       },
       projectTypes: {
         webApp: '🌐 වෙබ් යෙදුම',
         mobileApp: '📱 ජංගම යෙදුම',
         systemIntegration: '🔗 පද්ධති ඒකාබද්ධ කිරීම',
         ecommerce: '🛒 වෙළඳසැල',
-        notSure: '🤔 තවමත් නිශ්චිත නැත',
+        notSure: '🤔 நிர்வாகம் இல்லை',
         selectType: '🚀 ඔබේ ව්‍යාපෘති වර්ගය තෝරන්න',
       },
       scheduleCall: {
         title: 'කතා කිරීමට කැමතිද?',
-        subtitle: 'ඔබේ ව්‍යාපෘතිය විස්තරාත්මකව සාකච්ඡා කිරීමට නොමිලේ මිනිත්තු 30ක සාකච්ඡාවක් වෙන් කරන්න.',
-        button: 'නොමිලේ ඇමතුමක් වෙන් කරන්න',
+        subtitle: 'ඔබේ ව්‍යාපෘතිය විස්තරාත්මකව සාකච්ඡා කිරීමට නොමිලේ මිற்றி 30ක සාකච්ඡාවක් වෙන් කරන්න.',
+        button: 'නොමිලේ ඇம்තුමක් වෙන් කරන්න',
       },
       contactInfo: {
         title: 'සම්බන්ධ වන්න',
         email: 'hello@neqo360.com',
         location: 'කොළඹ, ශ්‍රී ලංකාව',
-        responseTime: 'සාමාන්‍යයෙන් පැය 2ක් තුළ පිළිතුරු දෙයි',
+        responseTime: 'සාஸ்கார විය 2 மணி நேரத்திற்குள் பதிலளிக்கிறோம்',
       },
+      getInTouch: 'සම්බන්ධ වන්න',
+      description: 'கேள்விகளுக்கு அல்லது திட்ட விவாதங்களுக்கு எங்களை அணுகவும்.',
+      scheduleMeeting: 'සාකච්ඡාවක් වෙන් කරන්න',
     },
     calendar: {
       title: 'සාකච්ඡාවක් වෙන් කරන්න',
@@ -390,7 +607,7 @@ export const translations: Record<Language, Translations> = {
       phone: 'දුරකථන අංකය',
       message: 'පණිවිඩය',
       meetingSummary: 'සාකච්ඡා සාරාංශය',
-      duration: 'කාලය: මිනිත්තු 30',
+      duration: 'කාලය: මිற்றி 30',
       bookMeeting: 'සාකච්ඡාව වෙන් කරන්න',
       booking: 'වෙන් කරමින්...',
       fillRequiredFields: 'කරුණාකර සියලුම අවශ්‍ය ක්ෂේත්‍ර පුරවන්න',
@@ -400,9 +617,20 @@ export const translations: Record<Language, Translations> = {
         phone: '+94 xxx xxx xxx',
         message: 'ඔබ සාකච්ඡා කිරීමට කැමති දේ කුමක්ද?',
       },
+      selectDate: 'දිනය තෝරන්න',
+      selectTime: 'කාලය තෝරන්න',
+      schedule: 'වෙන් කරන්න',
+      scheduling: 'වෙන් කරමින්...',
     },
     footer: {
       copyright: '© 2025 Neqo360',
+      tagline: 'ඩිජිටල් විසඳුම්',
+      services: 'සේවා',
+      webApps: 'වෙබ් යෙදුම්',
+      mobileApps: 'ජංගම යෙදුම්',
+      systemIntegration: 'පද්ධති ඒකාබද්ධ කිරීම',
+      contact: 'සම්බන්ධ වන්න',
+      rightsReserved: 'සියලු හිමිකම් ඇවිරිණි.',
     },
     common: {
       loading: 'පූරණය වෙමින්...',
@@ -415,6 +643,69 @@ export const translations: Record<Language, Translations> = {
       delete: 'මකන්න',
       required: 'අවශ්‍යයි',
     },
+    showcase: {
+      frameworks: '枠යෙදුම්',
+      languages: 'භාෂා',
+      hosting: 'මෝඩ්‍යුලය සහ සත්කාරක',
+      productionReady: 'தயாரான தயாரிப்பு',
+      expertise: '枠යෙදුම් සහ භාෂා 10+ சுயாதீனம்',
+      fastReliableScalable: 'விரைவு • நம்பகமானது • அளவிடக்கூடியது',
+      supportingAll: 'முக்கிய枠மைப்புகள் மற்றும் மொழிகளை ஆதரிக்கிறது',
+    },
+    spiderWebPricing: {
+      interactiveBuilder: 'இணைய திட்ட உருவாக்கி',
+      clickToExplore: 'விருப்பங்களை ஆராய கிளிக் செய்து உங்கள் தீர்வை உருவாக்குங்கள்',
+      estimatedTotal: 'மதிப்பிடப்பட்ட மொத்தம்',
+      selected: 'தேர்ந்தெடுக்கப்பட்டது',
+      available: 'கிடைக்கிறது',
+      locked: 'பூட்டப்பட்டது',
+      howItWorks: 'இது எப்படி வேலை செய்கிறது:',
+      step1: '1. மையத்திலிருந்து தொடங்குங்கள்',
+      step2: '2. விருப்பங்களை திறக்க பிரிவுகளை கிளிக் செய்யவும்',
+      step3: '3. உங்கள் மேற்கோளுக்கு அம்சங்களைத் தேர்ந்தெடுக்கவும்',
+      step4: '4. உங்கள் தேர்வுகளுடன் வலை வளர்வதைப் பாருங்கள்',
+      resetSelection: 'தேர்வை மீட்டமை',
+      getQuote: 'ரூ. {total}க்கு மேற்கோள் பெறுங்கள்',
+    },
+    meeting: {
+      toast: {
+        success: "Meeting request sent successfully! We'll get back to you soon.",
+        error: 'Failed to book meeting. Please try again.'
+      },
+      messages: {
+        bookingFailed: 'Failed to book meeting. Please try again.',
+        bookingSuccess: "Meeting request sent successfully! We'll get back to you soon.",
+        invalidDate: 'Please select a valid date.',
+        invalidTime: 'Please select a valid time.'
+      }
+    },
+    api: {
+      toast: {
+        networkError: 'Network error. Please check your connection and try again.'
+      },
+      messages: {
+        networkError: 'Network error. Please check your connection and try again.',
+        serverError: 'Server error. Please try again later.',
+        timeout: 'Request timed out. Please try again.',
+        unauthorized: 'You are not authorized to perform this action.',
+        forbidden: 'Access denied.',
+        notFound: 'Resource not found.'
+      }
+    },
+    validation: {
+      requiredField: 'This field is required',
+      invalidEmail: 'Please enter a valid email address',
+      invalidPhone: 'Please enter a valid phone number',
+      invalidName: 'Name can only contain letters and spaces',
+      tooShort: 'This field is too short',
+      tooLong: 'This field is too long',
+      invalidFormat: 'Invalid format',
+    },
+    form: {
+      submissionFailed: 'Failed to submit form. Please try again.',
+      validationFailed: 'Please fix the errors above and try again.',
+      success: 'Form submitted successfully!',
+    },
   },
   ta: {
     navigation: {
@@ -426,7 +717,8 @@ export const translations: Record<Language, Translations> = {
       bookMeeting: 'சந்திப்பு ஏற்பாடு',
     },
     hero: {
-      title: 'சரியாக வேலை செய்யும் மென்பொருள்',
+      titleMain: 'சரியாக வேலை செய்யும்',
+      titleAccent: 'மென்பொருள்',
       subtitle: 'நாங்கள் இலங்கையின் மென்பொருள் மேம்பாட்டு நிறுவனம். தேவையற்ற செயல்முறைகள் இல்லை, சிக்கல்கள் இல்லை. உயர்தர வலை பயன்பாடுகள், மொபைல் தீர்வுகள் மற்றும் அளவிடக்கூடிய ஒருங்கிணைந்த அமைப்புகள் மட்டுமே.',
       startProject: 'உங்கள் திட்டத்தைத் தொடங்குங்கள்',
       viewPricing: 'விலையைக் காண்க',
@@ -438,18 +730,30 @@ export const translations: Record<Language, Translations> = {
     },
     services: {
       title: 'நாங்கள் உருவாக்குவது',
-      subtitle: 'செயல்படுத்தல் மற்றும் முடிவுகளில் கவனம் செலுத்தும் தொழில்நுட்ப-சாரா தீர்வுகள்',
+      subtitle: 'செயல்பாட்டு கவனம் மற்றும் முடிவுகளை நோக்கி தொழில்நுட்பம் சாரா தீர்வுகள்',
       webApps: {
         title: 'வலை பயன்பாடுகள்',
-        description: 'சமீபத்திய தொழில்நுட்பங்களுடன் கட்டப்பட்ட நவீன, பதிலளிக்கும் வலை பயன்பாடுகள். வேகமான, பாதுகாப்பான மற்றும் அளவிடக்கூடிய.',
+        description: 'புதிய தொழில்நுட்பங்களுடன் உருவாக்கப்பட்ட நவீன, பதிலளிக்கும் வலை பயன்பாடுகள். விரைவு, பாதுகாப்பான மற்றும் அளவிடக்கூடியது.'
       },
       mobileApps: {
         title: 'மொபைல் பயன்பாடுகள்',
-        description: 'சிறந்த பயனர் அனுபவத்தை வழங்கும் உள்நாட்டு மற்றும் குறுக்கு-மேடை மொபைல் தீர்வுகள்.',
+        description: 'சிறந்த பயனர் அனுபவங்களை வழங்கும் சொந்த மற்றும் குறுக்கு தள மொபைல் தீர்வுகள்.'
       },
       systemIntegration: {
         title: 'அமைப்பு ஒருங்கிணைப்பு',
-        description: 'தற்போதைய அமைப்புகளை நவீன தீர்வுகள் மற்றும் API களுடன் மென்மையாக ஒருங்கிணைத்தல்.',
+        description: 'நவீன தீர்வுகள் மற்றும் API களுடன் உள்ளமைப்புகளை எளிதாக ஒருங்கிணைத்தல்.'
+      },
+      seo: {
+        title: 'SEO Optimization',
+        description: 'Improve visibility, attract qualified traffic, and build trust through ethical SEO practices.'
+      },
+      uiux: {
+        title: 'UI/UX Design',
+        description: 'Design intuitive interfaces and seamless experiences that delight users and maximize conversions.'
+      },
+      gameDev: {
+        title: 'Game Development',
+        description: 'From concept to release-deliver high-quality games faster, more flexibly, and cost‑effectively.'
       },
     },
     pricing: {
@@ -459,9 +763,9 @@ export const translations: Record<Language, Translations> = {
       scheduleConsultation: 'இலவச ஆலோசனை ஏற்பாடு',
     },
     about: {
-      title: 'ஏன் Neqo360 தேர்வு செய்ய வேண்டும்?',
+      title: 'ஏன் அழைப்பு செய்ய வேண்டும்?',
       executionFocused: {
-        title: 'செயல்படுத்தலில் கவனம்',
+        title: 'செயல்பாட்டு கவனம்',
         description: 'நாங்கள் வேகமாக வழங்குகிறோம். முடிவில்லா கூட்டங்கள் அல்லது நிர்வாகம் இல்லை. முடிவுகள் மட்டுமே.',
       },
       techAgnostic: {
@@ -497,6 +801,13 @@ export const translations: Record<Language, Translations> = {
         messageRequired: 'செய்தி குறைந்தது 10 எழுத்துகள் இருக்க வேண்டும்',
         success: 'செய்தி வெற்றிகரமாக அனுப்பப்பட்டது! நாங்கள் விரைவில் உங்களுக்கு பதிலளிப்போம்.',
         error: 'செய்தியை அனுப்ப முடியவில்லை. மீண்டும் முயற்சிக்கவும் அல்லது எங்களை நேரடியாக தொடர்பு கொள்ளவும்.',
+        namePlaceholder: 'உங்கள் முழு பெயர்',
+        emailPlaceholder: 'your@email.com',
+        phonePlaceholder: '+94 xxx xxx xxx',
+        messagePlaceholder: 'நீங்கள் என்ன விவாதிக்க விரும்புகிறீர்கள்?',
+        submit: 'செய்தியை அனுப்பு',
+        submitting: 'அனுப்புகிறது...',
+        projectTypePlaceholder: 'உங்கள் திட்ட வகையைத் தேர்ந்தெடுக்கவும்',
       },
       projectTypes: {
         webApp: '🌐 வலை பயன்பாடு',
@@ -517,6 +828,9 @@ export const translations: Record<Language, Translations> = {
         location: 'கொழும்பு, இலங்கை',
         responseTime: 'பொதுவாக 2 மணி நேரத்திற்குள் பதிலளிக்கிறோம்',
       },
+      getInTouch: 'தொடர்பு கொள்ளுங்கள்',
+      description: 'எந்த கேள்விகளுக்கும் அல்லது திட்ட விவாதங்களுக்கும் எங்களை அணுகவும்.',
+      scheduleMeeting: 'சந்திப்பு ஏற்பாடு',
     },
     calendar: {
       title: 'சந்திப்பு ஏற்பாடு',
@@ -538,9 +852,20 @@ export const translations: Record<Language, Translations> = {
         phone: '+94 xxx xxx xxx',
         message: 'நீங்கள் என்ன விவாதிக்க விரும்புகிறீர்கள்?',
       },
+      selectDate: 'தேதியைத் தேர்ந்தெடுக்கவும்',
+      selectTime: 'நேரத்தைத் தேர்ந்தெடுக்கவும்',
+      schedule: 'ஏற்பாடு செய்க',
+      scheduling: 'ஏற்பாடு செய்கிறது...',
     },
     footer: {
       copyright: '© 2025 Neqo360',
+      tagline: 'டிஜிட்டல் தீர்வுகள்',
+      services: 'சேவைகள்',
+      webApps: 'வலை பயன்பாடுகள்',
+      mobileApps: 'மொபைல் பயன்பாடுகள்',
+      systemIntegration: 'அமைப்பு ஒருங்கிணைப்பு',
+      contact: 'தொடர்பு',
+      rightsReserved: 'அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
     },
     common: {
       loading: 'ஏற்றுகிறது...',
@@ -552,6 +877,69 @@ export const translations: Record<Language, Translations> = {
       edit: 'திருத்து',
       delete: 'அழி',
       required: 'தேவை',
+    },
+    showcase: {
+      frameworks: '枠மைப்புகள்',
+      languages: 'மொழிகள்',
+      hosting: 'மேகம் & ஹோஸ்டிங்',
+      productionReady: 'தயாரான தயாரிப்பு',
+      expertise: '10+ மைப்புகள் மற்றும் மொழிகளில் நிபுணத்துவம்',
+      fastReliableScalable: 'விரைவு • நம்பகமானது • அளவிடக்கூடியது',
+      supportingAll: 'முக்கிய枠மைப்புகள் மற்றும் மொழிகளை ஆதரிக்கிறது',
+    },
+    spiderWebPricing: {
+      interactiveBuilder: 'இணைய திட்ட உருவாக்கி',
+      clickToExplore: 'விருப்பங்களை ஆராய கிளிக் செய்து உங்கள் தீர்வை உருவாக்குங்கள்',
+      estimatedTotal: 'மதிப்பிடப்பட்ட மொத்தம்',
+      selected: 'தேர்ந்தெடுக்கப்பட்டது',
+      available: 'கிடைக்கிறது',
+      locked: 'பூட்டப்பட்டது',
+      howItWorks: 'இது எப்படி வேலை செய்கிறது:',
+      step1: '1. மையத்திலிருந்து தொடங்குங்கள்',
+      step2: '2. விருப்பங்களை திறக்க பிரிவுகளை கிளிக் செய்யவும்',
+      step3: '3. உங்கள் மேற்கோளுக்கு அம்சங்களைத் தேர்ந்தெடுக்கவும்',
+      step4: '4. உங்கள் தேர்வுகளுடன் வலை வளர்வதைப் பாருங்கள்',
+      resetSelection: 'தேர்வை மீட்டமை',
+      getQuote: 'ரூ. {total}க்கு மேற்கோள் பெறுங்கள்',
+    },
+    meeting: {
+      toast: {
+        success: "Meeting request sent successfully! We'll get back to you soon.",
+        error: 'Failed to book meeting. Please try again.'
+      },
+      messages: {
+        bookingFailed: 'Failed to book meeting. Please try again.',
+        bookingSuccess: "Meeting request sent successfully! We'll get back to you soon.",
+        invalidDate: 'Please select a valid date.',
+        invalidTime: 'Please select a valid time.'
+      }
+    },
+    api: {
+      toast: {
+        networkError: 'Network error. Please check your connection and try again.'
+      },
+      messages: {
+        networkError: 'Network error. Please check your connection and try again.',
+        serverError: 'Server error. Please try again later.',
+        timeout: 'Request timed out. Please try again.',
+        unauthorized: 'You are not authorized to perform this action.',
+        forbidden: 'Access denied.',
+        notFound: 'Resource not found.'
+      }
+    },
+    validation: {
+      requiredField: 'This field is required',
+      invalidEmail: 'Please enter a valid email address',
+      invalidPhone: 'Please enter a valid phone number',
+      invalidName: 'Name can only contain letters and spaces',
+      tooShort: 'This field is too short',
+      tooLong: 'This field is too long',
+      invalidFormat: 'Invalid format',
+    },
+    form: {
+      submissionFailed: 'Failed to submit form. Please try again.',
+      validationFailed: 'Please fix the errors above and try again.',
+      success: 'Form submitted successfully!',
     },
   },
 }; 

@@ -13,6 +13,7 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { apiClient } from './lib/api/client';
 import { ErrorMessages } from './lib/types/errors';
 import { analytics, usePageTracking, useScrollTracking, trackWebVitals } from './lib/analytics';
+import { useTranslation } from './lib/i18n/useTranslation';
 
 // Lazy load heavy components with dynamic imports
 const LazyAboutSection = lazy(() => import('./components/sections/AboutSection'));
@@ -27,6 +28,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { showSuccess, showError } = useToast();
+  const { t } = useTranslation();
 
   // Hydration safety
   useEffect(() => {
@@ -103,15 +105,15 @@ export default function Home() {
 
       if (response.error) {
         analytics.trackFormSubmission('meeting_request', false, response.error);
-        showError(response.error);
+        showError(t('meeting.toast.error'));
       } else {
         analytics.trackFormSubmission('meeting_request', true);
         setShowCalendar(false);
-        showSuccess(ErrorMessages.MEETING.BOOKING_SUCCESS);
+        showSuccess(t('meeting.toast.success'));
       }
     } catch (error) {
       analytics.trackError(error as Error, 'meeting_submission');
-      showError(ErrorMessages.API.NETWORK_ERROR);
+      showError(t('api.toast.networkError'));
     } finally {
       setIsSubmitting(false);
     }

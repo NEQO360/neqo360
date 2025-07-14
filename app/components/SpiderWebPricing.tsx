@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '../providers/TranslationProvider';
 
 interface PricingNode {
   id: string;
@@ -20,6 +21,7 @@ interface Connection {
 }
 
 const SpiderWebPricing: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedNodes, setSelectedNodes] = useState<Set<string>>(new Set());
   const [unlockedNodes, setUnlockedNodes] = useState<Set<string>>(new Set(['center']));
   const [activeConnections, setActiveConnections] = useState<Set<string>>(new Set());
@@ -263,15 +265,15 @@ const SpiderWebPricing: React.FC = () => {
   return (
     <div className="w-full max-w-6xl mx-auto glass p-8 rounded-3xl">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold mb-2">Interactive Project Builder</h3>
-        <p className="text-muted-foreground">Click to explore options and build your custom solution</p>
+        <h3 className="text-2xl font-bold mb-2">{t('spiderWebPricing.interactiveBuilder')}</h3>
+        <p className="text-muted-foreground">{t('spiderWebPricing.clickToExplore')}</p>
         <motion.div 
           className="mt-4 p-4 rounded-2xl bg-accent/10 border border-accent/20"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           key={totalPrice}
         >
-          <div className="text-sm text-muted-foreground">Estimated Total</div>
+          <div className="text-sm text-muted-foreground">{t('spiderWebPricing.estimatedTotal')}</div>
           <div className="text-2xl font-bold gradient-text">
             Rs. {totalPrice.toLocaleString()}
           </div>
@@ -442,15 +444,15 @@ const SpiderWebPricing: React.FC = () => {
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-accent"></div>
-              <span>Selected</span>
+              <span>{t('spiderWebPricing.selected')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-white/20"></div>
-              <span>Available</span>
+              <span>{t('spiderWebPricing.available')}</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-white/10"></div>
-              <span>Locked</span>
+              <span>{t('spiderWebPricing.locked')}</span>
             </div>
           </div>
         </motion.div>
@@ -462,12 +464,12 @@ const SpiderWebPricing: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5 }}
         >
-          <div className="text-accent font-medium mb-2">How it works:</div>
+          <div className="text-accent font-medium mb-2">{t('spiderWebPricing.howItWorks')}</div>
           <div className="space-y-1 text-xs text-muted-foreground">
-            <div>1. Start from the center</div>
-            <div>2. Click sectors to unlock options</div>
-            <div>3. Select features to build your quote</div>
-            <div>4. Watch the web grow with your choices</div>
+            <div>{t('spiderWebPricing.step1')}</div>
+            <div>{t('spiderWebPricing.step2')}</div>
+            <div>{t('spiderWebPricing.step3')}</div>
+            <div>{t('spiderWebPricing.step4')}</div>
           </div>
         </motion.div>
       </div>
@@ -489,7 +491,7 @@ const SpiderWebPricing: React.FC = () => {
             setActiveConnections(new Set());
           }}
         >
-          Reset Selection
+          {t('spiderWebPricing.resetSelection')}
         </motion.button>
         
         {totalPrice > 0 && (
@@ -500,7 +502,7 @@ const SpiderWebPricing: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            Get Quote for Rs. {totalPrice.toLocaleString()}
+            {t('spiderWebPricing.getQuote').replace('{total}', totalPrice.toLocaleString())}
           </motion.button>
         )}
       </motion.div>

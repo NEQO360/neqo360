@@ -29,19 +29,14 @@ export default function HeroSection({ y1, y2 }: HeroSectionProps) {
             animate="animate"
           >
             <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
-              <h1 className="text-hero text-balance sm:mt-0 mt-14">
-                {t('hero.title').split('just works').map((part, index) => 
-                  index === 0 ? (
-                    <span key={index}>{part}<span className="gradient-text">just works</span></span>
-                  ) : (
-                    <span key={index}>{part}</span>
-                  )
-                )}
+              <h1 className="hero-title text-balance max-w-full break-words whitespace-normal sm:mt-0 mt-14">
+                <span className="hero-title-main">{t('hero.titleMain')} </span>
+                <span className="hero-title-accent gradient-text">{t('hero.titleAccent')}</span>
               </h1>
             </motion.div>
 
             <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
-              <p className="text-large text-muted-foreground text-balance max-w-2xl">
+              <p className="hero-subtitle text-large text-muted-foreground text-balance max-w-2xl break-words whitespace-normal">
                 {t('hero.subtitle')}
               </p>
             </motion.div>
@@ -78,8 +73,8 @@ export default function HeroSection({ y1, y2 }: HeroSectionProps) {
                   className="text-center w-full"
                   whileHover={{ scale: 1.1 }}
                 >
-                  <div className="text-2xl font-bold">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{t(stat.label)}</div>
+                  <div className="text-2xl font-bold break-words whitespace-normal">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground break-words whitespace-normal">{t(stat.label)}</div>
                 </motion.div>
               ))}
             </motion.div>
