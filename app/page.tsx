@@ -14,6 +14,7 @@ import { apiClient } from './lib/api/client';
 import { ErrorMessages } from './lib/types/errors';
 import { analytics, usePageTracking, useScrollTracking, trackWebVitals } from './lib/analytics';
 import { useTranslation } from './lib/i18n/useTranslation';
+import nodeConfig from './components/data/nodes-config.json';
 
 // Lazy load heavy components with dynamic imports
 const LazyAboutSection = lazy(() => import('./components/sections/AboutSection'));
@@ -137,7 +138,7 @@ export default function Home() {
         </Suspense>
         <ServicesSection />
         <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
-          <LazySpiderWebPricing />
+          <LazySpiderWebPricing config={nodeConfig} />
         </Suspense>
         <Suspense fallback={<LoadingSpinner size="lg" className="py-20" />}>
           <LazyContactSection onBookMeeting={handleBookMeeting} />

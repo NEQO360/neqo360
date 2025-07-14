@@ -1,0 +1,339 @@
+{
+  "center": {
+    "id": "center",
+    "label": "Start Here",
+    "description": "Choose your development path to unlock features",
+    "sector": "center",
+    "position": { "x": 700, "y": 400 },
+    "children": {
+      "web": {
+        "id": "web",
+        "label": "Web Development",
+        "description": "Modern, responsive web applications and websites",
+        "sector": "web",
+        "position": { "x": 950, "y": 200 },
+        "children": {
+          "web-frontend": {
+            "id": "web-frontend",
+            "label": "Frontend Development",
+            "description": "User interface and client-side development",
+            "sector": "web",
+            "position": { "x": 1150, "y": 120 },
+            "children": {
+              "web-react": {
+                "id": "web-react",
+                "label": "React Application",
+                "description": "Modern React.js single-page application",
+                "sector": "web",
+                "position": { "x": 1300, "y": 80 }
+              },
+              "web-vue": {
+                "id": "web-vue",
+                "label": "Vue.js Application",
+                "description": "Progressive Vue.js web application",
+                "sector": "web",
+                "position": { "x": 1300, "y": 160 }
+              },
+              "web-angular": {
+                "id": "web-angular",
+                "label": "Angular Application",
+                "description": "Enterprise Angular web application",
+                "sector": "web",
+                "position": { "x": 1300, "y": 240 }
+              }
+            }
+          },
+          "web-backend": {
+            "id": "web-backend",
+            "label": "Backend Development",
+            "description": "Server-side logic and API development",
+            "sector": "web",
+            "position": { "x": 1150, "y": 280 },
+            "children": {
+              "web-nodejs": {
+                "id": "web-nodejs",
+                "label": "Node.js API",
+                "description": "Fast and scalable Node.js backend",
+                "sector": "web",
+                "position": { "x": 1300, "y": 320 }
+              },
+              "web-python": {
+                "id": "web-python",
+                "label": "Python Backend",
+                "description": "Django or FastAPI backend service",
+                "sector": "web",
+                "position": { "x": 1300, "y": 380 }
+              }
+            }
+          },
+          "web-ecommerce": {
+            "id": "web-ecommerce",
+            "label": "E-commerce Store",
+            "description": "Full-featured online store with payment integration",
+            "sector": "web",
+            "position": { "x": 1050, "y": 80 },
+            "children": {
+              "web-shopify": {
+                "id": "web-shopify",
+                "label": "Shopify Store",
+                "description": "Custom Shopify theme and configuration",
+                "sector": "web",
+                "position": { "x": 1200, "y": 40 }
+              },
+              "web-custom-ecom": {
+                "id": "web-custom-ecom",
+                "label": "Custom E-commerce",
+                "description": "Built-from-scratch e-commerce solution",
+                "sector": "web",
+                "position": { "x": 1200, "y": 120 }
+              }
+            }
+          }
+        }
+      },
+      "mobile": {
+        "id": "mobile",
+        "label": "Mobile Development",
+        "description": "Native and cross-platform mobile applications",
+        "sector": "mobile",
+        "position": { "x": 950, "y": 600 },
+        "children": {
+          "mobile-native": {
+            "id": "mobile-native",
+            "label": "Native Development",
+            "description": "Platform-specific native applications",
+            "sector": "mobile",
+            "position": { "x": 1150, "y": 520 },
+            "children": {
+              "mobile-ios": {
+                "id": "mobile-ios",
+                "label": "iOS App",
+                "description": "Native iOS application with Swift",
+                "sector": "mobile",
+                "position": { "x": 1300, "y": 480 },
+                "children": {
+                  "mobile-ios-swift": {
+                    "id": "mobile-ios-swift",
+                    "label": "Swift Development",
+                    "description": "Modern Swift iOS development",
+                    "sector": "mobile",
+                    "position": { "x": 1450, "y": 460 }
+                  },
+                  "mobile-ios-swiftui": {
+                    "id": "mobile-ios-swiftui",
+                    "label": "SwiftUI Interface",
+                    "description": "Modern SwiftUI user interface",
+                    "sector": "mobile",
+                    "position": { "x": 1450, "y": 500 }
+                  }
+                }
+              },
+              "mobile-android": {
+                "id": "mobile-android",
+                "label": "Android App",
+                "description": "Native Android application with Kotlin",
+                "sector": "mobile",
+                "position": { "x": 1300, "y": 560 },
+                "children": {
+                  "mobile-android-kotlin": {
+                    "id": "mobile-android-kotlin",
+                    "label": "Kotlin Development",
+                    "description": "Modern Kotlin Android development",
+                    "sector": "mobile",
+                    "position": { "x": 1450, "y": 540 }
+                  },
+                  "mobile-android-compose": {
+                    "id": "mobile-android-compose",
+                    "label": "Jetpack Compose",
+                    "description": "Modern Android UI with Compose",
+                    "sector": "mobile",
+                    "position": { "x": 1450, "y": 580 }
+                  }
+                }
+              }
+            }
+          },
+          "mobile-cross": {
+            "id": "mobile-cross",
+            "label": "Cross-Platform",
+            "description": "Single codebase for multiple platforms",
+            "sector": "mobile",
+            "position": { "x": 1150, "y": 680 },
+            "children": {
+              "mobile-react-native": {
+                "id": "mobile-react-native",
+                "label": "React Native",
+                "description": "Cross-platform app with React Native",
+                "sector": "mobile",
+                "position": { "x": 1300, "y": 640 }
+              },
+              "mobile-flutter": {
+                "id": "mobile-flutter",
+                "label": "Flutter App",
+                "description": "High-performance Flutter application",
+                "sector": "mobile",
+                "position": { "x": 1300, "y": 720 }
+              }
+            }
+          }
+        }
+      },
+      "integration": {
+        "id": "integration",
+        "label": "System Integration",
+        "description": "Connect and synchronize your existing systems",
+        "sector": "integration",
+        "position": { "x": 450, "y": 400 },
+        "children": {
+          "integration-api": {
+            "id": "integration-api",
+            "label": "API Development",
+            "description": "Custom API development and integration",
+            "sector": "integration",
+            "position": { "x": 250, "y": 320 },
+            "children": {
+              "integration-rest": {
+                "id": "integration-rest",
+                "label": "REST API",
+                "description": "RESTful API design and implementation",
+                "sector": "integration",
+                "position": { "x": 100, "y": 280 }
+              },
+              "integration-graphql": {
+                "id": "integration-graphql",
+                "label": "GraphQL API",
+                "description": "Flexible GraphQL API development",
+                "sector": "integration",
+                "position": { "x": 100, "y": 360 }
+              }
+            }
+          },
+          "integration-payment": {
+            "id": "integration-payment",
+            "label": "Payment Systems",
+            "description": "Payment gateway integration and processing",
+            "sector": "integration",
+            "position": { "x": 250, "y": 480 },
+            "children": {
+              "integration-stripe": {
+                "id": "integration-stripe",
+                "label": "Stripe Integration",
+                "description": "Complete Stripe payment processing",
+                "sector": "integration",
+                "position": { "x": 100, "y": 440 }
+              },
+              "integration-paypal": {
+                "id": "integration-paypal",
+                "label": "PayPal Integration",
+                "description": "PayPal payment gateway setup",
+                "sector": "integration",
+                "position": { "x": 100, "y": 520 }
+              }
+            }
+          },
+          "integration-database": {
+            "id": "integration-database",
+            "label": "Database Systems",
+            "description": "Database design, optimization, and migration",
+            "sector": "integration",
+            "position": { "x": 250, "y": 550 },
+            "children": {
+              "integration-sql": {
+                "id": "integration-sql",
+                "label": "SQL Databases",
+                "description": "PostgreSQL, MySQL database setup",
+                "sector": "integration",
+                "position": { "x": 100, "y": 580 }
+              },
+              "integration-nosql": {
+                "id": "integration-nosql",
+                "label": "NoSQL Databases",
+                "description": "MongoDB, Redis, and other NoSQL solutions",
+                "sector": "integration",
+                "position": { "x": 100, "y": 620 }
+              }
+            }
+          }
+        }
+      },
+      "devops": {
+        "id": "devops",
+        "label": "DevOps & Cloud",
+        "description": "Infrastructure, deployment, and monitoring solutions",
+        "sector": "devops",
+        "position": { "x": 450, "y": 200 },
+        "children": {
+          "devops-cloud": {
+            "id": "devops-cloud",
+            "label": "Cloud Platforms",
+            "description": "Cloud infrastructure and deployment",
+            "sector": "devops",
+            "position": { "x": 280, "y": 120 },
+            "children": {
+              "devops-aws": {
+                "id": "devops-aws",
+                "label": "AWS Deployment",
+                "description": "Amazon Web Services infrastructure",
+                "sector": "devops",
+                "position": { "x": 130, "y": 80 }
+              },
+              "devops-gcp": {
+                "id": "devops-gcp",
+                "label": "Google Cloud",
+                "description": "Google Cloud Platform deployment",
+                "sector": "devops",
+                "position": { "x": 130, "y": 160 }
+              }
+            }
+          },
+          "devops-ci": {
+            "id": "devops-ci",
+            "label": "CI/CD Pipeline",
+            "description": "Automated testing, building, and deployment",
+            "sector": "devops",
+            "position": { "x": 550, "y": 80 },
+            "children": {
+              "devops-github": {
+                "id": "devops-github",
+                "label": "GitHub Actions",
+                "description": "GitHub-based CI/CD automation",
+                "sector": "devops",
+                "position": { "x": 650, "y": 40 }
+              },
+              "devops-jenkins": {
+                "id": "devops-jenkins",
+                "label": "Jenkins Pipeline",
+                "description": "Enterprise Jenkins CI/CD setup",
+                "sector": "devops",
+                "position": { "x": 650, "y": 120 }
+              }
+            }
+          },
+          "devops-monitoring": {
+            "id": "devops-monitoring",
+            "label": "Monitoring & Analytics",
+            "description": "Performance monitoring and error tracking",
+            "sector": "devops",
+            "position": { "x": 350, "y": 100 },
+            "children": {
+              "devops-prometheus": {
+                "id": "devops-prometheus",
+                "label": "Prometheus Monitoring",
+                "description": "Comprehensive system monitoring",
+                "sector": "devops",
+                "position": { "x": 200, "y": 60 }
+              },
+              "devops-elk": {
+                "id": "devops-elk",
+                "label": "ELK Stack",
+                "description": "Elasticsearch, Logstash, and Kibana",
+                "sector": "devops",
+                "position": { "x": 200, "y": 140 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
