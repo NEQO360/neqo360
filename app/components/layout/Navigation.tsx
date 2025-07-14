@@ -110,7 +110,7 @@ export default function Navigation({ activeSection, onSectionClick, onBookMeetin
               <motion.button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`relative px-4 py-2 rounded-full text-base font-semibold tracking-wide transition-all duration-300 cursor-pointer ${activeSection === item.id
+                className={`relative px-4 py-2 rounded-full text-sm tracking-wide transition-all duration-300 cursor-pointer ${activeSection === item.id
                   ? 'bg-white/30 text-accent shadow-md'
                   : 'hover:bg-white/20 hover:text-accent'
                   }`}

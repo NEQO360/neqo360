@@ -21,7 +21,9 @@ export default function AboutSection() {
         >
           <h2 className="text-section mb-4">{t('about.title')}</h2>
           <p className="text-lg text-muted-foreground">
-            Welcome to <span className="font-semibold text-accent">{SITE_CONFIG.name}</span>, a new digital studio passionate about building modern, scalable, and delightful web experiences. We’re a small, ambitious team working with early clients and growing our portfolio. Our mission: <span className="italic">to help you launch, scale, and succeed online</span>.
+            {t('about.intro').replace('{name}', SITE_CONFIG.name)}
+            <br />
+            <span dangerouslySetInnerHTML={{ __html: t('about.mission') }} />
           </p>
         </motion.div>
 
@@ -104,13 +106,13 @@ export default function AboutSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          <div className="text-lg font-semibold text-accent mb-2">Let’s build something great together.</div>
-          <div className="text-muted-foreground mb-4">We’re open for new projects and collaborations. <br />Reach out and let’s make your idea a reality!</div>
+          <div className="text-lg font-semibold text-accent mb-2">{t('hero.letsBuild')}</div>
+          <div className="text-muted-foreground mb-4">{t('hero.openForProjects')} <br />{t('hero.reachOut')}</div>
           <a
             href="#contact"
             className="inline-block rounded-full bg-gradient-to-r from-accent to-accent-hover text-white px-8 py-3 font-semibold shadow-md hover:from-accent-hover hover:to-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition"
           >
-            Start a Project
+            {t('hero.startAProject')}
           </a>
         </motion.div>
       </div>

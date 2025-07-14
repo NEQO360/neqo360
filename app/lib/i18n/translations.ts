@@ -20,6 +20,14 @@ export interface Translations {
       satisfaction: string;
       loadTime: string;
     };
+    exploreSite: string;
+    yearFounded: string;
+    commitment: string;
+    availability: string;
+    letsBuild: string;
+    openForProjects: string;
+    reachOut: string;
+    startAProject: string;
   };
   services: {
     title: string;
@@ -77,6 +85,8 @@ export interface Translations {
     subSecondLoad: string;
     uptime: string;
     support: string;
+    intro: string;
+    mission: string;
   };
   contact: {
     title: string;
@@ -186,9 +196,6 @@ export interface Translations {
     interactiveBuilder: string;
     clickToExplore: string;
     estimatedTotal: string;
-    selected: string;
-    available: string;
-    locked: string;
     howItWorks: string;
     step1: string;
     step2: string;
@@ -196,6 +203,66 @@ export interface Translations {
     step4: string;
     resetSelection: string;
     getQuote: string;
+    selectedFeatures: string;
+    startByClicking: string;
+    resetView: string;
+    zoom: string;
+    startHere: string;
+    webDevelopment: string;
+    landingPage: string;
+    ecommerceStore: string;
+    adminDashboard: string;
+    portfolioSite: string;
+    mobileDevelopment: string;
+    iosApp: string;
+    androidApp: string;
+    crossPlatform: string;
+    uiuxDesign: string;
+    legend: string;
+    selected: string;
+    available: string;
+    locked: string;
+    scrollToZoom: string;
+    dragToPan: string;
+    hoverForDetails: string;
+    clickToSelect: string;
+    navigation: string;
+    scrollWheelToZoom: string;
+    clickAndDragToPan: string;
+    hoverNodesForDescriptions: string;
+    clickToSelectFeatures: string;
+    centerDescription: string;
+    webDevelopmentDescription: string;
+    landingPageDescription: string;
+    ecommerceStoreDescription: string;
+    adminDashboardDescription: string;
+    portfolioSiteDescription: string;
+    mobileDevelopmentDescription: string;
+    iosAppDescription: string;
+    androidAppDescription: string;
+    crossPlatformDescription: string;
+    uiuxDesignDescription: string;
+    systemIntegration: string;
+    systemIntegrationDescription: string;
+    apiDevelopment: string;
+    apiDevelopmentDescription: string;
+    paymentGateway: string;
+    paymentGatewayDescription: string;
+    crmIntegration: string;
+    crmIntegrationDescription: string;
+    databaseSetup: string;
+    databaseSetupDescription: string;
+    devopsCloud: string;
+    devopsCloudDescription: string;
+    cloudHosting: string;
+    cloudHostingDescription: string;
+    cicdPipeline: string;
+    cicdPipelineDescription: string;
+    monitoringAnalytics: string;
+    monitoringAnalyticsDescription: string;
+    featuresSelected: string;
+    deselect: string;
+    select: string;
   };
   meeting: {
     toast: {
@@ -259,6 +326,14 @@ export const translations: Record<Language, Translations> = {
         satisfaction: 'Client Satisfaction',
         loadTime: 'Page Load Time',
       },
+      exploreSite: 'Explore site',
+      yearFounded: 'Year Founded',
+      commitment: 'Commitment',
+      availability: 'Availability',
+      letsBuild: 'Let\'s build something great together.',
+      openForProjects: 'We\'re open for new projects and collaborations.',
+      reachOut: 'Reach out and let\'s make your idea a reality!',
+      startAProject: 'Start a Project',
     },
     services: {
       title: 'What we build',
@@ -316,6 +391,8 @@ export const translations: Record<Language, Translations> = {
       subSecondLoad: 'Sub-second load times',
       uptime: 'Uptime',
       support: 'Support',
+      intro: 'Welcome to {name}, a new digital studio passionate about building modern, scalable, and delightful web experiences. We\'re a small, ambitious team working with early clients and growing our portfolio.',
+      mission: 'Our mission: <span class="italic">to help you launch, scale, and succeed online</span>.',
     },
     contact: {
       title: 'Ready to build?',
@@ -423,7 +500,7 @@ export const translations: Record<Language, Translations> = {
     },
     spiderWebPricing: {
       interactiveBuilder: 'Interactive Project Builder',
-      clickToExplore: 'Click to explore options and build your custom solution',
+      clickToExplore: 'Explore and select features to build your custom solution',
       estimatedTotal: 'Estimated Total',
       selected: 'Selected',
       available: 'Available',
@@ -435,6 +512,63 @@ export const translations: Record<Language, Translations> = {
       step4: '4. Watch the web grow with your choices',
       resetSelection: 'Reset Selection',
       getQuote: 'Get Quote for Rs. {total}',
+      selectedFeatures: 'Selected Features',
+      startByClicking: 'Start by clicking the center node',
+      resetView: 'Reset View',
+      zoom: 'Zoom: {percent}%',
+      startHere: 'Start Here',
+      webDevelopment: 'Web Development',
+      landingPage: 'Landing Page',
+      ecommerceStore: 'E-commerce Store',
+      adminDashboard: 'Admin Dashboard',
+      portfolioSite: 'Portfolio Site',
+      mobileDevelopment: 'Mobile Development',
+      iosApp: 'iOS App',
+      androidApp: 'Android App',
+      crossPlatform: 'Cross-Platform',
+      uiuxDesign: 'UI/UX Design',
+      legend: 'Legend',
+      scrollToZoom: '• Scroll to zoom',
+      dragToPan: '• Drag to pan',
+      hoverForDetails: '• Hover for details',
+      clickToSelect: '• Click to select',
+      navigation: 'Navigation:',
+      scrollWheelToZoom: 'Scroll wheel to zoom in/out',
+      clickAndDragToPan: 'Click and drag to pan around',
+      hoverNodesForDescriptions: 'Hover nodes for descriptions',
+      clickToSelectFeatures: 'Click to select features',
+      centerDescription: 'Choose your development path to unlock features',
+      webDevelopmentDescription: 'Modern, responsive web applications and websites',
+      landingPageDescription: 'Professional single-page website with modern design',
+      ecommerceStoreDescription: 'Full-featured online store with payment integration',
+      adminDashboardDescription: 'Comprehensive management interface with analytics',
+      portfolioSiteDescription: 'Showcase your work with an elegant portfolio',
+      mobileDevelopmentDescription: 'Native and cross-platform mobile applications',
+      iosAppDescription: 'Native iOS application with App Store optimization',
+      androidAppDescription: 'Native Android app with Google Play optimization',
+      crossPlatformDescription: 'React Native or Flutter app for both platforms',
+      uiuxDesignDescription: 'Professional mobile app design and user experience',
+      systemIntegration: 'System Integration',
+      systemIntegrationDescription: 'Connect and synchronize your existing systems',
+      apiDevelopment: 'API Development',
+      apiDevelopmentDescription: 'Custom REST, GraphQL, or webhook integrations',
+      paymentGateway: 'Payment Gateway',
+      paymentGatewayDescription: 'Secure payment processing with multiple providers',
+      crmIntegration: 'CRM Integration',
+      crmIntegrationDescription: 'Connect with Salesforce, HubSpot, or custom CRM',
+      databaseSetup: 'Database Setup',
+      databaseSetupDescription: 'Database design, optimization, and migration',
+      devopsCloud: 'DevOps & Cloud',
+      devopsCloudDescription: 'Infrastructure, deployment, and monitoring solutions',
+      cloudHosting: 'Cloud Hosting',
+      cloudHostingDescription: 'AWS, GCP, or Azure deployment and management',
+      cicdPipeline: 'CI/CD Pipeline',
+      cicdPipelineDescription: 'Automated testing, building, and deployment',
+      monitoringAnalytics: 'Monitoring & Analytics',
+      monitoringAnalyticsDescription: 'Performance monitoring and error tracking',
+      featuresSelected: '{count} features selected',
+      deselect: 'Deselect',
+      select: 'Select',
     },
     meeting: {
       toast: {
@@ -496,6 +630,14 @@ export const translations: Record<Language, Translations> = {
         satisfaction: 'පාරිභෝගික සතුට',
         loadTime: 'පිටු පූරණ කාලය',
       },
+      exploreSite: 'නිවැරදි මෙවලම',
+      yearFounded: 'පිටුව පිරිවිය',
+      commitment: 'ප්‍රතිඵල පමණි',
+      availability: 'ප්‍රතිඵල පමණි',
+      letsBuild: 'අපි ස්වාරීන නමුත් විශ්වසනීය.',
+      openForProjects: 'අපි ස්වාරීන නමුත් විශ්වසනීය.',
+      reachOut: 'අපි ස්වාරීන නමුත් විශ්වසනීය.',
+      startAProject: 'ඔබේ ව්‍යාපෘතිය වෙන් කරන්න',
     },
     services: {
       title: 'අපි ගොඩනඟන දේ',
@@ -542,8 +684,8 @@ export const translations: Record<Language, Translations> = {
         description: 'කාර්යය සඳහා නිවැරදි මෙවලම. අපි ඔබේ අවශ්‍යතාවයන්ට ගැලපෙමු, අනෙක් ආකාරයට නොවේ.',
       },
       builtToScale: {
-        title: 'පරිමාණය කිරීමට ගොඩනගන ලද',
-        description: 'සෑම විසඳුමක්ම වර්ධනය සිතා ගනිමින් සැලසුම් කර ඇත. කුඩාවට ආරම්භ කර, විශාලව පරිමාණය කරන්න.',
+        title: 'පරිමාණය කළ හැකි විසඳුම්',
+        description: 'ඉදිරියට වර්ධනය කළ හැකි ලෙස සැලසුම් කර ඇත. කුඩා ආරම්භ කර, විශාල ව්‍යාපෘතිවලට පරිවර්තනය වන්න.',
       },
       humanTouch: {
         title: 'මානව ස්පර්ශය',
@@ -553,6 +695,8 @@ export const translations: Record<Language, Translations> = {
       subSecondLoad: 'තත්පරයකට අඩු පූරණ කාල',
       uptime: 'ක්‍රියාත්මක කාලය',
       support: 'සහාය',
+      intro: '{name} වෙත සාදරයෙන් පිළිගනිමු! නවීන, පරිමාණය කළ හැකි සහ ආකර්ෂණීය වෙබ් අත්දැකීම් නිර්මාණය කිරීමේ උනන්දුවෙන් යුත් නව ඩිජිටල් ස්ටුඩියෝවකි. අපි කුඩා, උනන්දුවෙන් යුත් කණ්ඩායමක් වන අතර පළමු ගනුදෙනුකරුවන් සමඟ වැඩ කරමින් අපගේ පෝර්ට්ෆෝලියෝව වර්ධනය කරමින් සිටිමු.',
+      mission: 'අපගේ මෙහෙවර: <span class="italic">ඔබට අන්තර්ජාලයේදී ආරම්භ වීමට, වර්ධනය වීමට සහ සාර්ථක වීමට උපකාර කිරීමයි</span>.',
     },
     contact: {
       title: 'ගොඩනැගීමට සූදානම්ද?',
@@ -613,7 +757,7 @@ export const translations: Record<Language, Translations> = {
       phone: 'දුරකථන අංකය',
       message: 'පණිවිඩය',
       meetingSummary: 'සාකච්ඡා සාරාංශය',
-      duration: 'කාලය: මිற்றி 30',
+      duration: 'කාලය: මිනිත්තු 30',
       bookMeeting: 'සාකච්ඡාව වෙන් කරන්න',
       booking: 'වෙන් කරමින්...',
       fillRequiredFields: 'කරුණාකර සියලුම අවශ්‍ය ක්ෂේත්‍ර පුරවන්න',
@@ -672,6 +816,63 @@ export const translations: Record<Language, Translations> = {
       step4: '4. உங்கள் தேர்வுகளுடன் வலை வளர்வதைப் பாருங்கள்',
       resetSelection: 'தேர்வை மீட்டமை',
       getQuote: 'ரூ. {total}க்கு மேற்கோள் பெறுங்கள்',
+      selectedFeatures: 'Selected Features',
+      startByClicking: 'Start by clicking the center node',
+      resetView: 'Reset View',
+      zoom: 'Zoom: {percent}%',
+      startHere: 'Start Here',
+      webDevelopment: 'Web Development',
+      landingPage: 'Landing Page',
+      ecommerceStore: 'E-commerce Store',
+      adminDashboard: 'Admin Dashboard',
+      portfolioSite: 'Portfolio Site',
+      mobileDevelopment: 'Mobile Development',
+      iosApp: 'iOS App',
+      androidApp: 'Android App',
+      crossPlatform: 'Cross-Platform',
+      uiuxDesign: 'UI/UX Design',
+      legend: 'Legend',
+      scrollToZoom: '• Scroll to zoom',
+      dragToPan: '• Drag to pan',
+      hoverForDetails: '• Hover for details',
+      clickToSelect: '• Click to select',
+      navigation: 'Navigation:',
+      scrollWheelToZoom: 'Scroll wheel to zoom in/out',
+      clickAndDragToPan: 'Click and drag to pan around',
+      hoverNodesForDescriptions: 'Hover nodes for descriptions',
+      clickToSelectFeatures: 'Click to select features',
+      centerDescription: 'Choose your development path to unlock features',
+      webDevelopmentDescription: 'Modern, responsive web applications and websites',
+      landingPageDescription: 'Professional single-page website with modern design',
+      ecommerceStoreDescription: 'Full-featured online store with payment integration',
+      adminDashboardDescription: 'Comprehensive management interface with analytics',
+      portfolioSiteDescription: 'Showcase your work with an elegant portfolio',
+      mobileDevelopmentDescription: 'Native and cross-platform mobile applications',
+      iosAppDescription: 'Native iOS application with App Store optimization',
+      androidAppDescription: 'Native Android app with Google Play optimization',
+      crossPlatformDescription: 'React Native or Flutter app for both platforms',
+      uiuxDesignDescription: 'Professional mobile app design and user experience',
+      systemIntegration: 'System Integration',
+      systemIntegrationDescription: 'Connect and synchronize your existing systems',
+      apiDevelopment: 'API Development',
+      apiDevelopmentDescription: 'Custom REST, GraphQL, or webhook integrations',
+      paymentGateway: 'Payment Gateway',
+      paymentGatewayDescription: 'Secure payment processing with multiple providers',
+      crmIntegration: 'CRM Integration',
+      crmIntegrationDescription: 'Connect with Salesforce, HubSpot, or custom CRM',
+      databaseSetup: 'Database Setup',
+      databaseSetupDescription: 'Database design, optimization, and migration',
+      devopsCloud: 'DevOps & Cloud',
+      devopsCloudDescription: 'Infrastructure, deployment, and monitoring solutions',
+      cloudHosting: 'Cloud Hosting',
+      cloudHostingDescription: 'AWS, GCP, or Azure deployment and management',
+      cicdPipeline: 'CI/CD Pipeline',
+      cicdPipelineDescription: 'Automated testing, building, and deployment',
+      monitoringAnalytics: 'Monitoring & Analytics',
+      monitoringAnalyticsDescription: 'Performance monitoring and error tracking',
+      featuresSelected: '{count} features selected',
+      deselect: 'Deselect',
+      select: 'Select',
     },
     meeting: {
       toast: {
@@ -733,6 +934,14 @@ export const translations: Record<Language, Translations> = {
         satisfaction: 'வாடிக்கையாளர் திருப்தி',
         loadTime: 'பக்கம் ஏற்றும் நேரம்',
       },
+      exploreSite: 'Explore site',
+      yearFounded: 'Year Founded',
+      commitment: 'Commitment',
+      availability: 'Availability',
+      letsBuild: 'Let\'s build something great together.',
+      openForProjects: 'We\'re open for new projects and collaborations.',
+      reachOut: 'Reach out and let\'s make your idea a reality!',
+      startAProject: 'Start a Project',
     },
     services: {
       title: 'நாங்கள் உருவாக்குவது',
@@ -790,6 +999,8 @@ export const translations: Record<Language, Translations> = {
       subSecondLoad: 'வினாடிக்கு குறைவான ஏற்றும் நேரம்',
       uptime: 'இயக்க நேரம்',
       support: 'ஆதரவு',
+      intro: '{name} இற்கு வரவேற்கிறோம்! நவீன, அளவிடக்கூடிய மற்றும் மகிழ்ச்சிகரமான வலை அனுபவங்களை உருவாக்கும் ஆர்வமுள்ள புதிய டிஜிட்டல் ஸ்டுடியோ. ஆரம்ப வாடிக்கையாளர்களுடன் பணியாற்றும் சிறிய, ஆர்வமுள்ள குழுவாக நாங்கள் வளர்ந்து வருகிறோம்.',
+      mission: 'எங்கள் பணி: <span class="italic">உங்களை ஆன்லைனில் தொடங்க, வளர, வெற்றி பெற உதவுவது</span>.',
     },
     contact: {
       title: 'கட்டுவதற்கு தயாரா?',
@@ -838,22 +1049,22 @@ export const translations: Record<Language, Translations> = {
       },
       getInTouch: 'தொடர்பு கொள்ளுங்கள்',
       description: 'எந்த கேள்விகளுக்கும் அல்லது திட்ட விவாதங்களுக்கும் எங்களை அணுகவும்.',
-      scheduleMeeting: 'சந்திப்பு ஏற்பாடு',
+      scheduleMeeting: 'சந்திப்பை முன்பதிவு செய்யவும்',
     },
     calendar: {
-      title: 'சந்திப்பு ஏற்பாடு',
+      title: 'சந்திப்பை முன்பதிவு செய்யவும்',
       chooseDate: 'தேதியைத் தேர்ந்தெடுக்கவும்',
-      availableTimes: 'கிடைக்கக்கூடிய நேரங்கள்',
+      availableTimes: 'கிடைக்கும் நேரங்கள்',
       yourDetails: 'உங்கள் விவரங்கள்',
       name: 'பெயர் *',
       email: 'மின்னஞ்சல் *',
       phone: 'தொலைபேசி',
       message: 'செய்தி',
       meetingSummary: 'சந்திப்பு சுருக்கம்',
-      duration: 'காலம்: 30 நிமிடங்கள்',
-      bookMeeting: 'சந்திப்பு ஏற்பாடு',
-      booking: 'ஏற்பாடு செய்கிறது...',
-      fillRequiredFields: 'தேவையான அனைத்து புலங்களையும் நிரப்பவும்',
+      duration: 'நேரம்: 30 நிமிடங்கள்',
+      bookMeeting: 'சந்திப்பை முன்பதிவு செய்யவும்',
+      booking: 'முன்பதிவு செய்கிறது...',
+      fillRequiredFields: 'அனைத்து தேவையான புலங்களையும் நிரப்பவும்',
       placeholder: {
         name: 'உங்கள் முழு பெயர்',
         email: 'your@email.com',
@@ -862,8 +1073,8 @@ export const translations: Record<Language, Translations> = {
       },
       selectDate: 'தேதியைத் தேர்ந்தெடுக்கவும்',
       selectTime: 'நேரத்தைத் தேர்ந்தெடுக்கவும்',
-      schedule: 'ஏற்பாடு செய்க',
-      scheduling: 'ஏற்பாடு செய்கிறது...',
+      schedule: 'முன்பதிவு செய்யவும்',
+      scheduling: 'முன்பதிவு செய்கிறது...',
     },
     footer: {
       copyright: '© 2025 Neqo360',
@@ -890,64 +1101,121 @@ export const translations: Record<Language, Translations> = {
       frameworks: '枠மைப்புகள்',
       languages: 'மொழிகள்',
       hosting: 'மேகம் & ஹோஸ்டிங்',
-      productionReady: 'தயாரான தயாரிப்பு',
-      expertise: '10+ மைப்புகள் மற்றும் மொழிகளில் நிபுணத்துவம்',
+      productionReady: 'தயாராக உள்ளது',
+      expertise: '10+枠மைப்புகள் மற்றும் மொழிகளில் அனுபவம்',
       fastReliableScalable: 'விரைவு • நம்பகமானது • அளவிடக்கூடியது',
-      supportingAll: 'முக்கிய枠மைப்புகள் மற்றும் மொழிகளை ஆதரிக்கிறது',
+      supportingAll: 'முக்கிய枠மைப்புகள் மற்றும் மொழிகளுக்கு ஆதரவு',
     },
     spiderWebPricing: {
-      interactiveBuilder: 'இணைய திட்ட உருவாக்கி',
-      clickToExplore: 'விருப்பங்களை ஆராய கிளிக் செய்து உங்கள் தீர்வை உருவாக்குங்கள்',
+      interactiveBuilder: 'ஊடாடும் திட்ட உருவாக்கி',
+      clickToExplore: 'விருப்பங்களை தேர்வு செய்து உங்கள் தீர்வை உருவாக்குங்கள்',
       estimatedTotal: 'மதிப்பிடப்பட்ட மொத்தம்',
       selected: 'தேர்ந்தெடுக்கப்பட்டது',
       available: 'கிடைக்கிறது',
-      locked: 'பூட்டப்பட்டது',
-      howItWorks: 'இது எப்படி வேலை செய்கிறது:',
+      locked: 'பூட்டப்பட்டுள்ளது',
+      howItWorks: 'இது எப்படி செயல்படுகிறது:',
       step1: '1. மையத்திலிருந்து தொடங்குங்கள்',
       step2: '2. விருப்பங்களை திறக்க பிரிவுகளை கிளிக் செய்யவும்',
       step3: '3. உங்கள் மேற்கோளுக்கு அம்சங்களைத் தேர்ந்தெடுக்கவும்',
       step4: '4. உங்கள் தேர்வுகளுடன் வலை வளர்வதைப் பாருங்கள்',
       resetSelection: 'தேர்வை மீட்டமை',
       getQuote: 'ரூ. {total}க்கு மேற்கோள் பெறுங்கள்',
+      selectedFeatures: 'தேர்ந்தெடுத்த அம்சங்கள்',
+      startByClicking: 'மையத்தை கிளிக் செய்து தொடங்குங்கள்',
+      resetView: 'காட்சியை மீட்டமை',
+      zoom: 'பெரிதாக்கு: {percent}%',
+      startHere: 'இங்கே தொடங்குங்கள்',
+      webDevelopment: 'வலை மேம்பாடு',
+      landingPage: 'துவக்க பக்கம்',
+      ecommerceStore: 'மின் வணிகக் கடை',
+      adminDashboard: 'நிர்வாகக் கட்டுப்பாடு',
+      portfolioSite: 'போர்ட்ஃபோலியோ தளம்',
+      mobileDevelopment: 'மொபைல் மேம்பாடு',
+      iosApp: 'iOS பயன்பாடு',
+      androidApp: 'Android பயன்பாடு',
+      crossPlatform: 'குறுக்கு தளம்',
+      uiuxDesign: 'UI/UX வடிவமைப்பு',
+      legend: 'விளக்கம்',
+      scrollToZoom: '• பெரிதாக்க ஸ்க்ரோல் செய்யவும்',
+      dragToPan: '• நகர்த்த இழுக்கவும்',
+      hoverForDetails: '• விவரங்களுக்கு ஹோவர் செய்யவும்',
+      clickToSelect: '• தேர்வு செய்ய கிளிக் செய்யவும்',
+      navigation: 'வழிசெலுத்தல்:',
+      scrollWheelToZoom: 'பெரிதாக்க ஸ்க்ரோல் செய்யவும்',
+      clickAndDragToPan: 'நகர்த்த கிளிக் செய்து இழுக்கவும்',
+      hoverNodesForDescriptions: 'விவரங்களுக்கு ஹோவர் செய்யவும்',
+      clickToSelectFeatures: 'அம்சங்களை தேர்வு செய்ய கிளிக் செய்யவும்',
+      centerDescription: 'விருப்பங்களைத் திறக்க உங்கள் மேம்பாட்டு பாதையைத் தேர்ந்தெடுக்கவும்',
+      webDevelopmentDescription: 'நவீன, பதிலளிக்கும் வலை பயன்பாடுகள் மற்றும் தளங்கள்',
+      landingPageDescription: 'நவீன வடிவமைப்புடன் தொழில்முறை ஒரே பக்கம் தளம்',
+      ecommerceStoreDescription: 'முழுமையான அம்சங்களுடன் ஆன்லைன் கடை மற்றும் கட்டண ஒருங்கிணைப்பு',
+      adminDashboardDescription: 'பரிபூரண மேலாண்மை இடைமுகம் மற்றும் பகுப்பாய்வு',
+      portfolioSiteDescription: 'அழகான போர்ட்ஃபோலியோவில் உங்கள் படைப்புகளை வெளிப்படுத்துங்கள்',
+      mobileDevelopmentDescription: 'சொந்த மற்றும் குறுக்கு தள மொபைல் பயன்பாடுகள்',
+      iosAppDescription: 'App Store மேம்படுத்தப்பட்ட சொந்த iOS பயன்பாடு',
+      androidAppDescription: 'Google Play மேம்படுத்தப்பட்ட சொந்த Android பயன்பாடு',
+      crossPlatformDescription: 'இரு தளங்களுக்கும் React Native அல்லது Flutter பயன்பாடு',
+      uiuxDesignDescription: 'தொழில்முறை மொபைல் பயன்பாட்டு வடிவமைப்பு மற்றும் அனுபவம்',
+      systemIntegration: 'அமைப்பு ஒருங்கிணைப்பு',
+      systemIntegrationDescription: 'உங்கள் தற்போதைய அமைப்புகளை இணைத்து ஒத்திசைக்கவும்',
+      apiDevelopment: 'API மேம்பாடு',
+      apiDevelopmentDescription: 'தனிப்பயன் REST, GraphQL அல்லது webhook ஒருங்கிணைப்பு',
+      paymentGateway: 'கட்டண வாயில்',
+      paymentGatewayDescription: 'பல வழங்குநர்களுடன் பாதுகாப்பான கட்டண செயலாக்கம்',
+      crmIntegration: 'CRM ஒருங்கிணைப்பு',
+      crmIntegrationDescription: 'Salesforce, HubSpot அல்லது தனிப்பயன் CRM உடன் இணைக்கவும்',
+      databaseSetup: 'தரவுத்தள அமைப்பு',
+      databaseSetupDescription: 'தரவுத்தள வடிவமைப்பு, மேம்பாடு மற்றும் இடமாற்றம்',
+      devopsCloud: 'DevOps & மேகம்',
+      devopsCloudDescription: 'அடித்தளம், வெளியீடு மற்றும் கண்காணிப்பு தீர்வுகள்',
+      cloudHosting: 'மேகம் ஹோஸ்டிங்',
+      cloudHostingDescription: 'AWS, GCP அல்லது Azure வெளியீடு மற்றும் மேலாண்மை',
+      cicdPipeline: 'CI/CD குழாய்',
+      cicdPipelineDescription: 'தானியங்கி சோதனை, கட்டமைப்பு மற்றும் வெளியீடு',
+      monitoringAnalytics: 'கண்காணிப்பு மற்றும் பகுப்பாய்வு',
+      monitoringAnalyticsDescription: 'செயல்திறன் கண்காணிப்பு மற்றும் பிழை கண்காணிப்பு',
+      featuresSelected: '{count} அம்சங்கள் தேர்ந்தெடுக்கப்பட்டுள்ளன',
+      deselect: 'தேர்வு நீக்கு',
+      select: 'தேர்வு செய்',
     },
     meeting: {
       toast: {
-        success: "Meeting request sent successfully! We'll get back to you soon.",
-        error: 'Failed to book meeting. Please try again.'
+        success: "சந்திப்பு கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டது! விரைவில் தொடர்பு கொள்கிறோம்.",
+        error: 'சந்திப்பை முன்பதிவு செய்ய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
       },
       messages: {
-        bookingFailed: 'Failed to book meeting. Please try again.',
-        bookingSuccess: "Meeting request sent successfully! We'll get back to you soon.",
-        invalidDate: 'Please select a valid date.',
-        invalidTime: 'Please select a valid time.'
-      }
+        bookingFailed: 'சந்திப்பை முன்பதிவு செய்ய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+        bookingSuccess: "சந்திப்பு கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டது! விரைவில் தொடர்பு கொள்கிறோம்.",
+        invalidDate: 'சரியான தேதியைத் தேர்ந்தெடுக்கவும்.',
+        invalidTime: 'சரியான நேரத்தைத் தேர்ந்தெடுக்கவும்.',
+      },
     },
     api: {
       toast: {
-        networkError: 'Network error. Please check your connection and try again.'
+        networkError: 'பிணைய பிழை. உங்கள் இணைப்பை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.',
       },
       messages: {
-        networkError: 'Network error. Please check your connection and try again.',
-        serverError: 'Server error. Please try again later.',
-        timeout: 'Request timed out. Please try again.',
-        unauthorized: 'You are not authorized to perform this action.',
-        forbidden: 'Access denied.',
-        notFound: 'Resource not found.'
-      }
+        networkError: 'பிணைய பிழை. உங்கள் இணைப்பை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.',
+        serverError: 'சேவையக பிழை. பிறகு முயற்சிக்கவும்.',
+        timeout: 'வேண்டுகோள் காலாவதியானது. மீண்டும் முயற்சிக்கவும்.',
+        unauthorized: 'இந்த செயலை செய்ய உங்களுக்கு அனுமதி இல்லை.',
+        forbidden: 'அணுகல் மறுக்கப்பட்டது.',
+        notFound: 'வளத்தை காணவில்லை.',
+      },
     },
     validation: {
-      requiredField: 'This field is required',
-      invalidEmail: 'Please enter a valid email address',
-      invalidPhone: 'Please enter a valid phone number',
-      invalidName: 'Name can only contain letters and spaces',
-      tooShort: 'This field is too short',
-      tooLong: 'This field is too long',
-      invalidFormat: 'Invalid format',
+      requiredField: 'இந்த புலம் அவசியம்',
+      invalidEmail: 'சரியான மின்னஞ்சலை உள்ளிடவும்',
+      invalidPhone: 'சரியான தொலைபேசி எண்ணை உள்ளிடவும்',
+      invalidName: 'பெயரில் எழுத்துகள் மற்றும் இடைவெளிகள் மட்டுமே இருக்க வேண்டும்',
+      tooShort: 'இந்த புலம் மிகவும் குறுகியது',
+      tooLong: 'இந்த புலம் மிகவும் நீளமாக உள்ளது',
+      invalidFormat: 'தவறான வடிவம்',
     },
     form: {
-      submissionFailed: 'Failed to submit form. Please try again.',
-      validationFailed: 'Please fix the errors above and try again.',
-      success: 'Form submitted successfully!',
+      submissionFailed: 'படிவத்தை சமர்ப்பிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',
+      validationFailed: 'மேலுள்ள பிழைகளை சரிசெய்து மீண்டும் முயற்சிக்கவும்.',
+      success: 'படிவம் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
     },
   },
 }; 

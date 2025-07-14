@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from '../providers/TranslationProvider';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { useTheme } from '../../providers/ThemeProvider';
+import { Sun, Moon, Plus, Minus, RefreshCw } from 'lucide-react';
 
 interface PricingNode {
   id: string;
@@ -23,6 +25,7 @@ interface Connection {
 
 const SpiderWebPricing: React.FC = () => {
   const { t } = useTranslation();
+  const { theme, toggleTheme } = useTheme();
   const [selectedNodes, setSelectedNodes] = useState<Set<string>>(new Set());
   const [unlockedNodes, setUnlockedNodes] = useState<Set<string>>(new Set(['center']));
   const [activeConnections, setActiveConnections] = useState<Set<string>>(new Set());
@@ -34,14 +37,16 @@ const SpiderWebPricing: React.FC = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   // Define all nodes with better spacing
   const initialNodes: PricingNode[] = useMemo(() => [
     // Center node
     {
       id: 'center',
-      label: 'Start Here',
-      description: 'Choose your development path to unlock features',
+      label: t('spiderWebPricing.startHere'),
+      description: t('spiderWebPricing.centerDescription'),
       position: { x: 700, y: 400 },
       sector: 'center',
       unlocked: true,
@@ -51,8 +56,8 @@ const SpiderWebPricing: React.FC = () => {
     // Web sector (top-right)
     {
       id: 'web-main',
-      label: 'Web Development',
-      description: 'Modern, responsive web applications and websites',
+      label: t('spiderWebPricing.webDevelopment'),
+      description: t('spiderWebPricing.webDevelopmentDescription'),
       position: { x: 950, y: 200 },
       parentId: 'center',
       sector: 'web',
@@ -61,8 +66,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'web-landing',
-      label: 'Landing Page',
-      description: 'Professional single-page website with modern design',
+      label: t('spiderWebPricing.landingPage'),
+      description: t('spiderWebPricing.landingPageDescription'),
       position: { x: 1150, y: 120 },
       parentId: 'web-main',
       sector: 'web',
@@ -71,8 +76,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'web-ecommerce',
-      label: 'E-commerce Store',
-      description: 'Full-featured online store with payment integration',
+      label: t('spiderWebPricing.ecommerceStore'),
+      description: t('spiderWebPricing.ecommerceStoreDescription'),
       position: { x: 1200, y: 280 },
       parentId: 'web-main',
       sector: 'web',
@@ -81,8 +86,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'web-dashboard',
-      label: 'Admin Dashboard',
-      description: 'Comprehensive management interface with analytics',
+      label: t('spiderWebPricing.adminDashboard'),
+      description: t('spiderWebPricing.adminDashboardDescription'),
       position: { x: 1050, y: 80 },
       parentId: 'web-main',
       sector: 'web',
@@ -91,8 +96,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'web-portfolio',
-      label: 'Portfolio Site',
-      description: 'Showcase your work with an elegant portfolio',
+      label: t('spiderWebPricing.portfolioSite'),
+      description: t('spiderWebPricing.portfolioSiteDescription'),
       position: { x: 1250, y: 180 },
       parentId: 'web-main',
       sector: 'web',
@@ -103,8 +108,8 @@ const SpiderWebPricing: React.FC = () => {
     // Mobile sector (bottom-right)
     {
       id: 'mobile-main',
-      label: 'Mobile Development',
-      description: 'Native and cross-platform mobile applications',
+      label: t('spiderWebPricing.mobileDevelopment'),
+      description: t('spiderWebPricing.mobileDevelopmentDescription'),
       position: { x: 950, y: 600 },
       parentId: 'center',
       sector: 'mobile',
@@ -113,8 +118,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'mobile-ios',
-      label: 'iOS App',
-      description: 'Native iOS application with App Store optimization',
+      label: t('spiderWebPricing.iosApp'),
+      description: t('spiderWebPricing.iosAppDescription'),
       position: { x: 1150, y: 680 },
       parentId: 'mobile-main',
       sector: 'mobile',
@@ -123,8 +128,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'mobile-android',
-      label: 'Android App',
-      description: 'Native Android app with Google Play optimization',
+      label: t('spiderWebPricing.androidApp'),
+      description: t('spiderWebPricing.androidAppDescription'),
       position: { x: 1200, y: 520 },
       parentId: 'mobile-main',
       sector: 'mobile',
@@ -133,8 +138,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'mobile-cross',
-      label: 'Cross-Platform',
-      description: 'React Native or Flutter app for both platforms',
+      label: t('spiderWebPricing.crossPlatform'),
+      description: t('spiderWebPricing.crossPlatformDescription'),
       position: { x: 1050, y: 720 },
       parentId: 'mobile-main',
       sector: 'mobile',
@@ -143,8 +148,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'mobile-ui',
-      label: 'UI/UX Design',
-      description: 'Professional mobile app design and user experience',
+      label: t('spiderWebPricing.uiuxDesign'),
+      description: t('spiderWebPricing.uiuxDesignDescription'),
       position: { x: 1250, y: 620 },
       parentId: 'mobile-main',
       sector: 'mobile',
@@ -155,8 +160,8 @@ const SpiderWebPricing: React.FC = () => {
     // Integration sector (left)
     {
       id: 'integration-main',
-      label: 'System Integration',
-      description: 'Connect and synchronize your existing systems',
+      label: t('spiderWebPricing.systemIntegration'),
+      description: t('spiderWebPricing.systemIntegrationDescription'),
       position: { x: 450, y: 400 },
       parentId: 'center',
       sector: 'integration',
@@ -165,8 +170,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'integration-api',
-      label: 'API Development',
-      description: 'Custom REST, GraphQL, or webhook integrations',
+      label: t('spiderWebPricing.apiDevelopment'),
+      description: t('spiderWebPricing.apiDevelopmentDescription'),
       position: { x: 250, y: 320 },
       parentId: 'integration-main',
       sector: 'integration',
@@ -175,8 +180,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'integration-payment',
-      label: 'Payment Gateway',
-      description: 'Secure payment processing with multiple providers',
+      label: t('spiderWebPricing.paymentGateway'),
+      description: t('spiderWebPricing.paymentGatewayDescription'),
       position: { x: 200, y: 480 },
       parentId: 'integration-main',
       sector: 'integration',
@@ -185,8 +190,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'integration-crm',
-      label: 'CRM Integration',
-      description: 'Connect with Salesforce, HubSpot, or custom CRM',
+      label: t('spiderWebPricing.crmIntegration'),
+      description: t('spiderWebPricing.crmIntegrationDescription'),
       position: { x: 280, y: 550 },
       parentId: 'integration-main',
       sector: 'integration',
@@ -195,8 +200,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'integration-database',
-      label: 'Database Setup',
-      description: 'Database design, optimization, and migration',
+      label: t('spiderWebPricing.databaseSetup'),
+      description: t('spiderWebPricing.databaseSetupDescription'),
       position: { x: 150, y: 350 },
       parentId: 'integration-main',
       sector: 'integration',
@@ -207,8 +212,8 @@ const SpiderWebPricing: React.FC = () => {
     // DevOps sector (top-left)
     {
       id: 'devops-main',
-      label: 'DevOps & Cloud',
-      description: 'Infrastructure, deployment, and monitoring solutions',
+      label: t('spiderWebPricing.devopsCloud'),
+      description: t('spiderWebPricing.devopsCloudDescription'),
       position: { x: 450, y: 200 },
       parentId: 'center',
       sector: 'devops',
@@ -217,8 +222,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'devops-hosting',
-      label: 'Cloud Hosting',
-      description: 'AWS, GCP, or Azure deployment and management',
+      label: t('spiderWebPricing.cloudHosting'),
+      description: t('spiderWebPricing.cloudHostingDescription'),
       position: { x: 280, y: 120 },
       parentId: 'devops-main',
       sector: 'devops',
@@ -227,8 +232,8 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'devops-ci',
-      label: 'CI/CD Pipeline',
-      description: 'Automated testing, building, and deployment',
+      label: t('spiderWebPricing.cicdPipeline'),
+      description: t('spiderWebPricing.cicdPipelineDescription'),
       position: { x: 550, y: 80 },
       parentId: 'devops-main',
       sector: 'devops',
@@ -237,15 +242,15 @@ const SpiderWebPricing: React.FC = () => {
     },
     {
       id: 'devops-monitoring',
-      label: 'Monitoring & Analytics',
-      description: 'Performance monitoring and error tracking',
+      label: t('spiderWebPricing.monitoringAnalytics'),
+      description: t('spiderWebPricing.monitoringAnalyticsDescription'),
       position: { x: 350, y: 100 },
       parentId: 'devops-main',
       sector: 'devops',
       unlocked: false,
       selected: false
     }
-  ], []);
+  ], [t]);
 
   const [nodes] = useState<PricingNode[]>(initialNodes);
 
@@ -288,7 +293,71 @@ const SpiderWebPricing: React.FC = () => {
     { from: 'mobile-main', to: 'devops-ci', active: false }
   ], []);
 
-  // Mouse tracking for hover tooltips
+  // --- Improved Pan/Zoom UX ---
+  // Add min/max zoom helpers
+  const MIN_SCALE = 0.4;
+  const MAX_SCALE = 2.5;
+  const ZOOM_STEP = 0.15;
+
+  // Smooth zoom in/out
+  const zoomTo = useCallback((targetScale: number, center?: {x: number, y: number}) => {
+    setTransform(prev => {
+      const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, targetScale));
+      if (!containerRef.current) return { ...prev, scale: newScale };
+      const rect = containerRef.current.getBoundingClientRect();
+      const cx = center?.x ?? rect.width / 2;
+      const cy = center?.y ?? rect.height / 2;
+      const scaleChange = newScale / prev.scale;
+      return {
+        x: cx - (cx - prev.x) * scaleChange,
+        y: cy - (cy - prev.y) * scaleChange,
+        scale: newScale
+      };
+    });
+  }, []);
+
+  // Mouse wheel zoom (centered on mouse)
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    // Always prevent scroll if mouse is inside the container
+    if (
+      mouseX >= 0 && mouseX <= rect.width &&
+      mouseY >= 0 && mouseY <= rect.height
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+      zoomTo(transform.scale + delta, { x: mouseX, y: mouseY });
+    }
+  }, [transform.scale, zoomTo]);
+
+  // Double-click to reset view
+  const handleDoubleClick = useCallback(() => {
+    setTransform({ x: 0, y: 0, scale: 1 });
+  }, []);
+
+  // Zoom in/out buttons
+  const handleZoomIn = () => zoomTo(transform.scale + ZOOM_STEP);
+  const handleZoomOut = () => zoomTo(transform.scale - ZOOM_STEP);
+
+  // Clamp pan so you can't drag the web totally out of view
+  const clampPan = useCallback((x: number, y: number) => {
+    // Clamp logic: keep at least 200px of the web visible in the container
+    if (!containerRef.current) return { x, y };
+    const rect = containerRef.current.getBoundingClientRect();
+    const minX = -1000 * transform.scale + 200;
+    const maxX = rect.width - 400 * transform.scale - 200;
+    const minY = -600 * transform.scale + 200;
+    const maxY = rect.height - 200 * transform.scale - 200;
+    return {
+      x: Math.max(minX, Math.min(maxX, x)),
+      y: Math.max(minY, Math.min(maxY, y))
+    };
+  }, [transform.scale]);
+
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragging) {
       const rect = containerRef.current?.getBoundingClientRect();
@@ -299,18 +368,12 @@ const SpiderWebPricing: React.FC = () => {
         });
       }
     }
-
-    // Handle panning
     if (isDragging) {
-      setTransform(prev => ({
-        ...prev,
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
-      }));
+      const { x, y } = clampPan(e.clientX - dragStart.x, e.clientY - dragStart.y);
+      setTransform(prev => ({ ...prev, x, y }));
     }
-  }, [isDragging, dragStart]);
+  }, [isDragging, dragStart, clampPan]);
 
-  // Pan and zoom handlers
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button === 0) {
       setIsDragging(true);
@@ -324,25 +387,6 @@ const SpiderWebPricing: React.FC = () => {
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
   }, []);
-
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newScale = Math.max(0.3, Math.min(3, transform.scale * delta));
-    
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (rect) {
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      
-      const scaleChange = newScale / transform.scale;
-      setTransform(prev => ({
-        x: mouseX - (mouseX - prev.x) * scaleChange,
-        y: mouseY - (mouseY - prev.y) * scaleChange,
-        scale: newScale
-      }));
-    }
-  }, [transform]);
 
   // Reset view function
   const resetView = useCallback(() => {
@@ -428,7 +472,7 @@ const SpiderWebPricing: React.FC = () => {
   const tooltipPosition = getTooltipPosition();
 
   return (
-    <div className="w-full max-w-6xl mx-auto glass p-8 rounded-3xl">
+    <div className="w-full max-w-6xl mx-auto glass p-8 rounded-3xl relative">
       {/* Header */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold mb-2">{t('spiderWebPricing.interactiveBuilder')}</h3>
@@ -438,9 +482,11 @@ const SpiderWebPricing: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-sm text-muted-foreground">{t('spiderWebPricing.estimatedTotal')}</div>
-          <div className="text-2xl font-bold gradient-text">
-            Rs. {totalPrice.toLocaleString()}
+          <div className="text-sm text-muted-foreground">{t('spiderWebPricing.selectedFeatures')}</div>
+          <div className="text-xl font-bold gradient-text">
+            {selectedNodes.size > 0
+              ? t('spiderWebPricing.featuresSelected').replace('{count}', String(selectedNodes.size))
+              : t('spiderWebPricing.startByClicking')}
           </div>
         </motion.div>
       </div>
@@ -454,12 +500,31 @@ const SpiderWebPricing: React.FC = () => {
             whileTap={{ scale: 0.95 }}
             onClick={resetView}
           >
-            Reset View
+            <RefreshCw className="inline-block w-4 h-4 mr-1" />
+            {t('spiderWebPricing.resetView')}
+          </motion.button>
+          <motion.button
+            className="btn-secondary text-sm px-3 py-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleZoomIn}
+            aria-label="Zoom in"
+          >
+            <Plus className="inline-block w-4 h-4" />
+          </motion.button>
+          <motion.button
+            className="btn-secondary text-sm px-3 py-2"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleZoomOut}
+            aria-label="Zoom out"
+          >
+            <Minus className="inline-block w-4 h-4" />
           </motion.button>
         </div>
         
         <div className="text-sm text-muted-foreground">
-          Zoom: {Math.round(transform.scale * 100)}%
+          {t('spiderWebPricing.zoom').replace('{percent}', String(Math.round(transform.scale * 100)))}
         </div>
       </div>
 
@@ -470,12 +535,21 @@ const SpiderWebPricing: React.FC = () => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onWheel={handleWheel}
-        style={{ 
-          cursor: isDragging ? 'grabbing' : 'grab',
-          touchAction: 'none'
+        onMouseLeave={() => {
+          setIsHovered(false);
+          handleMouseUp();
         }}
+        onWheel={handleWheel}
+        onDoubleClick={handleDoubleClick}
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+          touchAction: 'none',
+          background: 'linear-gradient(135deg, var(--background) 60%, var(--muted) 100%)'
+        }}
+        tabIndex={0}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        onMouseEnter={() => setIsHovered(true)}
       >
         {/* SVG for connections and nodes */}
         <svg
@@ -485,7 +559,8 @@ const SpiderWebPricing: React.FC = () => {
           className="absolute inset-0"
           style={{
             transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
-            transformOrigin: '0 0'
+            transformOrigin: '0 0',
+            background: 'none',
           }}
         >
           {/* Render connections */}
@@ -502,7 +577,7 @@ const SpiderWebPricing: React.FC = () => {
               <motion.path
                 key={`${connection.from}-${connection.to}`}
                 d={getConnectionPath(fromNode, toNode)}
-                stroke={isActive ? 'rgb(99, 102, 241)' : 'rgba(255, 255, 255, 0.1)'}
+                stroke={isActive ? 'var(--accent)' : 'var(--border)'}
                 strokeWidth={isActive ? 2 : 1}
                 fill="none"
                 initial={{ pathLength: 0, opacity: 0 }}
@@ -547,14 +622,14 @@ const SpiderWebPricing: React.FC = () => {
                   r={isCenter ? 25 : 20}
                   fill={
                     isCenter 
-                      ? 'rgb(99, 102, 241)'
+                      ? 'var(--accent)'
                       : isSelected 
-                        ? 'rgb(99, 102, 241)' 
+                        ? 'var(--accent)' 
                         : isHovered
                           ? 'rgba(99, 102, 241, 0.6)'
-                          : 'rgba(255, 255, 255, 0.1)'
+                          : 'var(--glass-bg)'
                   }
-                  stroke={isSelected ? 'rgb(99, 102, 241)' : 'rgba(255, 255, 255, 0.2)'}
+                  stroke={isSelected ? 'var(--accent)' : 'var(--border)'}
                   strokeWidth={isSelected ? 3 : 1}
                   whileHover={{ 
                     scale: isUnlocked ? 1.1 : 1
@@ -570,7 +645,7 @@ const SpiderWebPricing: React.FC = () => {
                       cy={node.position.y}
                       r={20}
                       fill="none"
-                      stroke="rgb(99, 102, 241)"
+                      stroke="var(--accent)"
                       strokeWidth={2}
                       initial={{ scale: 0, opacity: 1 }}
                       animate={{ scale: 2, opacity: 0 }}
@@ -588,7 +663,7 @@ const SpiderWebPricing: React.FC = () => {
                   className={`text-xs font-medium pointer-events-none ${
                     isSelected ? 'fill-white' : 'fill-white/80'
                   }`}
-                  style={{ fontSize: '10px' }}
+                  style={{ fontSize: '10px', fill: 'var(--foreground)' }}
                 >
                   {node.label.length > 12 ? node.label.substring(0, 12) + '...' : node.label}
                 </text>
@@ -619,7 +694,9 @@ const SpiderWebPricing: React.FC = () => {
                   {hoveredNodeData.description}
                 </p>
                 <div className="mt-2 text-xs text-accent/80">
-                  Click to {selectedNodes.has(hoveredNodeData.id) ? 'deselect' : 'select'}
+                  {selectedNodes.has(hoveredNodeData.id)
+                    ? t('spiderWebPricing.deselect')
+                    : t('spiderWebPricing.select')}
                 </div>
               </div>
             </motion.div>
@@ -634,7 +711,7 @@ const SpiderWebPricing: React.FC = () => {
           transition={{ delay: 1 }}
         >
           <div className="space-y-2">
-            <div className="text-accent font-medium mb-3">Legend</div>
+            <div className="text-accent font-medium mb-3">{t('spiderWebPricing.legend')}</div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-accent"></div>
               <span>{t('spiderWebPricing.selected')}</span>
@@ -649,10 +726,10 @@ const SpiderWebPricing: React.FC = () => {
             </div>
             <div className="border-t border-border pt-2 mt-3">
               <div className="text-xs text-muted-foreground">
-                • Scroll to zoom<br/>
-                • Drag to pan<br/>
-                • Hover for details<br/>
-                • Click to select
+                {t('spiderWebPricing.scrollToZoom')}<br/>
+                {t('spiderWebPricing.dragToPan')}<br/>
+                {t('spiderWebPricing.hoverForDetails')}<br/>
+                {t('spiderWebPricing.clickToSelect')}
               </div>
             </div>
           </div>
@@ -665,12 +742,12 @@ const SpiderWebPricing: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5 }}
         >
-          <div className="text-accent font-medium mb-2">{t('spiderWebPricing.howItWorks')}</div>
+          <div className="text-accent font-medium mb-2">{t('spiderWebPricing.navigation')}</div>
           <div className="space-y-1 text-xs text-muted-foreground">
-            <div>{t('spiderWebPricing.step1')}</div>
-            <div>{t('spiderWebPricing.step2')}</div>
-            <div>{t('spiderWebPricing.step3')}</div>
-            <div>{t('spiderWebPricing.step4')}</div>
+            <div>{t('spiderWebPricing.scrollWheelToZoom')}</div>
+            <div>{t('spiderWebPricing.clickAndDragToPan')}</div>
+            <div>{t('spiderWebPricing.hoverNodesForDescriptions')}</div>
+            <div>{t('spiderWebPricing.clickToSelectFeatures')}</div>
           </div>
         </motion.div>
       </div>
@@ -703,7 +780,7 @@ const SpiderWebPricing: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-            {t('spiderWebPricing.getQuote').replace('{total}', totalPrice.toLocaleString())}
+            {t('spiderWebPricing.getQuote').replace('{total}', String(selectedNodes.size))}
           </motion.button>
         )}
       </motion.div>
@@ -711,4 +788,4 @@ const SpiderWebPricing: React.FC = () => {
   );
 };
 
-export default React.memo(SpiderWebPricing);
+export default SpiderWebPricing;

@@ -20,7 +20,7 @@ const LazyAboutSection = lazy(() => import('./components/sections/AboutSection')
 const LazyContactSection = lazy(() => import('./components/sections/ContactSection'));
 const LazyFooter = lazy(() => import('./components/layout/Footer'));
 const LazyCalendarModal = lazy(() => import('./components/modals/CalendarModal'));
-const LazySpiderWebPricing = lazy(() => import('./components/SpiderWebPricing'));
+const LazySpiderWebPricing = lazy(() => import('./components/ui/SpiderWebPricing'));
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');

@@ -8,8 +8,8 @@ import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 import java from 'react-syntax-highlighter/dist/esm/languages/prism/java';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-import { useTranslation } from '../providers/TranslationProvider';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTranslation } from '../../providers/TranslationProvider';
+import { useTheme } from '../../providers/ThemeProvider';
 
 SyntaxHighlighter.registerLanguage('typescript', ts);
 SyntaxHighlighter.registerLanguage('python', python);
@@ -291,8 +291,8 @@ automatic_scaling:
 
   return (
     <div className="w-full max-w-4xl mx-auto -mt-10">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-2 gap-2 sm:gap-0">
+        <div className="items-center space-x-1 hidden sm:flex">
           <motion.div
             className="w-2 h-2 bg-green-500 rounded-full"
             animate={{ scale: [1, 1.2, 1] }}
@@ -300,15 +300,15 @@ automatic_scaling:
           />
           <span className="text-sm text-muted-foreground">{t('showcase.productionReady')}</span>
         </div>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-xs sm:text-sm text-muted-foreground text-center sm:text-right">
           {t('showcase.expertise')}
         </span>
       </div>
 
-      <div className="glass rounded-3xl overflow-hidden border border-white/10 shadow-2xl h-[350px] flex flex-col bg-gradient-to-br from-background/50 to-background">
+      <div className="glass sm:rounded-3xl rounded-2xl overflow-hidden border border-white/10 shadow-2xl h-[350px] flex flex-col bg-gradient-to-br from-background/50 to-background">
         {/* Tabs/Header */}
-        <div className="flex items-center justify-between px-6 py-3 border-b border-[var(--border)] bg-[var(--section-about-bg)]">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between px-2 sm:px-6 py-2 sm:py-3 border-b border-[var(--border)] bg-[var(--section-about-bg)] gap-2 sm:gap-0">
+          <div className="sm:flex hidden items-center space-x-4">
             <div className="flex space-x-2">
               <motion.div 
                 className="w-3 h-3 rounded-full bg-red-500/30 hover:bg-red-500 cursor-pointer"
@@ -326,7 +326,7 @@ automatic_scaling:
           </div>
 
           {/* Tabs */}
-          <div className="flex space-x-3 bg-[var(--section-services-bg)] rounded-full px-2 py-1 border border-[var(--border)]">
+          <div className="flex space-x-1 sm:space-x-3 bg-[var(--section-services-bg)] rounded-full px-1 sm:px-2 py-1 border border-[var(--border)] overflow-x-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
             {categories.map((category) => (
               <motion.button
                 key={category.id}
@@ -334,7 +334,7 @@ automatic_scaling:
                   setActiveCategory(category.id);
                   setTechIndex(0);
                 }}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer relative ${
+                className={`px-2 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer relative ${
                   activeCategory === category.id
                     ? 'bg-accent text-white shadow-lg'
                     : 'text-muted-foreground bg-transparent hover:bg-white/10'
@@ -354,7 +354,7 @@ automatic_scaling:
             ))}
           </div>
 
-          <div className="w-16" />
+          <div className="w-0 sm:w-16" />
         </div>
 
         {/* Editor Header */}
@@ -384,7 +384,7 @@ automatic_scaling:
         </div>
 
         {/* Code Editor Area */}
-        <div className="flex-1 p-5 overflow-hidden bg-[var(--section-hero-bg)]">
+        <div className="flex-1 p-2 sm:p-5 overflow-auto bg-[var(--section-hero-bg)] custom-scrollbar text-xs sm:text-[13px] sm:overflow-hidden overflow-x-auto">
           <SyntaxHighlighter
             language={getLanguage(activeTechnology)}
             style={theme === 'dark' ? atomDark : prism}
@@ -392,9 +392,9 @@ automatic_scaling:
               background: 'transparent',
               padding: 0,
               margin: 0,
-              fontSize: '13px',
+              fontSize: 'inherit',
               height: '100%',
-              overflow: 'hidden',
+              overflow: 'inherit',
               color: 'inherit',
             }}
             showLineNumbers
@@ -405,7 +405,7 @@ automatic_scaling:
         </div>
       </div>
 
-      <div className="mt-3 flex justify-between items-center text-xs text-muted-foreground">
+      <div className="mt-3 flex flex-col sm:flex-row justify-between items-center text-xs text-muted-foreground">
         <span className="font-mono">{t('showcase.fastReliableScalable')}</span>
         <span>{t('showcase.supportingAll')}</span>
       </div>

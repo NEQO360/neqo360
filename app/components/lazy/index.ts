@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 
 // Lazy load large components for better performance
-export const SpiderWebPricing = lazy(() => import('../SpiderWebPricing'));
+export const SpiderWebPricing = lazy(() => import('../ui/SpiderWebPricing'));
 export const CalendarModal = lazy(() => import('../modals/CalendarModal'));
-export const CodeShowcase = lazy(() => import('../CodeShowcase'));
+export const CodeShowcase = lazy(() => import('../ui/CodeShowcase'));
 
 // Lazy load sections that are below the fold
 export const AboutSection = lazy(() => import('../sections/AboutSection'));
