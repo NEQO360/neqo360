@@ -794,22 +794,6 @@ const SpiderWebPricing: React.FC<SpiderWebPricingProps> = ({
             <div>⚡ Dynamic unlocking system</div>
           </div>
         </motion.div>
-
-        {/* Configuration Info */}
-        <motion.div
-          className="absolute top-4 left-4 glass-subtle p-3 rounded-2xl text-xs z-10"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 2 }}
-        >
-          <div className="text-accent font-medium mb-1">Config Status:</div>
-          <div className="text-muted-foreground">
-            {configUrl ? `Loaded from: ${configUrl}` : 'Using default config'}
-          </div>
-          <div className="text-muted-foreground">
-            Nodes: {nodes.length} | Max Level: {Math.max(...nodes.map(n => n.level))}
-          </div>
-        </motion.div>
       </div>
 
       {/* Action buttons */}
