@@ -1,30 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const CALENDLY_USERNAME = process.env.CALENDLY_USERNAME;
 
-export async function POST(request: NextRequest) {
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: { 'Cache-Control': 'no-store' },
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
   try {
-    const body = await request.json();
+    const body = JSON.parse(event.body || '{}');
     const { name, email, date, time, phone, message } = body;
 
-    // Validate required fields
     if (!name || !email || !date || !time) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return {
+        statusCode: 400,
+        headers: { 'Cache-Control': 'no-store' },
+        body: JSON.stringify({ error: 'Missing required fields' })
+      };
     }
 
-    // Format the Calendly URL
     const calendlyURL = `https://calendly.com/${CALENDLY_USERNAME}/30min`;
 
-    // Send confirmation email using Resend
     const data = await resend.emails.send({
       from: 'Neqo360 Website <onboarding@resend.dev>',
-      to: [email], // Send to the user
-      bcc: ['neqo360@gmail.com'], // BCC to business email
+      to: [email],
+      bcc: ['neqo360@gmail.com'],
       subject: 'Meeting Scheduled - Neqo360',
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -59,18 +64,19 @@ export async function POST(request: NextRequest) {
       `,
     });
 
-    return NextResponse.json(
-      { 
+    return {
+      statusCode: 200,
+      headers: { 'Cache-Control': 'no-store' },
+      body: JSON.stringify({ 
         message: 'Meeting scheduled successfully! Check your email for confirmation.',
         data 
-      },
-      { status: 200 }
-    );
+      })
+    };
   } catch (error) {
-    console.error('Error scheduling meeting:', error);
-    return NextResponse.json(
-      { error: 'Failed to schedule meeting' },
-      { status: 500 }
-    );
+    return {
+      statusCode: 500,
+      headers: { 'Cache-Control': 'no-store' },
+      body: JSON.stringify({ error: 'Failed to schedule meeting' })
+    };
   }
-} 
+};

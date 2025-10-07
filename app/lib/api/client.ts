@@ -150,7 +150,7 @@ class ApiClient {
     projectType: string;
     message: string;
   }): Promise<ApiResponse> {
-    return this.request('/api/contact', {
+    return this.request('/.netlify/functions/contact', {
       method: 'POST',
       body: data,
     });
@@ -170,17 +170,15 @@ class ApiClient {
     date: Date;
     time: string;
   }): Promise<ApiResponse> {
-    return this.request('/api/contact', {
+    return this.request('/.netlify/functions/schedule', {
       method: 'POST',
       body: {
         name: data.name,
         email: data.email,
-        projectType: 'Meeting Request',
-        message: `Meeting Request:
-        Date: ${data.date.toDateString()}
-        Time: ${data.time}
-        Phone: ${data.phone}
-        Message: ${data.message}`,
+        phone: data.phone,
+        message: data.message,
+        date: data.date.toDateString(),
+        time: data.time,
       },
     });
   }
